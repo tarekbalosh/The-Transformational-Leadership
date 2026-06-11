@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ProfileForm } from "@/app/components/introductions/profile-form";
+import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 
 export default function IntroductionsFormPage() {
@@ -21,7 +22,9 @@ export default function IntroductionsFormPage() {
       </section>
 
       <section className="intro-form-section">
-        <ProfileForm />
+        <EmailGate title="أدخل بريدك لتعبئة نموذج التعارف">
+          <ProfileForm />
+        </EmailGate>
       </section>
     </main>
   );

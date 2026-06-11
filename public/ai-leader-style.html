@@ -235,6 +235,42 @@
       padding: 24px;
     }
 
+    .assessment-email-gate {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .assessment-email-gate form {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .email-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .email-row input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .email-row input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, 0.18);
+    }
+
+    .gate-message {
+      min-height: 26px;
+      color: var(--success);
+      font-weight: 700;
+    }
+
     .intro-box h2,
     .question-title,
     .result-title {
@@ -551,6 +587,10 @@
         width: 100%;
       }
 
+      .email-row {
+        grid-template-columns: 1fr;
+      }
+
       .chart-box {
         height: 250px;
       }
@@ -566,7 +606,6 @@
     <nav class="main-nav" aria-label="التنقل الرئيسي">
       <a href="/">الرئيسية</a>
       <a href="/about">عن الدورة</a>
-      <a href="/introductions">تعارف المشاركين</a>
       <a href="/exercises">التمارين و المقاييس</a>
       <a href="/admin" class="admin-link">لوحة التحكم</a>
     </nav>
@@ -593,7 +632,22 @@
       </header>
 
       <section class="quiz-area">
-        <div id="startScreen" class="start-screen">
+        <div id="emailGateScreen" class="assessment-email-gate intro-box">
+          <h2>أدخل بريدك للبدء</h2>
+          <p>
+            نستخدم البريد فقط لحفظ نتيجتك وربطها بك في لوحة المدرب. لا توجد كلمة مرور أو حساب جديد.
+          </p>
+          <form id="assessmentEmailForm">
+            <label for="assessmentEmail">البريد الإلكتروني للمشارك</label>
+            <div class="email-row">
+              <input id="assessmentEmail" type="email" inputmode="email" placeholder="name@example.com" required />
+              <button class="primary-btn" id="saveAssessmentEmailBtn" type="submit">متابعة</button>
+            </div>
+            <div class="gate-message" id="gateMessage" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <div id="startScreen" class="start-screen hidden">
           <div class="intro-box">
             <h2>اختبار ذاتي سريع لقادة ومدراء يريدون استخدام الذكاء الاصطناعي بوعي</h2>
             <p>
@@ -845,9 +899,15 @@
       current: 0,
       answers: Array(questions.length).fill(null),
       chart: null,
-      resultText: ""
+      resultText: "",
+      participantEmail: ""
     };
 
+    const emailGateScreen = document.getElementById("emailGateScreen");
+    const assessmentEmailForm = document.getElementById("assessmentEmailForm");
+    const assessmentEmail = document.getElementById("assessmentEmail");
+    const saveAssessmentEmailBtn = document.getElementById("saveAssessmentEmailBtn");
+    const gateMessage = document.getElementById("gateMessage");
     const startScreen = document.getElementById("startScreen");
     const questionScreen = document.getElementById("questionScreen");
     const resultScreen = document.getElementById("resultScreen");
@@ -860,13 +920,62 @@
     const nextBtn = document.getElementById("nextBtn");
     const copyStatus = document.getElementById("copyStatus");
 
+    assessmentEmailForm.addEventListener("submit", saveParticipantEmail);
     document.getElementById("startBtn").addEventListener("click", startQuiz);
     document.getElementById("restartBtn").addEventListener("click", restartQuiz);
     document.getElementById("shareBtn").addEventListener("click", shareResult);
     prevBtn.addEventListener("click", goPrevious);
     nextBtn.addEventListener("click", goNext);
 
+    initializeParticipantGate();
+
+    function initializeParticipantGate() {
+      const storedEmail = window.sessionStorage.getItem("participantEmail") || "";
+      assessmentEmail.value = storedEmail;
+
+      if (storedEmail) {
+        state.participantEmail = storedEmail;
+        emailGateScreen.classList.add("hidden");
+        startScreen.classList.remove("hidden");
+      }
+    }
+
+    async function saveParticipantEmail(event) {
+      event.preventDefault();
+      const email = assessmentEmail.value.trim();
+      saveAssessmentEmailBtn.disabled = true;
+      gateMessage.textContent = "";
+
+      try {
+        const response = await fetch("/api/participants", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          gateMessage.textContent = data.message || "تعذر تسجيل البريد.";
+          return;
+        }
+
+        state.participantEmail = data.participant.email;
+        window.sessionStorage.setItem("participantEmail", data.participant.email);
+        emailGateScreen.classList.add("hidden");
+        startScreen.classList.remove("hidden");
+      } catch (error) {
+        gateMessage.textContent = "تعذر الاتصال. حاول مرة أخرى.";
+      } finally {
+        saveAssessmentEmailBtn.disabled = false;
+      }
+    }
+
     function startQuiz() {
+      if (!state.participantEmail) {
+        startScreen.classList.add("hidden");
+        emailGateScreen.classList.remove("hidden");
+        return;
+      }
       startScreen.classList.add("hidden");
       questionScreen.classList.remove("hidden");
       renderQuestion();
@@ -943,6 +1052,11 @@
       const isTie = winners.length > 1;
       const primaryType = winners[0];
       const primary = archetypes[primaryType];
+      const winnerNames = winners.map((type) => archetypes[type].name);
+      const resultName =
+        isTie
+          ? `مزيج بين ${winnerNames.length === 2 ? `${winnerNames[0]} و${winnerNames[1]}` : winnerNames.join(" و")}`
+          : primary.name;
 
       questionScreen.classList.add("hidden");
       resultScreen.classList.remove("hidden");
@@ -965,6 +1079,7 @@
       }
 
       renderChart(scores);
+      saveAssessmentResult(scores, resultName, highestScore);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -1044,6 +1159,47 @@
       return Object.keys(archetypes)
         .map((type) => `${archetypes[type].name}: ${Math.round((scores[type] / questions.length) * 100)}%`)
         .join("، ");
+    }
+
+    async function saveAssessmentResult(scores, resultName, highestScore) {
+      const email = state.participantEmail || window.sessionStorage.getItem("participantEmail");
+
+      if (!email) {
+        return;
+      }
+
+      const payload = {
+        result: resultName,
+        distribution: Object.fromEntries(
+          Object.keys(archetypes).map((type) => [
+            archetypes[type].name,
+            Math.round((scores[type] / questions.length) * 100)
+          ])
+        ),
+        answers: state.answers.map((answerIndex, questionIndex) => ({
+          question: questions[questionIndex].text,
+          answer: questions[questionIndex].options[answerIndex]?.text || ""
+        }))
+      };
+
+      try {
+        const response = await fetch("/api/assessment-answers", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            email,
+            assessmentId: "ai-leader-style",
+            payload: JSON.stringify(payload),
+            score: Math.round((highestScore / questions.length) * 100)
+          })
+        });
+
+        if (response.ok) {
+          copyStatus.textContent = "تم حفظ نتيجتك في لوحة المدرب.";
+        }
+      } catch (error) {
+        copyStatus.textContent = "ظهرت النتيجة، لكن تعذر حفظها الآن.";
+      }
     }
 
     async function shareResult() {

@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/app/components/site-header";
+import { EmailGate } from "@/app/components/shared/email-gate";
 
 export function AssessmentHub() {
   return (
@@ -6,29 +7,49 @@ export function AssessmentHub() {
       <SiteHeader />
       <section className="page-hero compact-hero">
         <div className="section-kicker">التمارين و المقاييس</div>
-        <h1>مقياس واحد واضح لتجربة المشارك الحالية</h1>
+        <h1>أنشطة الدورة الحالية في مساحة واحدة</h1>
         <p>
-          تم تبسيط هذه المساحة لتضم المقياس المعتمد حالياً فقط: مقياس نمط
-          قيادة الذكاء الاصطناعي. يمكنك البدء مباشرة والعودة للصفحة الرئيسية من
-          الترويسة في أي وقت.
+          تضم هذه المساحة تعارف المشاركين ومقياس نمط قيادة الذكاء الاصطناعي.
+          أدخل بريدك أولاً حتى تُحفظ إجاباتك ونتائجك باسمك في لوحة المدرب.
         </p>
       </section>
 
-      <section className="content-band">
-        <div className="assessment-launch-card">
-          <div>
-            <div className="section-kicker">المقياس المتاح</div>
-            <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
-            <p>
-              اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
-              تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.
-            </p>
+      <EmailGate
+        title="أدخل بريدك لفتح التمارين و المقاييس"
+        description="بعد إدخال البريد ستظهر لك أنشطة الدورة الحالية، وسنحفظ إجاباتك ونتائجك حتى يستطيع المدرب متابعتها."
+      >
+        <section className="content-band">
+          <div className="hub-card-grid">
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">تعارف المشاركين</div>
+                <h2>عرّف بنفسك للمجموعة</h2>
+                <p>
+                  أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
+                  واهتماماتك وأهدافك من الدورة.
+                </p>
+              </div>
+              <a href="/introductions" className="primary-link">
+                فتح التعارف
+              </a>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">المقياس المتاح</div>
+                <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
+                <p>
+                  اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
+                  تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.
+                </p>
+              </div>
+              <a href="/ai-leader-style.html" className="primary-link">
+                بدء المقياس
+              </a>
+            </div>
           </div>
-          <a href="/ai-leader-style.html" className="primary-link">
-            بدء المقياس
-          </a>
-        </div>
-      </section>
+        </section>
+      </EmailGate>
     </main>
   );
 }

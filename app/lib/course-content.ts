@@ -39,11 +39,18 @@ export const audience = [
 
 export const exercises: Exercise[] = [];
 
-export const assessments: Assessment[] = [];
+export const assessments: Assessment[] = [
+  {
+    id: "ai-leader-style",
+    title: "ما نمط قيادتك للذكاء الاصطناعي؟",
+    type: "scale",
+    status: "available",
+    prompt: "مقياس تفاعلي يحدد نمط قيادة المشارك للذكاء الاصطناعي.",
+  },
+];
 
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
-  { href: "/introductions", label: "تعارف المشاركين" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];

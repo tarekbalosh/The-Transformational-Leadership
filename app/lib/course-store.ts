@@ -338,7 +338,8 @@ export async function participantProfilesData() {
 export async function saveAssessmentAnswer(
   participantEmail: string,
   assessmentId: string,
-  payload: string
+  payload: string,
+  scoreOverride?: number
 ) {
   const email = normalizeEmail(participantEmail);
   const assessment = assessments.find((item) => item.id === assessmentId);
@@ -353,7 +354,11 @@ export async function saveAssessmentAnswer(
   }
 
   const score =
-    assessment.type === "scale" ? Number.parseFloat(payload) || null : null;
+    typeof scoreOverride === "number"
+      ? scoreOverride
+      : assessment.type === "scale"
+        ? Number.parseFloat(payload) || null
+        : null;
 
   await upsertParticipant(email);
 
@@ -431,6 +436,7 @@ export async function dashboardData() {
   let participants: ParticipantRow[] = [];
   let exerciseAnswers: ExerciseAnswerRow[] = [];
   let assessmentAnswers: AssessmentAnswerRow[] = [];
+  let participantProfiles: ParticipantProfileRow[] = [];
 
   try {
     participants = await readRows<ParticipantRow>(
@@ -442,6 +448,7 @@ export async function dashboardData() {
     assessmentAnswers = await readRows<AssessmentAnswerRow>(
       "select participant_email, assessment_id, payload, score, created_at, updated_at from assessment_answers order by updated_at desc"
     );
+    participantProfiles = await participantProfilesData();
   } catch {
     const store = memoryStore();
     participants = [...store.participants].sort((a, b) =>
@@ -451,6 +458,9 @@ export async function dashboardData() {
       b.updated_at.localeCompare(a.updated_at)
     );
     assessmentAnswers = [...store.assessmentAnswers].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at)
+    );
+    participantProfiles = [...store.participantProfiles].sort((a, b) =>
       b.updated_at.localeCompare(a.updated_at)
     );
   }
@@ -482,10 +492,12 @@ export async function dashboardData() {
 
   return {
     participants,
+    participantProfiles,
     exerciseAnswers,
     assessmentAnswers,
     stats: {
       participantCount: participants.length,
+      profileCount: participantProfiles.length,
       completedExerciseCount,
       completedAssessmentCount,
       completionRate,
@@ -509,6 +521,20 @@ export async function dashboardCsv() {
       "score",
       "updated_at",
     ],
+    ...data.participantProfiles.map((profile) => [
+      profile.participant_email,
+      "participant_profile",
+      "introductions",
+      [
+        `الاسم: ${profile.name}`,
+        `الخلفية المهنية: ${profile.professional_background}`,
+        `الاهتمامات: ${profile.ai_interests}`,
+        `الأهداف: ${profile.course_goals}`,
+        `حقيقة ممتعة: ${profile.fun_fact}`,
+      ].join(" | "),
+      "",
+      profile.updated_at,
+    ]),
     ...data.exerciseAnswers.map((answer) => [
       answer.participant_email,
       "exercise",

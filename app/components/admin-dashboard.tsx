@@ -4,6 +4,15 @@ import { FormEvent, useState } from "react";
 
 type DashboardData = {
   participants: Array<{ email: string; updated_at: string }>;
+  participantProfiles: Array<{
+    participant_email: string;
+    name: string;
+    professional_background: string;
+    ai_interests: string;
+    course_goals: string;
+    fun_fact: string;
+    updated_at: string;
+  }>;
   exerciseAnswers: Array<{
     participant_email: string;
     exercise_id: string;
@@ -19,12 +28,33 @@ type DashboardData = {
   }>;
   stats: {
     participantCount: number;
+    profileCount: number;
     completedExerciseCount: number;
     completedAssessmentCount: number;
     completionRate: number;
     averageScore: number;
   };
 };
+
+function formatAssessmentPayload(payload: string) {
+  try {
+    const parsed = JSON.parse(payload) as {
+      result?: string;
+      distribution?: Record<string, number>;
+    };
+    const distribution = parsed.distribution
+      ? Object.entries(parsed.distribution)
+          .map(([name, value]) => `${name}: ${value}%`)
+          .join("، ")
+      : "";
+
+    return [parsed.result ? `النتيجة: ${parsed.result}` : "", distribution]
+      .filter(Boolean)
+      .join(" | ");
+  } catch {
+    return payload;
+  }
+}
 
 export function AdminDashboard() {
   const [token, setToken] = useState("");
@@ -72,7 +102,9 @@ export function AdminDashboard() {
           />
           <button type="submit">{isLoading ? "جار الفتح" : "فتح اللوحة"}</button>
         </div>
-        <p className="form-note">الرمز الافتراضي للنسخة الأولى: ai-leaders-admin-2026</p>
+        <p className="form-note">
+          استخدم رمز المسؤول الذي تم تزويدك به لعرض بيانات المشاركين.
+        </p>
         {message ? <p className="form-message">{message}</p> : null}
       </form>
 
@@ -82,6 +114,10 @@ export function AdminDashboard() {
             <article>
               <span>المشاركون</span>
               <strong>{data.stats.participantCount}</strong>
+            </article>
+            <article>
+              <span>بطاقات التعارف</span>
+              <strong>{data.stats.profileCount}</strong>
             </article>
             <article>
               <span>إجابات التمارين</span>
@@ -128,6 +164,34 @@ export function AdminDashboard() {
           </section>
 
           <section className="admin-table-wrap">
+            <h2>بطاقات تعارف المشاركين</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>البريد</th>
+                  <th>الخلفية المهنية</th>
+                  <th>الاهتمامات</th>
+                  <th>الأهداف</th>
+                  <th>حقيقة ممتعة</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.participantProfiles.map((profile) => (
+                  <tr key={profile.participant_email}>
+                    <td>{profile.name}</td>
+                    <td>{profile.participant_email}</td>
+                    <td>{profile.professional_background}</td>
+                    <td>{profile.ai_interests}</td>
+                    <td>{profile.course_goals}</td>
+                    <td>{profile.fun_fact}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section className="admin-table-wrap">
             <h2>إجابات التمارين</h2>
             <table>
               <thead>
@@ -165,7 +229,7 @@ export function AdminDashboard() {
                   <tr key={`${answer.participant_email}-${answer.assessment_id}`}>
                     <td>{answer.participant_email}</td>
                     <td>{answer.assessment_id}</td>
-                    <td>{answer.payload}</td>
+                    <td>{formatAssessmentPayload(answer.payload)}</td>
                     <td>{answer.score ?? "-"}</td>
                   </tr>
                 ))}

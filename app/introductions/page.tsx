@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 
 export default function IntroductionsWelcomePage() {
@@ -13,14 +14,16 @@ export default function IntroductionsWelcomePage() {
             شارك تعريفاً موجزاً عنك، خلفيتك المهنية، ما يهمك في الذكاء
             الاصطناعي، هدفك من الدورة، وحقيقة ممتعة تفتح باب الحديث.
           </p>
-          <div className="hero-actions">
-            <Link href="/introductions/form" className="primary-link">
-              تعبئة نموذج التعارف
-            </Link>
-            <Link href="/introductions/board" className="secondary-link">
-              استعراض بطاقات المشاركين
-            </Link>
-          </div>
+          <EmailGate title="أدخل بريدك لفتح تعارف المشاركين">
+            <div className="hero-actions">
+              <Link href="/introductions/form" className="primary-link">
+                تعبئة نموذج التعارف
+              </Link>
+              <Link href="/introductions/board" className="secondary-link">
+                استعراض بطاقات المشاركين
+              </Link>
+            </div>
+          </EmailGate>
         </div>
         <aside className="intro-hero-panel">
           <strong>خمسة أسئلة فقط</strong>

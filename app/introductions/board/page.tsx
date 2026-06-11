@@ -3,6 +3,7 @@ import {
   ProfileBoard,
   type ProfileCard,
 } from "@/app/components/introductions/profile-board";
+import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 import { participantProfilesData } from "@/app/lib/course-store";
 
@@ -26,7 +27,9 @@ export default async function IntroductionsBoardPage() {
         </div>
       </section>
 
-      <ProfileBoard profiles={profiles} />
+      <EmailGate title="أدخل بريدك لاستعراض بطاقات المشاركين">
+        <ProfileBoard profiles={profiles} />
+      </EmailGate>
     </main>
   );
 }

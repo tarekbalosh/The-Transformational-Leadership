@@ -78,7 +78,8 @@ export function ProfileForm() {
       return;
     }
 
-    window.sessionStorage.setItem("participantEmail", form.email.trim());
+    window.sessionStorage.setItem("participantEmail", data.email);
+    setForm((current) => ({ ...current, email: data.email }));
     setSaved(true);
     setMessage("تم حفظ بطاقة التعارف. يستطيع المشاركون الآن استعراضها.");
   }
