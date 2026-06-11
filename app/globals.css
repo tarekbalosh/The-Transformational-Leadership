@@ -306,11 +306,78 @@ textarea:focus {
   background: var(--teal-deep);
 }
 
+.trainer-photo-link {
+  display: block;
+  color: inherit;
+  isolation: isolate;
+}
+
+.trainer-photo-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(23, 33, 31, 0.7));
+  opacity: 0.82;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.trainer-photo-link:hover::after,
+.trainer-photo-link:focus-visible::after {
+  opacity: 1;
+}
+
+.trainer-photo-link:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 4px;
+}
+
 .hero-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 28%;
+  transition: transform 0.26s ease;
+}
+
+.trainer-photo-link:hover img,
+.trainer-photo-link:focus-visible img {
+  transform: scale(1.025);
+}
+
+.trainer-name-card {
+  position: absolute;
+  right: 18px;
+  left: 18px;
+  bottom: 104px;
+  z-index: 2;
+  display: grid;
+  gap: 3px;
+  max-width: 360px;
+  color: var(--white);
+}
+
+.trainer-name-card span,
+.trainer-name-card small {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.trainer-name-card span {
+  color: var(--lime-soft);
+  font-size: 14px;
+}
+
+.trainer-name-card strong {
+  font-family: "Lyon Arabic Display", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.trainer-name-card small {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
 }
 
 .hero-badge {
@@ -322,6 +389,7 @@ textarea:focus {
   border-radius: 8px;
   background: rgba(251, 252, 247, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.72);
+  z-index: 2;
 }
 
 .hero-badge span {
@@ -335,6 +403,144 @@ textarea:focus {
   display: block;
   margin-top: 3px;
   color: var(--ink);
+}
+
+.trainer-profile-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  padding: 18px;
+}
+
+.trainer-profile-modal:target {
+  display: grid;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 33, 31, 0.66);
+  backdrop-filter: blur(10px);
+}
+
+.trainer-profile-card {
+  position: relative;
+  z-index: 1;
+  width: min(960px, 100%);
+  max-height: min(86vh, 900px);
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 0 28px 90px rgba(23, 33, 31, 0.28);
+}
+
+.modal-close {
+  position: sticky;
+  top: 14px;
+  float: left;
+  z-index: 2;
+  margin: 14px 14px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.trainer-profile-head {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: clamp(18px, 4vw, 34px);
+  align-items: center;
+  padding: clamp(24px, 5vw, 48px);
+  background: linear-gradient(135deg, #fbfcf7 0%, #eef2ee 100%);
+  border-bottom: 1px solid var(--line);
+}
+
+.trainer-profile-head img {
+  width: 190px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center 28%;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.trainer-profile-head h2 {
+  margin-top: 8px;
+}
+
+.trainer-profile-head p {
+  margin-top: 8px;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 700;
+}
+
+.trainer-profile-body {
+  display: grid;
+  gap: 16px;
+  padding: clamp(22px, 5vw, 46px);
+  color: var(--charcoal);
+  font-size: clamp(17px, 2vw, 20px);
+}
+
+.trainer-profile-section {
+  margin-top: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.trainer-profile-section h3 {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.trainer-profile-section ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trainer-profile-section li {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--mist);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.trainer-profile-highlight {
+  padding: 20px;
+  border-radius: 8px;
+  background: var(--teal-deep);
+  color: var(--white);
+}
+
+.trainer-profile-highlight strong {
+  display: block;
+  color: var(--lime-soft);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 20px;
+}
+
+.trainer-profile-highlight p {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .partner-band {
@@ -899,6 +1105,15 @@ td {
     height: 390px;
   }
 
+  .trainer-profile-head,
+  .trainer-profile-section ul {
+    grid-template-columns: 1fr;
+  }
+
+  .trainer-profile-head img {
+    width: min(220px, 100%);
+  }
+
   .feature-grid,
   .choice-grid,
   .metrics-row,
@@ -940,7 +1155,33 @@ td {
   }
 
   .hero-media {
-    display: none;
+    height: 340px;
+  }
+
+  .trainer-name-card {
+    bottom: 112px;
+  }
+
+  .trainer-profile-modal {
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .trainer-profile-card {
+    max-height: calc(100vh - 20px);
+  }
+
+  .trainer-profile-head {
+    padding-top: 54px;
+  }
+
+  .trainer-profile-head img {
+    width: 150px;
+  }
+
+  .modal-close {
+    top: 10px;
+    margin: 10px 10px 0;
   }
 
   .partner-band img {
