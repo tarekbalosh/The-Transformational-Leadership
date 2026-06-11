@@ -1,0 +1,406 @@
+import { env } from "cloudflare:workers";
+import { assessments, exercises } from "./course-content";
+
+type D1Result<T> = { results?: T[] };
+
+type D1Statement = {
+  bind: (...values: unknown[]) => D1Statement;
+  first: <T = unknown>() => Promise<T | null>;
+  all: <T = unknown>() => Promise<D1Result<T>>;
+  run: () => Promise<unknown>;
+};
+
+type D1DatabaseLike = {
+  prepare: (query: string) => D1Statement;
+};
+
+type RuntimeEnv = {
+  DB?: D1DatabaseLike;
+  ADMIN_ACCESS_TOKEN?: string;
+};
+
+export type ParticipantRow = {
+  email: string;
+  name?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ExerciseAnswerRow = {
+  participant_email: string;
+  exercise_id: string;
+  answer: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AssessmentAnswerRow = {
+  participant_email: string;
+  assessment_id: string;
+  payload: string;
+  score?: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type MemoryStore = {
+  participants: ParticipantRow[];
+  exerciseAnswers: ExerciseAnswerRow[];
+  assessmentAnswers: AssessmentAnswerRow[];
+};
+
+declare global {
+  var __aiLeadersCourseStore: MemoryStore | undefined;
+}
+
+const runtime = env as unknown as RuntimeEnv;
+
+function memoryStore() {
+  globalThis.__aiLeadersCourseStore ??= {
+    participants: [],
+    exerciseAnswers: [],
+    assessmentAnswers: [],
+  };
+
+  return globalThis.__aiLeadersCourseStore;
+}
+
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
+function now() {
+  return new Date().toISOString();
+}
+
+function db() {
+  return runtime.DB;
+}
+
+export function adminToken() {
+  return runtime.ADMIN_ACCESS_TOKEN || "ai-leaders-admin-2026";
+}
+
+export function assertAdmin(request: Request) {
+  const token =
+    request.headers.get("x-admin-token") ||
+    new URL(request.url).searchParams.get("token");
+
+  return token === adminToken();
+}
+
+export async function upsertParticipant(email: string, name?: string) {
+  const normalized = normalizeEmail(email);
+  const timestamp = now();
+
+  if (!normalized || !normalized.includes("@")) {
+    throw new Error("يرجى إدخال بريد إلكتروني صحيح.");
+  }
+
+  const database = db();
+
+  if (database) {
+    try {
+      await database
+        .prepare(
+          `insert into participants (email, name, created_at, updated_at)
+           values (?, ?, ?, ?)
+           on conflict(email) do update set
+             name = coalesce(excluded.name, participants.name),
+             updated_at = excluded.updated_at`
+        )
+        .bind(normalized, name ?? null, timestamp, timestamp)
+        .run();
+
+      return { email: normalized, name: name ?? null };
+    } catch {
+      // The local preview can run before D1 migrations exist. Fall back so the UI remains reviewable.
+    }
+  }
+
+  const store = memoryStore();
+  const existing = store.participants.find((row) => row.email === normalized);
+
+  if (existing) {
+    existing.name = name ?? existing.name;
+    existing.updated_at = timestamp;
+  } else {
+    store.participants.push({
+      email: normalized,
+      name: name ?? null,
+      created_at: timestamp,
+      updated_at: timestamp,
+    });
+  }
+
+  return { email: normalized, name: name ?? null };
+}
+
+export async function saveExerciseAnswer(
+  participantEmail: string,
+  exerciseId: string,
+  answer: string
+) {
+  const email = normalizeEmail(participantEmail);
+  const exercise = exercises.find((item) => item.id === exerciseId);
+  const timestamp = now();
+
+  if (!exercise || exercise.status === "soon") {
+    throw new Error("هذا التمرين غير متاح حالياً.");
+  }
+
+  if (!answer.trim()) {
+    throw new Error("يرجى كتابة إجابة قبل الحفظ.");
+  }
+
+  await upsertParticipant(email);
+
+  const database = db();
+
+  if (database) {
+    try {
+      await database
+        .prepare(
+          `insert into exercise_answers
+            (participant_email, exercise_id, answer, created_at, updated_at)
+           values (?, ?, ?, ?, ?)
+           on conflict(participant_email, exercise_id) do update set
+             answer = excluded.answer,
+             updated_at = excluded.updated_at`
+        )
+        .bind(email, exerciseId, answer.trim(), timestamp, timestamp)
+        .run();
+
+      await database
+        .prepare(
+          `insert into progress
+            (participant_email, item_type, item_id, status, updated_at)
+           values (?, 'exercise', ?, 'completed', ?)
+           on conflict(participant_email, item_type, item_id) do update set
+             status = excluded.status,
+             updated_at = excluded.updated_at`
+        )
+        .bind(email, exerciseId, timestamp)
+        .run();
+
+      return { ok: true };
+    } catch {
+      // See local preview note above.
+    }
+  }
+
+  const store = memoryStore();
+  const existing = store.exerciseAnswers.find(
+    (row) => row.participant_email === email && row.exercise_id === exerciseId
+  );
+
+  if (existing) {
+    existing.answer = answer.trim();
+    existing.updated_at = timestamp;
+  } else {
+    store.exerciseAnswers.push({
+      participant_email: email,
+      exercise_id: exerciseId,
+      answer: answer.trim(),
+      created_at: timestamp,
+      updated_at: timestamp,
+    });
+  }
+
+  return { ok: true };
+}
+
+export async function saveAssessmentAnswer(
+  participantEmail: string,
+  assessmentId: string,
+  payload: string
+) {
+  const email = normalizeEmail(participantEmail);
+  const assessment = assessments.find((item) => item.id === assessmentId);
+  const timestamp = now();
+
+  if (!assessment || assessment.status === "soon") {
+    throw new Error("هذا المقياس غير متاح حالياً.");
+  }
+
+  if (!payload.trim()) {
+    throw new Error("يرجى إدخال إجابة قبل الحفظ.");
+  }
+
+  const score =
+    assessment.type === "scale" ? Number.parseFloat(payload) || null : null;
+
+  await upsertParticipant(email);
+
+  const database = db();
+
+  if (database) {
+    try {
+      await database
+        .prepare(
+          `insert into assessment_answers
+            (participant_email, assessment_id, payload, score, created_at, updated_at)
+           values (?, ?, ?, ?, ?, ?)
+           on conflict(participant_email, assessment_id) do update set
+             payload = excluded.payload,
+             score = excluded.score,
+             updated_at = excluded.updated_at`
+        )
+        .bind(email, assessmentId, payload.trim(), score, timestamp, timestamp)
+        .run();
+
+      await database
+        .prepare(
+          `insert into progress
+            (participant_email, item_type, item_id, status, updated_at)
+           values (?, 'assessment', ?, 'completed', ?)
+           on conflict(participant_email, item_type, item_id) do update set
+             status = excluded.status,
+             updated_at = excluded.updated_at`
+        )
+        .bind(email, assessmentId, timestamp)
+        .run();
+
+      return { ok: true };
+    } catch {
+      // See local preview note above.
+    }
+  }
+
+  const store = memoryStore();
+  const existing = store.assessmentAnswers.find(
+    (row) =>
+      row.participant_email === email && row.assessment_id === assessmentId
+  );
+
+  if (existing) {
+    existing.payload = payload.trim();
+    existing.score = score;
+    existing.updated_at = timestamp;
+  } else {
+    store.assessmentAnswers.push({
+      participant_email: email,
+      assessment_id: assessmentId,
+      payload: payload.trim(),
+      score,
+      created_at: timestamp,
+      updated_at: timestamp,
+    });
+  }
+
+  return { ok: true };
+}
+
+async function readRows<T>(query: string) {
+  const database = db();
+
+  if (!database) {
+    throw new Error("no db");
+  }
+
+  const result = await database.prepare(query).all<T>();
+  return result.results ?? [];
+}
+
+export async function dashboardData() {
+  let participants: ParticipantRow[] = [];
+  let exerciseAnswers: ExerciseAnswerRow[] = [];
+  let assessmentAnswers: AssessmentAnswerRow[] = [];
+
+  try {
+    participants = await readRows<ParticipantRow>(
+      "select email, name, created_at, updated_at from participants order by updated_at desc"
+    );
+    exerciseAnswers = await readRows<ExerciseAnswerRow>(
+      "select participant_email, exercise_id, answer, created_at, updated_at from exercise_answers order by updated_at desc"
+    );
+    assessmentAnswers = await readRows<AssessmentAnswerRow>(
+      "select participant_email, assessment_id, payload, score, created_at, updated_at from assessment_answers order by updated_at desc"
+    );
+  } catch {
+    const store = memoryStore();
+    participants = [...store.participants].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at)
+    );
+    exerciseAnswers = [...store.exerciseAnswers].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at)
+    );
+    assessmentAnswers = [...store.assessmentAnswers].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at)
+    );
+  }
+
+  const completedExerciseCount = exerciseAnswers.length;
+  const completedAssessmentCount = assessmentAnswers.length;
+  const availableItems =
+    exercises.filter((item) => item.status === "available").length +
+    assessments.filter((item) => item.status === "available").length;
+  const completionRate =
+    participants.length && availableItems
+      ? Math.round(
+          ((completedExerciseCount + completedAssessmentCount) /
+            (participants.length * availableItems)) *
+            100
+        )
+      : 0;
+  const scoredAnswers = assessmentAnswers.filter(
+    (answer) => typeof answer.score === "number"
+  );
+  const averageScore = scoredAnswers.length
+    ? Number(
+        (
+          scoredAnswers.reduce((sum, answer) => sum + (answer.score ?? 0), 0) /
+          scoredAnswers.length
+        ).toFixed(1)
+      )
+    : 0;
+
+  return {
+    participants,
+    exerciseAnswers,
+    assessmentAnswers,
+    stats: {
+      participantCount: participants.length,
+      completedExerciseCount,
+      completedAssessmentCount,
+      completionRate,
+      averageScore,
+    },
+  };
+}
+
+function csvEscape(value: unknown) {
+  return `"${String(value ?? "").replaceAll('"', '""')}"`;
+}
+
+export async function dashboardCsv() {
+  const data = await dashboardData();
+  const rows = [
+    [
+      "participant_email",
+      "record_type",
+      "item_id",
+      "answer",
+      "score",
+      "updated_at",
+    ],
+    ...data.exerciseAnswers.map((answer) => [
+      answer.participant_email,
+      "exercise",
+      answer.exercise_id,
+      answer.answer,
+      "",
+      answer.updated_at,
+    ]),
+    ...data.assessmentAnswers.map((answer) => [
+      answer.participant_email,
+      "assessment",
+      answer.assessment_id,
+      answer.payload,
+      answer.score ?? "",
+      answer.updated_at,
+    ]),
+  ];
+
+  return rows.map((row) => row.map(csvEscape).join(",")).join("\n");
+}
