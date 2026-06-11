@@ -20,7 +20,7 @@ export default function Home() {
           <ParticipantEntry />
           <div className="hero-actions">
             <Link href="/exercises" className="primary-link">
-              الانتقال إلى التمارين
+              الانتقال إلى التمارين و المقاييس
             </Link>
             <Link href="/about" className="secondary-link">
               التعرف على الدورة

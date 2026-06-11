@@ -37,67 +37,12 @@ export const audience = [
   "رواد الأعمال الذين يبحثون عن سرعة أكبر في اختبار الأفكار وبناء القرارات.",
 ];
 
-export const exercises: Exercise[] = [
-  {
-    id: "leadership-decision-map",
-    title: "خريطة قرار قيادي",
-    status: "available",
-    duration: "12 دقيقة",
-    prompt:
-      "اختر قراراً إدارياً قريباً منك، ثم اكتب كيف يمكن للذكاء الاصطناعي أن يساعد في جمع المعطيات، صياغة البدائل، وتحديد المخاطر.",
-    outcome: "مخطط أولي لطريقة استخدام الذكاء الاصطناعي قبل اتخاذ القرار.",
-  },
-  {
-    id: "meeting-reframe",
-    title: "إعادة تصميم اجتماع أسبوعي",
-    status: "available",
-    duration: "10 دقائق",
-    prompt:
-      "اكتب وصفاً مختصراً لاجتماع متكرر، ثم اقترح ثلاث مهام يمكن للذكاء الاصطناعي تسريعها قبل الاجتماع أو بعده.",
-    outcome: "قائمة تحسينات عملية لاجتماع إداري قائم.",
-  },
-  {
-    id: "team-prompt",
-    title: "مطالبة لفريق العمل",
-    status: "soon",
-    duration: "قريباً",
-    prompt:
-      "سيضاف هذا التمرين لاحقاً لاختبار بناء مطالبات مناسبة لأعضاء الفريق.",
-    outcome: "قالب مطالبة قابل للمشاركة مع الفريق.",
-  },
-];
+export const exercises: Exercise[] = [];
 
-export const assessments: Assessment[] = [
-  {
-    id: "ai-readiness",
-    title: "مقياس جاهزية الاستخدام القيادي",
-    type: "scale",
-    status: "available",
-    prompt:
-      "قيّم جاهزيتك الحالية لاستخدام الذكاء الاصطناعي في عملك القيادي اليومي.",
-    options: ["1", "2", "3", "4", "5"],
-  },
-  {
-    id: "use-case-choice",
-    title: "اختيار حالة استخدام أولى",
-    type: "choice",
-    status: "available",
-    prompt: "ما المجال الأنسب لتبدأ منه في تطبيق الذكاء الاصطناعي؟",
-    options: ["تحليل معلومات", "تحضير اجتماعات", "متابعة أداء", "توليد أفكار"],
-  },
-  {
-    id: "reflection-note",
-    title: "تأمل قصير",
-    type: "open",
-    status: "available",
-    prompt:
-      "اكتب جملة واحدة عن أكبر فرصة تراها للذكاء الاصطناعي في دورك الحالي.",
-  },
-];
+export const assessments: Assessment[] = [];
 
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
-  { href: "/exercises", label: "التمارين" },
-  { href: "/assessments", label: "الاختبارات والمقاييس" },
+  { href: "/exercises", label: "التمارين و المقاييس" },
 ];

@@ -410,6 +410,28 @@ textarea:focus {
   font-size: 18px;
 }
 
+.assessment-launch-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.assessment-launch-card h2 {
+  margin-top: 8px;
+}
+
+.assessment-launch-card p {
+  max-width: 760px;
+  margin-top: 12px;
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
 .page-hero {
   padding: clamp(42px, 7vw, 98px) clamp(18px, 5vw, 72px);
   background: linear-gradient(135deg, #f9fbf3 0%, #eef3ee 100%);
@@ -644,6 +666,11 @@ td {
   .split-section,
   .workspace-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assessment-launch-card {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hero-media {
