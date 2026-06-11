@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
 
 @font-face {
   font-family: "Lyon Arabic";
@@ -432,6 +433,197 @@ textarea:focus {
   font-size: 18px;
 }
 
+.intro-hero,
+.intro-page-hero,
+.intro-form-section,
+.intro-board {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+}
+
+.intro-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+  padding: clamp(42px, 7vw, 96px) clamp(18px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(212, 229, 28, 0.18), transparent 28%),
+    linear-gradient(135deg, #fbfcf7 0%, #eef4f0 100%);
+}
+
+.intro-hero h1 {
+  max-width: 850px;
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 78px);
+}
+
+.intro-hero p,
+.intro-page-hero p {
+  max-width: 760px;
+  margin-top: 18px;
+  color: var(--charcoal);
+  font-size: clamp(18px, 2vw, 23px);
+}
+
+.intro-hero-panel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.intro-hero-panel strong {
+  color: var(--teal-deep);
+  font-size: 24px;
+}
+
+.intro-hero-panel p {
+  font-size: 17px;
+}
+
+.intro-page-hero h1 {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.intro-form-section,
+.intro-board {
+  padding: clamp(32px, 5vw, 72px) clamp(18px, 5vw, 72px);
+}
+
+.intro-form {
+  display: grid;
+  gap: 18px;
+  max-width: 920px;
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.intro-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.intro-form textarea {
+  min-height: 118px;
+}
+
+.intro-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.intro-toolbar {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.intro-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.intro-filter button {
+  min-height: 42px;
+  padding: 8px 12px;
+  background: var(--white);
+  color: var(--teal-deep);
+  border: 1px solid var(--line);
+}
+
+.intro-filter button.active {
+  background: var(--teal-deep);
+  color: var(--white);
+  border-color: var(--teal-deep);
+}
+
+.intro-count {
+  margin-bottom: 18px;
+  color: var(--stone);
+  font-weight: 700;
+}
+
+.intro-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.intro-profile-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.profile-card-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.profile-card-head > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--lime);
+  color: var(--teal-deep);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.profile-card-head h2 {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-card-head p {
+  margin-top: 4px;
+  color: var(--charcoal);
+}
+
+.intro-profile-card dl {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.intro-profile-card dt {
+  color: var(--teal-deep);
+  font-weight: 700;
+}
+
+.intro-profile-card dd {
+  margin: 3px 0 0;
+  color: var(--charcoal);
+}
+
+.empty-board {
+  padding: 28px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--stone);
+  text-align: center;
+}
+
 .page-hero {
   padding: clamp(42px, 7vw, 98px) clamp(18px, 5vw, 72px);
   background: linear-gradient(135deg, #f9fbf3 0%, #eef3ee 100%);
@@ -664,7 +856,8 @@ td {
 
   .hero-section,
   .split-section,
-  .workspace-grid {
+  .workspace-grid,
+  .intro-hero {
     grid-template-columns: 1fr;
   }
 
@@ -679,8 +872,13 @@ td {
 
   .feature-grid,
   .choice-grid,
-  .metrics-row {
+  .metrics-row,
+  .intro-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .intro-toolbar {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -704,7 +902,9 @@ td {
   .entry-row,
   .feature-grid,
   .choice-grid,
-  .metrics-row {
+  .metrics-row,
+  .intro-form-grid,
+  .intro-card-grid {
     grid-template-columns: 1fr;
   }
 

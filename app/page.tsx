@@ -22,6 +22,9 @@ export default function Home() {
             <Link href="/exercises" className="primary-link">
               الانتقال إلى التمارين و المقاييس
             </Link>
+            <Link href="/introductions" className="secondary-link">
+              تعارف المشاركين
+            </Link>
             <Link href="/about" className="secondary-link">
               التعرف على الدورة
             </Link>

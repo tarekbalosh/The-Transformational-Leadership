@@ -43,10 +43,22 @@ export type AssessmentAnswerRow = {
   updated_at: string;
 };
 
+export type ParticipantProfileRow = {
+  participant_email: string;
+  name: string;
+  professional_background: string;
+  ai_interests: string;
+  course_goals: string;
+  fun_fact: string;
+  created_at: string;
+  updated_at: string;
+};
+
 type MemoryStore = {
   participants: ParticipantRow[];
   exerciseAnswers: ExerciseAnswerRow[];
   assessmentAnswers: AssessmentAnswerRow[];
+  participantProfiles: ParticipantProfileRow[];
 };
 
 declare global {
@@ -60,6 +72,7 @@ function memoryStore() {
     participants: [],
     exerciseAnswers: [],
     assessmentAnswers: [],
+    participantProfiles: [],
   };
 
   return globalThis.__aiLeadersCourseStore;
@@ -208,6 +221,118 @@ export async function saveExerciseAnswer(
   }
 
   return { ok: true };
+}
+
+function requiredText(value: unknown, fieldName: string) {
+  const text = String(value ?? "").trim();
+
+  if (!text) {
+    throw new Error(`يرجى تعبئة حقل ${fieldName}.`);
+  }
+
+  return text;
+}
+
+export async function saveParticipantProfile(input: {
+  email: string;
+  name: string;
+  professionalBackground: string;
+  aiInterests: string;
+  courseGoals: string;
+  funFact: string;
+}) {
+  const email = normalizeEmail(input.email);
+  const name = requiredText(input.name, "الاسم");
+  const professionalBackground = requiredText(
+    input.professionalBackground,
+    "الخلفية المهنية"
+  );
+  const aiInterests = requiredText(
+    input.aiInterests,
+    "الاهتمامات في الذكاء الاصطناعي"
+  );
+  const courseGoals = requiredText(input.courseGoals, "الأهداف من الدورة");
+  const funFact = requiredText(input.funFact, "الحقيقة الممتعة");
+  const timestamp = now();
+
+  await upsertParticipant(email, name);
+
+  const database = db();
+
+  if (database) {
+    try {
+      await database
+        .prepare(
+          `insert into participant_profiles
+            (participant_email, name, professional_background, ai_interests, course_goals, fun_fact, created_at, updated_at)
+           values (?, ?, ?, ?, ?, ?, ?, ?)
+           on conflict(participant_email) do update set
+             name = excluded.name,
+             professional_background = excluded.professional_background,
+             ai_interests = excluded.ai_interests,
+             course_goals = excluded.course_goals,
+             fun_fact = excluded.fun_fact,
+             updated_at = excluded.updated_at`
+        )
+        .bind(
+          email,
+          name,
+          professionalBackground,
+          aiInterests,
+          courseGoals,
+          funFact,
+          timestamp,
+          timestamp
+        )
+        .run();
+
+      return { ok: true, email };
+    } catch {
+      // Local preview can run before D1 migrations exist.
+    }
+  }
+
+  const store = memoryStore();
+  const existing = store.participantProfiles.find(
+    (profile) => profile.participant_email === email
+  );
+
+  if (existing) {
+    existing.name = name;
+    existing.professional_background = professionalBackground;
+    existing.ai_interests = aiInterests;
+    existing.course_goals = courseGoals;
+    existing.fun_fact = funFact;
+    existing.updated_at = timestamp;
+  } else {
+    store.participantProfiles.push({
+      participant_email: email,
+      name,
+      professional_background: professionalBackground,
+      ai_interests: aiInterests,
+      course_goals: courseGoals,
+      fun_fact: funFact,
+      created_at: timestamp,
+      updated_at: timestamp,
+    });
+  }
+
+  return { ok: true, email };
+}
+
+export async function participantProfilesData() {
+  try {
+    return await readRows<ParticipantProfileRow>(
+      `select participant_email, name, professional_background, ai_interests, course_goals, fun_fact, created_at, updated_at
+       from participant_profiles
+       order by updated_at desc`
+    );
+  } catch {
+    const store = memoryStore();
+    return [...store.participantProfiles].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at)
+    );
+  }
 }
 
 export async function saveAssessmentAnswer(

@@ -82,3 +82,21 @@ export const progress = sqliteTable(
     ),
   ]
 );
+
+export const participantProfiles = sqliteTable(
+  "participant_profiles",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    participantEmail: text("participant_email").notNull(),
+    name: text("name").notNull(),
+    professionalBackground: text("professional_background").notNull(),
+    aiInterests: text("ai_interests").notNull(),
+    courseGoals: text("course_goals").notNull(),
+    funFact: text("fun_fact").notNull(),
+    createdAt: text("created_at").notNull(),
+    updatedAt: text("updated_at").notNull(),
+  },
+  (table) => [
+    uniqueIndex("participant_profiles_email_idx").on(table.participantEmail),
+  ]
+);

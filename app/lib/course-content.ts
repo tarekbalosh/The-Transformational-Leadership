@@ -44,5 +44,6 @@ export const assessments: Assessment[] = [];
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
+  { href: "/introductions", label: "تعارف المشاركين" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];
