@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ما نمط قيادتك للذكاء الاصطناعي؟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --navy: #0c2340;
+      --navy-2: #12345a;
+      --gold: #c9a24d;
+      --gold-soft: #f4ead1;
+      --white: #ffffff;
+      --paper: #f7f8fb;
+      --ink: #172033;
+      --muted: #687287;
+      --line: #dce2ec;
+      --success: #1f7a5c;
+      --shadow: 0 24px 70px rgba(12, 35, 64, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(201, 162, 77, 0.16), transparent 28%),
+        linear-gradient(145deg, #ffffff 0%, #f7f8fb 48%, #eef2f7 100%);
+      color: var(--ink);
+      font-family: "Cairo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.8;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+
+    .assessment-card {
+      overflow: hidden;
+      border: 1px solid rgba(12, 35, 64, 0.1);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 32px;
+      align-items: center;
+      padding: clamp(28px, 5vw, 56px);
+      background:
+        linear-gradient(135deg, rgba(12, 35, 64, 0.96), rgba(18, 52, 90, 0.94)),
+        radial-gradient(circle at 18% 20%, rgba(201, 162, 77, 0.35), transparent 32%);
+      color: var(--white);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--gold-soft);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--gold);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 720px;
+      font-size: clamp(2.25rem, 6vw, 4.8rem);
+      line-height: 1.18;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin-top: 18px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(1.02rem, 2vw, 1.28rem);
+    }
+
+    .hero-panel {
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-panel strong {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 1.3rem;
+    }
+
+    .hero-panel ul {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .hero-panel li {
+      display: flex;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .hero-panel li::before {
+      content: "◆";
+      color: var(--gold);
+      font-size: 0.82rem;
+      transform: translateY(4px);
+    }
+
+    .quiz-area {
+      padding: clamp(24px, 5vw, 52px);
+    }
+
+    .start-screen,
+    .question-screen,
+    .result-screen {
+      animation: fadeUp 0.42s ease both;
+    }
+
+    .start-screen {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .intro-box,
+    .note-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--white);
+      padding: 24px;
+    }
+
+    .intro-box h2,
+    .question-title,
+    .result-title {
+      color: var(--navy);
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .intro-box p,
+    .note-box p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .note-box {
+      background: linear-gradient(180deg, var(--gold-soft), #fffaf0);
+      border-color: rgba(201, 162, 77, 0.32);
+    }
+
+    .note-box strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.15rem;
+    }
+
+    .primary-btn,
+    .ghost-btn,
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .primary-btn {
+      margin-top: 22px;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .primary-btn:hover,
+    .share-btn:hover {
+      transform: translateY(-2px);
+      background: var(--navy-2);
+    }
+
+    .primary-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      transform: none;
+    }
+
+    .ghost-btn {
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--line);
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .share-btn {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .progress-label {
+      min-width: max-content;
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .progress-track {
+      position: relative;
+      flex: 1;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e8edf4;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold), #e5c66e);
+      transition: width 0.35s ease;
+    }
+
+    .question-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--white);
+      padding: clamp(20px, 4vw, 36px);
+    }
+
+    .question-meta {
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .options-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .option-btn {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 16px 18px;
+      text-align: right;
+      transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(201, 162, 77, 0.9);
+      background: #fffaf0;
+    }
+
+    .option-btn.selected {
+      border-color: var(--gold);
+      background: var(--gold-soft);
+      box-shadow: inset 0 0 0 1px rgba(201, 162, 77, 0.28);
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .result-main,
+    .chart-card,
+    .detail-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--white);
+      padding: clamp(20px, 4vw, 32px);
+    }
+
+    .result-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .result-title span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--gold-soft);
+      font-size: 1.7rem;
+    }
+
+    .result-description {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .result-details {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .detail-card {
+      padding: 18px;
+      background: var(--paper);
+    }
+
+    .detail-card strong {
+      color: var(--navy);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .chart-card h3 {
+      color: var(--navy);
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 290px;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .copy-status {
+      min-height: 28px;
+      margin-top: 12px;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .start-screen,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 28px 22px;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page-shell {
+        width: min(100% - 20px, 1120px);
+        padding: 10px 0;
+      }
+
+      .assessment-card {
+        border-radius: 18px;
+      }
+
+      .quiz-area {
+        padding: 20px 14px 24px;
+      }
+
+      .progress-row,
+      .nav-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .progress-label {
+        min-width: 0;
+      }
+
+      .primary-btn,
+      .ghost-btn,
+      .share-btn {
+        width: 100%;
+      }
+
+      .chart-box {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <section class="assessment-card">
+      <header class="hero">
+        <div>
+          <div class="eyebrow">مقياس قيادي تفاعلي</div>
+          <h1>ما نمط قيادتك للذكاء الاصطناعي؟</h1>
+          <p>
+            أجب عن 12 سؤالاً قصيراً لتتعرف على طريقتك الحالية في قيادة تبني الذكاء الاصطناعي داخل المؤسسة، وما الذي يساعدك على الانتقال من الاهتمام إلى الأثر.
+          </p>
+        </div>
+        <aside class="hero-panel" aria-label="ملخص المقياس">
+          <strong>قبل أن تبدأ</strong>
+          <ul>
+            <li>لا توجد إجابات صحيحة أو خاطئة.</li>
+            <li>اختر ما يصف سلوكك الحالي لا ما تطمح إليه فقط.</li>
+            <li>الأنماط لا تظهر أثناء الاختبار لضمان نتيجة أكثر صدقاً.</li>
+          </ul>
+        </aside>
+      </header>
+
+      <section class="quiz-area">
+        <div id="startScreen" class="start-screen">
+          <div class="intro-box">
+            <h2>اختبار ذاتي سريع لقادة ومدراء يريدون استخدام الذكاء الاصطناعي بوعي</h2>
+            <p>
+              يقيس هذا الاختبار أسلوبك في اتخاذ القرار، التعامل مع مقاومة التغيير، قياس النجاح، بناء الفريق، ورؤية دورك القيادي في عصر الذكاء الاصطناعي.
+            </p>
+            <button class="primary-btn" id="startBtn" type="button">ابدأ المقياس</button>
+          </div>
+          <div class="note-box">
+            <strong>مدة الإنجاز المتوقعة: 4 دقائق</strong>
+            <p>
+              ستظهر لك نتيجة تفصيلية في النهاية مع توصية عملية واحدة ورسم دونات يوضح توزيع إجاباتك بين الأنماط الأربعة.
+            </p>
+          </div>
+        </div>
+
+        <div id="questionScreen" class="question-screen hidden" aria-live="polite">
+          <div class="progress-row">
+            <div class="progress-label" id="progressLabel">السؤال 1 من 12</div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <article class="question-card">
+            <div class="question-meta" id="questionMeta">محور القرار القيادي</div>
+            <h2 class="question-title" id="questionTitle"></h2>
+            <div class="options-grid" id="optionsGrid"></div>
+            <div class="nav-row">
+              <button class="ghost-btn" id="prevBtn" type="button">السؤال السابق</button>
+              <button class="primary-btn" id="nextBtn" type="button" disabled>التالي</button>
+            </div>
+          </article>
+        </div>
+
+        <div id="resultScreen" class="result-screen hidden">
+          <div class="result-layout">
+            <article class="result-main">
+              <h2 class="result-title" id="resultTitle"></h2>
+              <p class="result-description" id="resultDescription"></p>
+              <div class="result-details">
+                <div class="detail-card">
+                  <strong>نقطة القوة الأبرز</strong>
+                  <p id="resultStrength"></p>
+                </div>
+                <div class="detail-card">
+                  <strong>التحدي الرئيسي</strong>
+                  <p id="resultChallenge"></p>
+                </div>
+                <div class="detail-card">
+                  <strong>توصية عملية</strong>
+                  <p id="resultRecommendation"></p>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="ghost-btn" id="restartBtn" type="button">أعد الاختبار</button>
+                <button class="share-btn" id="shareBtn" type="button">شارك نتيجتك</button>
+              </div>
+              <div class="copy-status" id="copyStatus" aria-live="polite"></div>
+            </article>
+
+            <aside class="chart-card">
+              <h3>توزيع إجاباتك بين الأنماط</h3>
+              <div class="chart-box">
+                <canvas id="resultChart"></canvas>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const archetypes = {
+      explorer: {
+        name: "المستكشف",
+        english: "Explorer",
+        emoji: "🧭",
+        color: "#c9a24d",
+        trait: "فضولي، يجرّب باستمرار، لكنه يفتقر أحياناً للمنهجية.",
+        description:
+          "أنت تميل إلى فتح الأبواب الجديدة بسرعة وتتعامل مع الذكاء الاصطناعي كمساحة للتعلم والتجريب. ترى الفرص قبل أن تكتمل الصورة، وهذا يمنحك مرونة عالية في اكتشاف الاستخدامات الممكنة. تحتاج فقط إلى تحويل هذا الفضول إلى مسار منظم حتى لا تبقى المبادرات في مرحلة التجربة.",
+        strength: "سرعة التبني والانفتاح على التجريب.",
+        challenge: "صعوبة التحول من التجريب الفردي إلى التطبيق المؤسسي المنظم.",
+        recommendation: "ابنِ على فضولك بإطار منهجي: حدّد حالة استخدام واحدة وأوصلها للنهاية."
+      },
+      engineer: {
+        name: "المهندس",
+        english: "Engineer",
+        emoji: "⚙️",
+        color: "#2f6f9f",
+        trait: "تحليلي، يركز على الكفاءة والتطبيق الدقيق.",
+        description:
+          "أنت تنظر إلى الذكاء الاصطناعي من زاوية عملية واضحة: ما المشكلة؟ ما المؤشر؟ وما العائد القابل للقياس؟ لديك قدرة قوية على تحويل الأفكار إلى عمليات قابلة للتطبيق والمتابعة. انتبه فقط إلى أن نجاح الذكاء الاصطناعي لا يعتمد على التقنية وحدها، بل على قبول الناس وطريقة إدارة التغيير.",
+        strength: "تحويل الذكاء الاصطناعي إلى نتائج قابلة للقياس.",
+        challenge: "قد تضيق الرؤية على الحالات التقنية وتغفل التحول الثقافي.",
+        recommendation: "وسّع نظرتك لتشمل إدارة التغيير بجانب التطبيق التقني."
+      },
+      champion: {
+        name: "البطل",
+        english: "Champion",
+        emoji: "🏅",
+        color: "#d47c45",
+        trait: "يدفع بحماس لتبني الذكاء الاصطناعي ويقنع الآخرين.",
+        description:
+          "أنت قائد قادر على تحريك الناس حول فكرة جديدة وبناء طاقة إيجابية تجاه الذكاء الاصطناعي. تعرف كيف تشرح القيمة وتكسر التردد وتحوّل الاهتمام إلى مشاركة جماعية. قوتك في التأثير كبيرة، لكنها تحتاج إلى إطار تقييم وحوكمة حتى يبقى الحماس مقترناً بالمصداقية.",
+        strength: "بناء ائتلافات وكسر مقاومة التغيير.",
+        challenge: "الحماس قد يسبق التقييم الدقيق للمخاطر.",
+        recommendation: "اقرن حماسك بإطار حوكمة واضح لتعزيز مصداقيتك."
+      },
+      innovator: {
+        name: "المبتكر",
+        english: "Innovator",
+        emoji: "🚀",
+        color: "#1f7a5c",
+        trait: "رؤيوي، يفكر في التحول الجذري للنماذج المؤسسية.",
+        description:
+          "أنت لا ترى الذكاء الاصطناعي كأداة مساعدة فقط، بل كفرصة لإعادة تخيل طريقة العمل والنموذج التشغيلي للمؤسسة. تفكر في المستقبل وتربط التقنية بالاستراتيجية والميزة التنافسية. التحدي أن تجعل رؤيتك قابلة للفهم والتنفيذ عبر خطوات قريبة وواضحة للفريق.",
+        strength: "رسم مستقبل المنظمة في عصر الذكاء الاصطناعي.",
+        challenge: "الرؤية الطموحة قد تفقد الفريق في غياب خطوات تنفيذية واضحة.",
+        recommendation: "ترجم رؤيتك إلى مبادرة تجريبية محددة خلال 90 يوماً."
+      }
+    };
+
+    const questions = [
+      {
+        topic: "محور القرار القيادي",
+        text: "عندما تفكر في استخدام الذكاء الاصطناعي لدعم قرار إداري، ما أول ما تفعله عادة؟",
+        options: [
+          { text: "أجرب أكثر من أداة لأرى ما الذي يمكن أن تكشفه بسرعة.", type: "explorer" },
+          { text: "أحدد المشكلة والمؤشرات ثم أختبر إن كان الذكاء الاصطناعي سيحسن النتيجة.", type: "engineer" },
+          { text: "أجمع أصحاب العلاقة وأشرح لهم لماذا يستحق القرار دعماً بالذكاء الاصطناعي.", type: "champion" },
+          { text: "أربط القرار بصورة أكبر: كيف يمكن أن يغير الذكاء الاصطناعي نموذج العمل؟", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور مقاومة التغيير",
+        text: "إذا قاوم فريقك إدخال أداة ذكاء اصطناعي جديدة، كيف تتعامل مع الموقف؟",
+        options: [
+          { text: "أدعوهم لتجربة بسيطة حتى يروا الإمكانات بأنفسهم.", type: "explorer" },
+          { text: "أعرض مقارنة عملية بين الوضع الحالي والوضع بعد استخدام الأداة.", type: "engineer" },
+          { text: "أستمع لمخاوفهم وأبني قصة مقنعة حول الفائدة لهم وللعمل.", type: "champion" },
+          { text: "أوضح كيف ستتغير أدوار الفريق مستقبلاً ولماذا يجب الاستعداد مبكراً.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور قياس النجاح",
+        text: "كيف تعرف أن مبادرة الذكاء الاصطناعي نجحت؟",
+        options: [
+          { text: "عندما تفتح لنا أفكاراً جديدة لم تكن واضحة من قبل.", type: "explorer" },
+          { text: "عندما تتحسن مؤشرات محددة مثل الوقت أو التكلفة أو جودة المخرجات.", type: "engineer" },
+          { text: "عندما يبدأ الفريق في استخدامها بثقة ويشارك قصص نجاحه.", type: "champion" },
+          { text: "عندما تغير طريقة عمل وحدة كاملة أو تخلق قدرة مؤسسية جديدة.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور بناء الفريق",
+        text: "ما نوع القدرة التي تريد بناءها أولاً داخل فريقك؟",
+        options: [
+          { text: "فضول آمن للتجريب واكتشاف الاستخدامات اليومية.", type: "explorer" },
+          { text: "مهارة تطبيقية في اختيار الحالات، كتابة المطالبات، وقياس الأثر.", type: "engineer" },
+          { text: "شبكة من أشخاص مؤثرين ينشرون الممارسات الجيدة بين الزملاء.", type: "champion" },
+          { text: "قدرة على تصميم خدمات أو عمليات جديدة مدعومة بالذكاء الاصطناعي.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور الدور القيادي",
+        text: "أي عبارة تصف دورك القيادي مع الذكاء الاصطناعي حالياً؟",
+        options: [
+          { text: "أتعلم بسرعة وأختبر ما يمكن أن يفيدني ويفيد فريقي.", type: "explorer" },
+          { text: "أحوّل الاستخدام إلى خطوات عملية ومعايير واضحة.", type: "engineer" },
+          { text: "أحفّز الآخرين وأساعدهم على تجاوز الخوف أو التردد.", type: "champion" },
+          { text: "أرسم الاتجاه القادم وأدفع المؤسسة للتفكير بشكل مختلف.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور الحوكمة والمخاطر",
+        text: "عندما تظهر مخاوف حول الخصوصية أو دقة المخرجات، كيف تستجيب؟",
+        options: [
+          { text: "أتعامل معها كجزء من التعلم وأبحث عن طرق استخدام أكثر أماناً.", type: "explorer" },
+          { text: "أضع ضوابط واضحة للاستخدام، المراجعة، ومصادر البيانات.", type: "engineer" },
+          { text: "أشرح المخاطر بلغة بسيطة حتى لا تتحول إلى خوف يعطل التبني.", type: "champion" },
+          { text: "أربط الحوكمة باستراتيجية المؤسسة وثقة العملاء والمستفيدين.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور اختيار حالات الاستخدام",
+        text: "ما نوع حالات الاستخدام التي تجذبك أكثر؟",
+        options: [
+          { text: "حالات سريعة تكشف لي إمكانات جديدة خلال وقت قصير.", type: "explorer" },
+          { text: "حالات متكررة يمكن تحسينها وقياس أثرها بسهولة.", type: "engineer" },
+          { text: "حالات يراها الفريق ويشعر بقيمتها بسرعة.", type: "champion" },
+          { text: "حالات استراتيجية يمكن أن تعيد تصميم خدمة أو نموذج عمل.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور التعلم الشخصي",
+        text: "كيف تطور نفسك في مجال الذكاء الاصطناعي؟",
+        options: [
+          { text: "أجرب أدوات ومطالبات جديدة كلما ظهرت فرصة.", type: "explorer" },
+          { text: "أبني قوالب وأساليب عمل وأحسنها مع الوقت.", type: "engineer" },
+          { text: "أتبادل الخبرات مع الآخرين وأحول التعلم إلى نقاش جماعي.", type: "champion" },
+          { text: "أتابع الاتجاهات الكبرى وأربطها بفرص المؤسسة المستقبلية.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور إدارة التنفيذ",
+        text: "عند إطلاق مبادرة ذكاء اصطناعي، ما الذي يقلقك أكثر؟",
+        options: [
+          { text: "أن نفقد فرصة التعلم بسبب بطء البداية أو كثرة التحفظ.", type: "explorer" },
+          { text: "أن لا تكون البيانات أو العملية أو مؤشرات النجاح واضحة.", type: "engineer" },
+          { text: "أن لا يقتنع الناس أو لا يجدوا معنى عملياً للمبادرة.", type: "champion" },
+          { text: "أن ننشغل بتحسينات صغيرة ونفوت فرصة التحول الأكبر.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور التواصل المؤسسي",
+        text: "كيف تشرح قيمة الذكاء الاصطناعي للإدارة العليا أو الزملاء؟",
+        options: [
+          { text: "أعرض أمثلة وتجارب سريعة تثير الفضول.", type: "explorer" },
+          { text: "أقدم أرقاماً ومقارنات ومؤشرات أثر واضحة.", type: "engineer" },
+          { text: "أربط القيمة باحتياجات الناس اليومية وأستخدم قصصاً مقنعة.", type: "champion" },
+          { text: "أضعه ضمن رؤية تنافسية لمستقبل المؤسسة.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور توسيع الاستخدام",
+        text: "بعد نجاح تجربة أولية، ما خطوتك التالية؟",
+        options: [
+          { text: "أبحث عن تجارب أخرى لاختبار إمكانات إضافية.", type: "explorer" },
+          { text: "أوثق الطريقة وأبني مساراً قابلاً للتكرار والقياس.", type: "engineer" },
+          { text: "أشارك التجربة مع فرق أخرى وأدعوهم لتبنيها.", type: "champion" },
+          { text: "أحولها إلى مبادرة أوسع مرتبطة بتغيير تشغيلي أو استراتيجي.", type: "innovator" }
+        ]
+      },
+      {
+        topic: "محور الرؤية المستقبلية",
+        text: "بعد عام من الآن، ما النتيجة التي تريد رؤيتها في مؤسستك؟",
+        options: [
+          { text: "ثقافة أكثر جرأة في تجربة أدوات الذكاء الاصطناعي.", type: "explorer" },
+          { text: "عمليات أكثر كفاءة مدعومة بمؤشرات أداء واضحة.", type: "engineer" },
+          { text: "فرق تستخدم الذكاء الاصطناعي بثقة وتتبادل الممارسات الجيدة.", type: "champion" },
+          { text: "نموذج عمل أو خدمة جديدة نشأت من توظيف الذكاء الاصطناعي.", type: "innovator" }
+        ]
+      }
+    ];
+
+    const state = {
+      current: 0,
+      answers: Array(questions.length).fill(null),
+      chart: null,
+      resultText: ""
+    };
+
+    const startScreen = document.getElementById("startScreen");
+    const questionScreen = document.getElementById("questionScreen");
+    const resultScreen = document.getElementById("resultScreen");
+    const progressLabel = document.getElementById("progressLabel");
+    const progressFill = document.getElementById("progressFill");
+    const questionMeta = document.getElementById("questionMeta");
+    const questionTitle = document.getElementById("questionTitle");
+    const optionsGrid = document.getElementById("optionsGrid");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const copyStatus = document.getElementById("copyStatus");
+
+    document.getElementById("startBtn").addEventListener("click", startQuiz);
+    document.getElementById("restartBtn").addEventListener("click", restartQuiz);
+    document.getElementById("shareBtn").addEventListener("click", shareResult);
+    prevBtn.addEventListener("click", goPrevious);
+    nextBtn.addEventListener("click", goNext);
+
+    function startQuiz() {
+      startScreen.classList.add("hidden");
+      questionScreen.classList.remove("hidden");
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const question = questions[state.current];
+      const selected = state.answers[state.current];
+      progressLabel.textContent = `السؤال ${state.current + 1} من ${questions.length}`;
+      progressFill.style.width = `${((state.current + 1) / questions.length) * 100}%`;
+      questionMeta.textContent = question.topic;
+      questionTitle.textContent = question.text;
+      optionsGrid.innerHTML = "";
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `option-btn${selected === index ? " selected" : ""}`;
+        button.textContent = option.text;
+        button.addEventListener("click", () => {
+          state.answers[state.current] = index;
+          renderQuestion();
+        });
+        optionsGrid.appendChild(button);
+      });
+
+      prevBtn.disabled = state.current === 0;
+      nextBtn.disabled = selected === null;
+      nextBtn.textContent = state.current === questions.length - 1 ? "اعرض النتيجة" : "التالي";
+    }
+
+    function goPrevious() {
+      if (state.current > 0) {
+        state.current -= 1;
+        renderQuestion();
+      }
+    }
+
+    function goNext() {
+      if (state.answers[state.current] === null) return;
+
+      if (state.current === questions.length - 1) {
+        showResult();
+        return;
+      }
+
+      state.current += 1;
+      renderQuestion();
+    }
+
+    function calculateScores() {
+      const scores = {
+        explorer: 0,
+        engineer: 0,
+        champion: 0,
+        innovator: 0
+      };
+
+      state.answers.forEach((answerIndex, questionIndex) => {
+        const selectedOption = questions[questionIndex].options[answerIndex];
+        if (selectedOption) {
+          scores[selectedOption.type] += 1;
+        }
+      });
+
+      return scores;
+    }
+
+    function showResult() {
+      const scores = calculateScores();
+      const entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+      const highestScore = entries[0][1];
+      const winners = entries.filter(([, score]) => score === highestScore).map(([type]) => type);
+      const isTie = winners.length > 1;
+      const primaryType = winners[0];
+      const primary = archetypes[primaryType];
+
+      questionScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      copyStatus.textContent = "";
+
+      if (isTie) {
+        renderTieResult(winners, scores);
+      } else {
+        document.getElementById("resultTitle").innerHTML = `<span>${primary.emoji}</span> نمطك القيادي: ${primary.name}`;
+        document.getElementById("resultDescription").textContent = primary.description;
+        document.getElementById("resultStrength").textContent = primary.strength;
+        document.getElementById("resultChallenge").textContent = primary.challenge;
+        document.getElementById("resultRecommendation").textContent = primary.recommendation;
+        state.resultText =
+          `نتيجتي في مقياس "ما نمط قيادتك للذكاء الاصطناعي؟": ${primary.name} ${primary.emoji}\n` +
+          `الوصف: ${primary.trait}\n` +
+          `نقطة القوة: ${primary.strength}\n` +
+          `التحدي: ${primary.challenge}\n` +
+          `التوصية: ${primary.recommendation}`;
+      }
+
+      renderChart(scores);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderTieResult(winners, scores) {
+      const names = winners.map((type) => archetypes[type].name);
+      const emojis = winners.map((type) => archetypes[type].emoji).join(" ");
+      const joinedNames = names.length === 2 ? `${names[0]} و${names[1]}` : names.join(" و");
+      const descriptions = winners.map((type) => archetypes[type].trait).join(" ");
+      const strengths = winners.map((type) => archetypes[type].strength).join(" + ");
+      const challenges = winners.map((type) => archetypes[type].challenge).join(" + ");
+      const recommendation =
+        "ابدأ بمبادرة واحدة تجمع بين نقاط قوتك الأعلى: اختر حالة استخدام واضحة، عرّف مؤشر نجاحها، ثم شارك قصتها مع الفريق خلال 30 يوماً.";
+
+      document.getElementById("resultTitle").innerHTML = `<span>${emojis}</span> أنت مزيج بين ${joinedNames}`;
+      document.getElementById("resultDescription").textContent =
+        `تظهر إجاباتك أنك لا تعمل من نمط واحد فقط، بل تجمع بين أكثر من طريقة في قيادة الذكاء الاصطناعي. ${descriptions} هذا المزيج يمكن أن يكون قوة كبيرة إذا حولته إلى خطوات واضحة ومتوازنة.`;
+      document.getElementById("resultStrength").textContent = strengths;
+      document.getElementById("resultChallenge").textContent = challenges;
+      document.getElementById("resultRecommendation").textContent = recommendation;
+
+      state.resultText =
+        `نتيجتي في مقياس "ما نمط قيادتك للذكاء الاصطناعي؟": مزيج بين ${joinedNames} ${emojis}\n` +
+        `التوزيع: ${formatScoreLine(scores)}\n` +
+        `التوصية: ${recommendation}`;
+    }
+
+    function renderChart(scores) {
+      const labels = Object.keys(archetypes).map((type) => archetypes[type].name);
+      const data = Object.keys(archetypes).map((type) => Math.round((scores[type] / questions.length) * 100));
+      const colors = Object.keys(archetypes).map((type) => archetypes[type].color);
+      const ctx = document.getElementById("resultChart");
+
+      if (state.chart) {
+        state.chart.destroy();
+      }
+
+      state.chart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels,
+          datasets: [{
+            data,
+            backgroundColor: colors,
+            borderColor: "#ffffff",
+            borderWidth: 4,
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "62%",
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "#172033",
+                font: {
+                  family: "Cairo",
+                  size: 13,
+                  weight: "700"
+                },
+                padding: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.label}: ${context.parsed}%`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function formatScoreLine(scores) {
+      return Object.keys(archetypes)
+        .map((type) => `${archetypes[type].name}: ${Math.round((scores[type] / questions.length) * 100)}%`)
+        .join("، ");
+    }
+
+    async function shareResult() {
+      try {
+        await navigator.clipboard.writeText(state.resultText);
+        copyStatus.textContent = "تم نسخ نص النتيجة إلى الحافظة.";
+      } catch (error) {
+        const temp = document.createElement("textarea");
+        temp.value = state.resultText;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+        copyStatus.textContent = "تم نسخ نص النتيجة إلى الحافظة.";
+      }
+    }
+
+    function restartQuiz() {
+      state.current = 0;
+      state.answers = Array(questions.length).fill(null);
+      state.resultText = "";
+      copyStatus.textContent = "";
+      resultScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+      if (state.chart) {
+        state.chart.destroy();
+        state.chart = null;
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>

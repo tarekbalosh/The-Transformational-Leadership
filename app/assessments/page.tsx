@@ -13,6 +13,11 @@ export default function AssessmentsPage() {
           تدعم هذه الصفحة اختياراً من متعدد، أسئلة مفتوحة، ومقاييس تقييم ذاتي.
           المحتوى الحالي توضيحي وسيستبدل بالمقاييس النهائية لاحقاً.
         </p>
+        <div className="hero-actions">
+          <a href="/ai-leader-style.html" className="primary-link">
+            فتح مقياس نمط قيادة الذكاء الاصطناعي
+          </a>
+        </div>
       </section>
       <AssessmentsWorkspace assessments={assessments} />
     </main>
