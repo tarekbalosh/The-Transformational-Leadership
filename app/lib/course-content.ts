@@ -21,7 +21,7 @@ export type Assessment = {
 export type ActivityAccessCode = {
   id: string;
   title: string;
-  category: "تمرين" | "مقياس";
+  category: "تمرين" | "مقياس" | "اختبار";
   code: string;
 };
 
@@ -57,6 +57,12 @@ export const assessments: Assessment[] = [
 ];
 
 export const activityAccessCodes: ActivityAccessCode[] = [
+  {
+    id: "day-one-concepts-test",
+    title: "اختبار اليوم الأول - المفاهيم الأساسية",
+    category: "اختبار",
+    code: "631041",
+  },
   {
     id: "introductions",
     title: "تعارف المشاركين",

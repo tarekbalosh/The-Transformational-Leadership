@@ -23,7 +23,32 @@ export function AssessmentHub() {
           <div className="hub-card-grid">
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">تعارف المشاركين</div>
+                <div className="section-kicker">01 | اختبار</div>
+                <h2>اختبار اليوم الأول - المفاهيم الأساسية</h2>
+                <p>
+                  اختبار سريع عبر Kahoot لمراجعة مفاهيم اليوم الأول والتأكد من
+                  وضوح الأساسيات قبل الانتقال للأنشطة التالية.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="day-one-concepts-test"
+                activityTitle="اختبار اليوم الأول"
+                compact
+              >
+                <a
+                  href="https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544"
+                  className="primary-link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  فتح الاختبار
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">02 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -43,7 +68,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">المقياس المتاح</div>
+                <div className="section-kicker">03 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
