@@ -3,6 +3,7 @@ import {
   ProfileBoard,
   type ProfileCard,
 } from "@/app/components/introductions/profile-board";
+import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 import { participantProfilesData } from "@/app/lib/course-store";
@@ -28,7 +29,12 @@ export default async function IntroductionsBoardPage() {
       </section>
 
       <EmailGate title="أدخل بريدك لاستعراض بطاقات المشاركين">
-        <ProfileBoard profiles={profiles} />
+        <ActivityCodeGate
+          activityId="introductions"
+          activityTitle="تعارف المشاركين"
+        >
+          <ProfileBoard profiles={profiles} />
+        </ActivityCodeGate>
       </EmailGate>
     </main>
   );

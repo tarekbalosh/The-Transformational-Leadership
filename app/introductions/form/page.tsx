@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ProfileForm } from "@/app/components/introductions/profile-form";
+import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 
@@ -23,7 +24,12 @@ export default function IntroductionsFormPage() {
 
       <section className="intro-form-section">
         <EmailGate title="أدخل بريدك لتعبئة نموذج التعارف">
-          <ProfileForm />
+          <ActivityCodeGate
+            activityId="introductions"
+            activityTitle="تعارف المشاركين"
+          >
+            <ProfileForm />
+          </ActivityCodeGate>
         </EmailGate>
       </section>
     </main>

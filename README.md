@@ -50,7 +50,7 @@ PATH=/Users/abozeed/.cache/codex-runtimes/codex-primary-runtime/dependencies/nod
 رمز المسؤول الافتراضي للنسخة الأولى:
 
 ```text
-ai-leaders-admin-2026
+710208
 ```
 
 ينبغي ضبط `ADMIN_ACCESS_TOKEN` في بيئة Sites قبل الاستخدام الحقيقي.

@@ -18,6 +18,13 @@ export type Assessment = {
   options?: string[];
 };
 
+export type ActivityAccessCode = {
+  id: string;
+  title: string;
+  category: "تمرين" | "مقياس";
+  code: string;
+};
+
 export const partner = {
   name: "شركة الإبداع الخليجي للتدريب والاستشارات",
   logo: "/brand/ebdaa.png",
@@ -46,6 +53,21 @@ export const assessments: Assessment[] = [
     type: "scale",
     status: "available",
     prompt: "مقياس تفاعلي يحدد نمط قيادة المشارك للذكاء الاصطناعي.",
+  },
+];
+
+export const activityAccessCodes: ActivityAccessCode[] = [
+  {
+    id: "introductions",
+    title: "تعارف المشاركين",
+    category: "تمرين",
+    code: "482913",
+  },
+  {
+    id: "ai-leader-style",
+    title: "ما نمط قيادتك للذكاء الاصطناعي؟",
+    category: "مقياس",
+    code: "739204",
   },
 ];
 

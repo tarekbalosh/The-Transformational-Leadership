@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/app/components/site-header";
+import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 
 export function AssessmentHub() {
@@ -29,9 +30,15 @@ export function AssessmentHub() {
                   واهتماماتك وأهدافك من الدورة.
                 </p>
               </div>
-              <a href="/introductions" className="primary-link">
-                فتح التعارف
-              </a>
+              <ActivityCodeGate
+                activityId="introductions"
+                activityTitle="تعارف المشاركين"
+                compact
+              >
+                <a href="/introductions" className="primary-link">
+                  فتح التعارف
+                </a>
+              </ActivityCodeGate>
             </div>
 
             <div className="assessment-launch-card">
@@ -43,9 +50,15 @@ export function AssessmentHub() {
                   تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.
                 </p>
               </div>
-              <a href="/ai-leader-style.html" className="primary-link">
-                بدء المقياس
-              </a>
+              <ActivityCodeGate
+                activityId="ai-leader-style"
+                activityTitle="مقياس نمط قيادة الذكاء الاصطناعي"
+                compact
+              >
+                <a href="/ai-leader-style.html" className="primary-link">
+                  بدء المقياس
+                </a>
+              </ActivityCodeGate>
             </div>
           </div>
         </section>

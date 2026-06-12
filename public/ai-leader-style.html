@@ -647,6 +647,21 @@
           </form>
         </div>
 
+        <div id="codeGateScreen" class="assessment-email-gate intro-box hidden">
+          <h2>أدخل كود المقياس</h2>
+          <p>
+            هذا المقياس مخصص لمشاركي الدورة. أدخل الكود الذي يزودك به المدرب للمتابعة.
+          </p>
+          <form id="assessmentCodeForm">
+            <label for="assessmentCode">كود دخول المقياس</label>
+            <div class="email-row">
+              <input id="assessmentCode" type="text" inputmode="numeric" placeholder="أدخل الكود" required />
+              <button class="primary-btn" id="saveAssessmentCodeBtn" type="submit">فتح المقياس</button>
+            </div>
+            <div class="gate-message" id="codeMessage" aria-live="polite"></div>
+          </form>
+        </div>
+
         <div id="startScreen" class="start-screen hidden">
           <div class="intro-box">
             <h2>اختبار ذاتي سريع لقادة ومدراء يريدون استخدام الذكاء الاصطناعي بوعي</h2>
@@ -900,7 +915,8 @@
       answers: Array(questions.length).fill(null),
       chart: null,
       resultText: "",
-      participantEmail: ""
+      participantEmail: "",
+      activityAllowed: false
     };
 
     const emailGateScreen = document.getElementById("emailGateScreen");
@@ -908,6 +924,11 @@
     const assessmentEmail = document.getElementById("assessmentEmail");
     const saveAssessmentEmailBtn = document.getElementById("saveAssessmentEmailBtn");
     const gateMessage = document.getElementById("gateMessage");
+    const codeGateScreen = document.getElementById("codeGateScreen");
+    const assessmentCodeForm = document.getElementById("assessmentCodeForm");
+    const assessmentCode = document.getElementById("assessmentCode");
+    const saveAssessmentCodeBtn = document.getElementById("saveAssessmentCodeBtn");
+    const codeMessage = document.getElementById("codeMessage");
     const startScreen = document.getElementById("startScreen");
     const questionScreen = document.getElementById("questionScreen");
     const resultScreen = document.getElementById("resultScreen");
@@ -921,6 +942,7 @@
     const copyStatus = document.getElementById("copyStatus");
 
     assessmentEmailForm.addEventListener("submit", saveParticipantEmail);
+    assessmentCodeForm.addEventListener("submit", saveActivityCode);
     document.getElementById("startBtn").addEventListener("click", startQuiz);
     document.getElementById("restartBtn").addEventListener("click", restartQuiz);
     document.getElementById("shareBtn").addEventListener("click", shareResult);
@@ -931,12 +953,18 @@
 
     function initializeParticipantGate() {
       const storedEmail = window.sessionStorage.getItem("participantEmail") || "";
+      const storedCode = window.sessionStorage.getItem("activityCode:ai-leader-style") === "ok";
       assessmentEmail.value = storedEmail;
+      state.activityAllowed = storedCode;
 
-      if (storedEmail) {
+      if (storedEmail && storedCode) {
         state.participantEmail = storedEmail;
         emailGateScreen.classList.add("hidden");
         startScreen.classList.remove("hidden");
+      } else if (storedEmail) {
+        state.participantEmail = storedEmail;
+        emailGateScreen.classList.add("hidden");
+        codeGateScreen.classList.remove("hidden");
       }
     }
 
@@ -962,7 +990,7 @@
         state.participantEmail = data.participant.email;
         window.sessionStorage.setItem("participantEmail", data.participant.email);
         emailGateScreen.classList.add("hidden");
-        startScreen.classList.remove("hidden");
+        codeGateScreen.classList.remove("hidden");
       } catch (error) {
         gateMessage.textContent = "تعذر الاتصال. حاول مرة أخرى.";
       } finally {
@@ -970,10 +998,47 @@
       }
     }
 
+    async function saveActivityCode(event) {
+      event.preventDefault();
+      saveAssessmentCodeBtn.disabled = true;
+      codeMessage.textContent = "";
+
+      try {
+        const response = await fetch("/api/activity-code", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            activityId: "ai-leader-style",
+            code: assessmentCode.value.trim()
+          })
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeMessage.textContent = data.message || "كود الدخول غير صحيح.";
+          return;
+        }
+
+        state.activityAllowed = true;
+        window.sessionStorage.setItem("activityCode:ai-leader-style", "ok");
+        codeGateScreen.classList.add("hidden");
+        startScreen.classList.remove("hidden");
+      } catch (error) {
+        codeMessage.textContent = "تعذر التحقق من الكود. حاول مرة أخرى.";
+      } finally {
+        saveAssessmentCodeBtn.disabled = false;
+      }
+    }
+
     function startQuiz() {
       if (!state.participantEmail) {
         startScreen.classList.add("hidden");
         emailGateScreen.classList.remove("hidden");
+        return;
+      }
+      if (!state.activityAllowed) {
+        startScreen.classList.add("hidden");
+        codeGateScreen.classList.remove("hidden");
         return;
       }
       startScreen.classList.add("hidden");

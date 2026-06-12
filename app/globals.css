@@ -250,6 +250,23 @@ button:disabled {
   margin-top: 20px;
 }
 
+.activity-code-form {
+  width: min(100%, 620px);
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--white) 86%, var(--mist));
+}
+
+.activity-code-form.compact {
+  width: 100%;
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 label {
   display: block;
   margin-bottom: 8px;
@@ -868,8 +885,153 @@ textarea:focus {
   padding-bottom: 34px;
 }
 
+.about-hero {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(212, 229, 28, 0.16), transparent 26%),
+    linear-gradient(135deg, #fbfcf7 0%, #eef3ee 100%);
+}
+
 .page-hero h1 {
   font-size: clamp(40px, 5.6vw, 76px);
+}
+
+.course-intro-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 24px;
+  align-items: start;
+  padding: clamp(42px, 6vw, 82px) clamp(18px, 5vw, 72px);
+  background: var(--white);
+  border-block: 1px solid var(--line);
+}
+
+.course-lead,
+.course-quote,
+.course-closing {
+  border-radius: 8px;
+}
+
+.course-lead {
+  display: grid;
+  gap: 14px;
+}
+
+.course-lead p,
+.course-quote p,
+.course-closing p {
+  color: var(--charcoal);
+  font-size: clamp(18px, 2vw, 22px);
+}
+
+.course-quote {
+  padding: 24px;
+  background: var(--teal-deep);
+  color: var(--white);
+}
+
+.course-quote strong,
+.course-closing strong {
+  display: block;
+  color: var(--lime-soft);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 22px;
+}
+
+.course-quote p {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.goal-grid article {
+  min-height: 210px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.goal-grid span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--mist);
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.goal-grid p {
+  margin-top: 16px;
+  color: var(--charcoal);
+  font-size: 17px;
+}
+
+.module-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.module-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
+  gap: 22px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.module-card h3 {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+}
+
+.module-card p {
+  margin-top: 10px;
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
+.module-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.module-card li {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--mist);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.course-closing {
+  margin: 0 clamp(18px, 5vw, 72px) clamp(42px, 6vw, 82px);
+  padding: clamp(24px, 5vw, 44px);
+  background: var(--teal-deep);
+  color: var(--white);
+}
+
+.course-closing p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.course-closing strong {
+  margin-top: 14px;
 }
 
 .split-section {
@@ -1090,9 +1252,11 @@ td {
   }
 
   .hero-section,
+  .course-intro-band,
   .split-section,
   .workspace-grid,
-  .intro-hero {
+  .intro-hero,
+  .module-card {
     grid-template-columns: 1fr;
   }
 
@@ -1117,6 +1281,7 @@ td {
   .feature-grid,
   .choice-grid,
   .metrics-row,
+  .goal-grid,
   .hub-card-grid,
   .intro-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1148,6 +1313,7 @@ td {
   .feature-grid,
   .choice-grid,
   .metrics-row,
+  .goal-grid,
   .intro-form-grid,
   .hub-card-grid,
   .intro-card-grid {

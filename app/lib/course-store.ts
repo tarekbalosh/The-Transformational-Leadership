@@ -91,7 +91,7 @@ function db() {
 }
 
 export function adminToken() {
-  return runtime.ADMIN_ACCESS_TOKEN || "ai-leaders-admin-2026";
+  return runtime.ADMIN_ACCESS_TOKEN || "710208";
 }
 
 export function assertAdmin(request: Request) {
