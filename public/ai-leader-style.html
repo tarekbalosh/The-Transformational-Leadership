@@ -519,15 +519,22 @@
     .pdf-export-root {
       position: fixed;
       top: 0;
-      right: 0;
+      left: 0;
+      right: auto;
       width: 794px;
       max-height: none;
       overflow: visible;
       pointer-events: none;
+      direction: ltr;
       z-index: 2147483647;
     }
 
     .pdf-export-sheet {
+      width: 794px;
+      min-height: 1123px;
+      box-sizing: border-box;
+      direction: rtl;
+      text-align: right;
       background:
         radial-gradient(circle at 12% 12%, rgba(201, 162, 77, 0.15), transparent 24%),
         linear-gradient(145deg, #ffffff 0%, #f7f8fb 56%, #eef2f7 100%);
@@ -549,6 +556,11 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 0;
+    }
+
+    .pdf-export-brand > div {
+      min-width: 0;
     }
 
     .pdf-export-brand img {
@@ -568,6 +580,7 @@
       font-size: 32px;
       line-height: 1.35;
       font-weight: 800;
+      overflow-wrap: anywhere;
     }
 
     .pdf-export-meta {
@@ -584,6 +597,7 @@
       border-radius: 20px;
       background: var(--navy);
       color: var(--white);
+      box-sizing: border-box;
     }
 
     .pdf-export-summary p {
@@ -591,6 +605,7 @@
       color: rgba(255, 255, 255, 0.82);
       font-size: 16px;
       line-height: 1.9;
+      overflow-wrap: anywhere;
     }
 
     .pdf-export-summary .pdf-result-name {
@@ -612,6 +627,8 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       background: rgba(255, 255, 255, 0.95);
+      box-sizing: border-box;
+      min-width: 0;
     }
 
     .pdf-export-card h3 {
@@ -625,6 +642,7 @@
       margin: 0;
       color: var(--ink);
       line-height: 1.9;
+      overflow-wrap: anywhere;
     }
 
     .pdf-export-distribution {
@@ -1574,6 +1592,8 @@
               backgroundColor: "#ffffff",
               width: 794,
               windowWidth: 794,
+              x: 0,
+              y: 0,
               scrollX: 0,
               scrollY: 0
             },

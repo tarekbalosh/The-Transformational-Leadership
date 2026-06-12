@@ -154,6 +154,8 @@ export async function downloadExercisePdf(options: ExercisePdfOptions) {
           backgroundColor: "#ffffff",
           width: 794,
           windowWidth: 794,
+          x: 0,
+          y: 0,
           scrollX: 0,
           scrollY: 0,
         },
