@@ -70,6 +70,29 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">03 | تمرين</div>
+                <h2>تمرين شريك التفكير - أزمة منصة مهيمنة</h2>
+                <p>
+                  تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة
+                  Unity، كتابة 3 قرارات أولية، ومهاجمتها بتحليل ما قبل الوفاة.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="thinking-partner-crisis"
+                activityTitle="تمرين شريك التفكير - أزمة منصة مهيمنة"
+                compact
+              >
+                <a
+                  href="/exercises/thinking-partner-crisis"
+                  className="primary-link"
+                >
+                  فتح التمرين
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">04 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -89,7 +112,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">04 | مقياس</div>
+                <div className="section-kicker">05 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في

@@ -59,7 +59,14 @@ function formatAssessmentPayload(payload: string) {
 function formatExerciseAnswer(answer: string) {
   try {
     const parsed = JSON.parse(answer) as {
+      exerciseId?: string;
       combinedPrompt?: string;
+      summary?: {
+        verifiedFact?: string;
+        firstDecision?: string;
+        revisedDecision?: string;
+        hallucination?: string;
+      };
       evaluation?: {
         score?: number;
         level?: string;
@@ -70,6 +77,25 @@ function formatExerciseAnswer(answer: string) {
     };
 
     if (!parsed.evaluation) {
+      if (parsed.exerciseId === "thinking-partner-crisis") {
+        return [
+          parsed.summary?.verifiedFact
+            ? `المعلومة المتحقق منها: ${parsed.summary.verifiedFact}`
+            : "",
+          parsed.summary?.firstDecision
+            ? `أول قرار: ${parsed.summary.firstDecision}`
+            : "",
+          parsed.summary?.revisedDecision
+            ? `القرار المعدل: ${parsed.summary.revisedDecision}`
+            : "",
+          parsed.summary?.hallucination
+            ? `الهلوسة المرصودة: ${parsed.summary.hallucination}`
+            : "",
+        ]
+          .filter(Boolean)
+          .join(" | ");
+      }
+
       return answer;
     }
 

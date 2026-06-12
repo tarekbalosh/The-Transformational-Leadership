@@ -75,6 +75,16 @@ export const exercises: Exercise[] = [
     outcome:
       "أمر عملي واضح قابل للاستخدام، مع تغذية راجعة فورية تساعدك على تحسين الصياغة.",
   },
+  {
+    id: "thinking-partner-crisis",
+    title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
+    status: "available",
+    duration: "15 دقيقة",
+    prompt:
+      "استخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة Unity، اختبار قراراتك، واكتشاف هلوسة واحدة على الأقل.",
+    outcome:
+      "3 قرارات عملية، قرار واحد مُعدّل بوعي، وهلوسة واحدة تم التحقق منها وتوثيقها.",
+  },
 ];
 
 export const assessments: Assessment[] = [
@@ -99,6 +109,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين صياغة أمر",
     category: "تمرين",
     code: "845219",
+  },
+  {
+    id: "thinking-partner-crisis",
+    title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
+    category: "تمرين",
+    code: "864531",
   },
   {
     id: "introductions",
