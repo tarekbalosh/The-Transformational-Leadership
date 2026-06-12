@@ -25,6 +25,13 @@ export type ActivityAccessCode = {
   code: string;
 };
 
+export type CourseLink = {
+  title: string;
+  description: string;
+  href: string;
+  label: string;
+};
+
 export const partner = {
   name: "شركة الإبداع الخليجي للتدريب والاستشارات",
   logo: "/brand/ebdaa.png",
@@ -77,8 +84,19 @@ export const activityAccessCodes: ActivityAccessCode[] = [
   },
 ];
 
+export const courseLinks: CourseLink[] = [
+  {
+    title: "وكلاء الذكاء الاصطناعي",
+    description:
+      "رابط مرئي مساعد لفهم فكرة وكلاء الذكاء الاصطناعي ودورهم في تنفيذ المهام ودعم العمل المؤسسي.",
+    href: "https://youtu.be/WVzNoXBqNSY?si=uwgvWnQoMtYuBo4G",
+    label: "فتح الرابط",
+  },
+];
+
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
+  { href: "/links", label: "روابط الدورة" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];
