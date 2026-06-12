@@ -32,6 +32,19 @@ export type CourseLink = {
   label: string;
 };
 
+export type ToolResource = {
+  title: string;
+  description: string;
+  href: string;
+  label: string;
+};
+
+export type ToolGroup = {
+  title: string;
+  description: string;
+  items: ToolResource[];
+};
+
 export const partner = {
   name: "شركة الإبداع الخليجي للتدريب والاستشارات",
   logo: "/brand/ebdaa.png",
@@ -111,9 +124,55 @@ export const courseLinks: CourseLink[] = [
   },
 ];
 
+export const toolGroups: ToolGroup[] = [
+  {
+    title: "حل مشكلة اللغة العربية (من اليمين لليسار)",
+    description:
+      "إضافات مساعدة لتحسين عرض العربية واتجاه النص عند استخدام بعض أدوات الذكاء الاصطناعي داخل المتصفح.",
+    items: [
+      {
+        title: "إصلاح العربي RTL لـ Claude",
+        description:
+          "إضافة مخصصة لتحسين اتجاه النص العربي داخل Claude عندما يظهر بمحاذاة أو ترتيب غير مناسب.",
+        href: "https://chromewebstore.google.com/detail/ieieplkakgjbjldkngbfoakgihdfoddl?utm_source=item-share-cb",
+        label: "فتح الأداة",
+      },
+      {
+        title: "RTL toggle",
+        description:
+          "أداة سريعة لتبديل اتجاه الواجهة والنص بين اليمين واليسار عند الحاجة أثناء العمل.",
+        href: "https://chromewebstore.google.com/detail/diimdfmlegodnjbcgajllidffehegdbc?utm_source=item-share-cb",
+        label: "فتح الأداة",
+      },
+      {
+        title: "Claude Arabic Fix",
+        description:
+          "إضافة أخرى موجهة لمعالجة مشكلات العربية في Claude وتحسين القراءة والتنقل داخل المحادثة.",
+        href: "https://chromewebstore.google.com/detail/fbigmifidpomomfafkacnefbaingljok?utm_source=item-share-cb",
+        label: "فتح الأداة",
+      },
+    ],
+  },
+  {
+    title: "إدارة الأوامر الهندسية",
+    description:
+      "أدوات تساعد في جمع الأوامر المفيدة وتنظيمها وتسريع الوصول إليها أثناء العمل والتجريب.",
+    items: [
+      {
+        title: "Right Click Prompt",
+        description:
+          "منصة لتجميع الأوامر واستخدامها بسرعة، مناسبة لمن يريد بناء مكتبة Prompts عملية قابلة لإعادة الاستخدام.",
+        href: "https://rightclickprompt.com/",
+        label: "فتح الأداة",
+      },
+    ],
+  },
+];
+
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
   { href: "/links", label: "روابط الدورة" },
+  { href: "/tools", label: "الأدوات" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];

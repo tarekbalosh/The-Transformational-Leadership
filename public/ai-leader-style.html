@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --navy: #0c2340;
@@ -300,7 +301,8 @@
 
     .primary-btn,
     .ghost-btn,
-    .share-btn {
+    .share-btn,
+    .pdf-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -344,6 +346,12 @@
     .share-btn {
       background: var(--gold);
       color: var(--navy);
+    }
+
+    .pdf-btn {
+      background: var(--gold-soft);
+      color: var(--navy);
+      border: 1px solid rgba(201, 162, 77, 0.32);
     }
 
     .progress-row {
@@ -508,6 +516,154 @@
       font-weight: 700;
     }
 
+    .pdf-export-root {
+      position: fixed;
+      top: 0;
+      left: -9999px;
+      width: 794px;
+      z-index: -1;
+    }
+
+    .pdf-export-sheet {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(201, 162, 77, 0.15), transparent 24%),
+        linear-gradient(145deg, #ffffff 0%, #f7f8fb 56%, #eef2f7 100%);
+      color: var(--ink);
+      padding: 34px;
+      font-family: "Cairo", system-ui, sans-serif;
+    }
+
+    .pdf-export-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid rgba(12, 35, 64, 0.1);
+    }
+
+    .pdf-export-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pdf-export-brand img {
+      width: 94px;
+      height: auto;
+    }
+
+    .pdf-export-kicker {
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .pdf-export-title {
+      margin-top: 4px;
+      color: var(--navy);
+      font-size: 32px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .pdf-export-meta {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .pdf-export-summary {
+      margin-top: 20px;
+      padding: 20px 22px;
+      border-radius: 20px;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .pdf-export-summary p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .pdf-export-summary .pdf-result-name {
+      margin-bottom: 10px;
+      color: var(--gold-soft);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .pdf-export-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .pdf-export-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .pdf-export-card h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .pdf-export-card p {
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.9;
+    }
+
+    .pdf-export-distribution {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pdf-export-distribution div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .pdf-chart-wrap {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .pdf-chart-wrap img {
+      width: 100%;
+      height: auto;
+    }
+
+    .pdf-export-footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -583,7 +739,8 @@
 
       .primary-btn,
       .ghost-btn,
-      .share-btn {
+      .share-btn,
+      .pdf-btn {
         width: 100%;
       }
 
@@ -606,6 +763,8 @@
     <nav class="main-nav" aria-label="التنقل الرئيسي">
       <a href="/">الرئيسية</a>
       <a href="/about">عن الدورة</a>
+      <a href="/links">روابط الدورة</a>
+      <a href="/tools">الأدوات</a>
       <a href="/exercises">التمارين و المقاييس</a>
       <a href="/admin" class="admin-link">لوحة التحكم</a>
     </nav>
@@ -718,6 +877,7 @@
               </div>
               <div class="result-actions">
                 <button class="ghost-btn" id="restartBtn" type="button">أعد الاختبار</button>
+                <button class="pdf-btn" id="downloadPdfBtn" type="button">تحميل النتيجة PDF</button>
                 <button class="share-btn" id="shareBtn" type="button">شارك نتيجتك</button>
               </div>
               <div class="copy-status" id="copyStatus" aria-live="polite"></div>
@@ -916,7 +1076,8 @@
       chart: null,
       resultText: "",
       participantEmail: "",
-      activityAllowed: false
+      activityAllowed: false,
+      resultPayload: null
     };
 
     const emailGateScreen = document.getElementById("emailGateScreen");
@@ -946,6 +1107,7 @@
     document.getElementById("startBtn").addEventListener("click", startQuiz);
     document.getElementById("restartBtn").addEventListener("click", restartQuiz);
     document.getElementById("shareBtn").addEventListener("click", shareResult);
+    document.getElementById("downloadPdfBtn").addEventListener("click", downloadPdfResult);
     prevBtn.addEventListener("click", goPrevious);
     nextBtn.addEventListener("click", goNext);
 
@@ -1135,6 +1297,18 @@
         document.getElementById("resultStrength").textContent = primary.strength;
         document.getElementById("resultChallenge").textContent = primary.challenge;
         document.getElementById("resultRecommendation").textContent = primary.recommendation;
+        state.resultPayload = {
+          title: `نمطك القيادي: ${primary.name}`,
+          emoji: primary.emoji,
+          description: primary.description,
+          strength: primary.strength,
+          challenge: primary.challenge,
+          recommendation: primary.recommendation,
+          distribution: Object.keys(archetypes).map((type) => ({
+            name: archetypes[type].name,
+            value: Math.round((scores[type] / questions.length) * 100)
+          }))
+        };
         state.resultText =
           `نتيجتي في مقياس "ما نمط قيادتك للذكاء الاصطناعي؟": ${primary.name} ${primary.emoji}\n` +
           `الوصف: ${primary.trait}\n` +
@@ -1164,6 +1338,19 @@
       document.getElementById("resultStrength").textContent = strengths;
       document.getElementById("resultChallenge").textContent = challenges;
       document.getElementById("resultRecommendation").textContent = recommendation;
+      state.resultPayload = {
+        title: `أنت مزيج بين ${joinedNames}`,
+        emoji: emojis,
+        description:
+          `تظهر إجاباتك أنك لا تعمل من نمط واحد فقط، بل تجمع بين أكثر من طريقة في قيادة الذكاء الاصطناعي. ${descriptions} هذا المزيج يمكن أن يكون قوة كبيرة إذا حولته إلى خطوات واضحة ومتوازنة.`,
+        strength: strengths,
+        challenge: challenges,
+        recommendation,
+        distribution: Object.keys(archetypes).map((type) => ({
+          name: archetypes[type].name,
+          value: Math.round((scores[type] / questions.length) * 100)
+        }))
+      };
 
       state.resultText =
         `نتيجتي في مقياس "ما نمط قيادتك للذكاء الاصطناعي؟": مزيج بين ${joinedNames} ${emojis}\n` +
@@ -1282,10 +1469,121 @@
       }
     }
 
+    async function downloadPdfResult() {
+      if (!state.resultPayload || typeof window.html2pdf === "undefined") {
+        copyStatus.textContent = "تعذر تجهيز ملف PDF حالياً.";
+        return;
+      }
+
+      const trigger = document.getElementById("downloadPdfBtn");
+      const chartCanvas = document.getElementById("resultChart");
+      const chartImage =
+        chartCanvas && typeof chartCanvas.toDataURL === "function"
+          ? chartCanvas.toDataURL("image/png", 1)
+          : "";
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString("ar", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      const exportRoot = document.createElement("div");
+      exportRoot.className = "pdf-export-root";
+
+      exportRoot.innerHTML = `
+        <section class="pdf-export-sheet">
+          <header class="pdf-export-head">
+            <div class="pdf-export-brand">
+              <img src="/brand/dr-mohammad-logo.png" alt="" />
+              <div>
+                <div class="pdf-export-kicker">بوابة الدورة</div>
+                <div class="pdf-export-title">ما نمط قيادتك للذكاء الاصطناعي؟</div>
+              </div>
+            </div>
+            <div class="pdf-export-meta">
+              <span>تاريخ النتيجة: ${formattedDate}</span>
+              <span>البريد: ${state.participantEmail || "غير متاح"}</span>
+            </div>
+          </header>
+
+          <section class="pdf-export-summary">
+            <div class="pdf-result-name">${state.resultPayload.emoji} ${state.resultPayload.title}</div>
+            <p>${state.resultPayload.description}</p>
+          </section>
+
+          <section class="pdf-export-grid">
+            <div>
+              <article class="pdf-export-card">
+                <h3>نقطة القوة الأبرز</h3>
+                <p>${state.resultPayload.strength}</p>
+              </article>
+              <article class="pdf-export-card" style="margin-top: 14px;">
+                <h3>التحدي الرئيسي</h3>
+                <p>${state.resultPayload.challenge}</p>
+              </article>
+              <article class="pdf-export-card" style="margin-top: 14px;">
+                <h3>توصية عملية</h3>
+                <p>${state.resultPayload.recommendation}</p>
+              </article>
+            </div>
+
+            <aside>
+              <article class="pdf-export-card">
+                <h3>توزيع الإجابات</h3>
+                <div class="pdf-export-distribution">
+                  ${state.resultPayload.distribution
+                    .map(
+                      (item) =>
+                        `<div><span>${item.name}</span><strong>${item.value}%</strong></div>`
+                    )
+                    .join("")}
+                </div>
+              </article>
+              ${
+                chartImage
+                  ? `<div class="pdf-chart-wrap"><img src="${chartImage}" alt="رسم بياني يوضح توزيع الإجابات" /></div>`
+                  : ""
+              }
+            </aside>
+          </section>
+
+          <footer class="pdf-export-footer">
+            الذكاء الاصطناعي للقادة والمدراء
+          </footer>
+        </section>
+      `;
+
+      document.body.appendChild(exportRoot);
+      trigger.disabled = true;
+      copyStatus.textContent = "جار تجهيز ملف PDF...";
+
+      try {
+        await window.html2pdf()
+          .set({
+            margin: 0,
+            filename: "ai-leader-style-result.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+            pagebreak: { mode: ["avoid-all"] }
+          })
+          .from(exportRoot.firstElementChild)
+          .save();
+
+        copyStatus.textContent = "تم تنزيل ملف PDF بنجاح.";
+      } catch (error) {
+        copyStatus.textContent = "تعذر تنزيل الملف الآن. حاول مرة أخرى.";
+      } finally {
+        exportRoot.remove();
+        trigger.disabled = false;
+      }
+    }
+
     function restartQuiz() {
       state.current = 0;
       state.answers = Array(questions.length).fill(null);
       state.resultText = "";
+      state.resultPayload = null;
       copyStatus.textContent = "";
       resultScreen.classList.add("hidden");
       startScreen.classList.remove("hidden");
