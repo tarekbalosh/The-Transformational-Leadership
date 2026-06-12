@@ -10,8 +10,9 @@ export function AssessmentHub() {
         <div className="section-kicker">التمارين و المقاييس</div>
         <h1>أنشطة الدورة الحالية في مساحة واحدة</h1>
         <p>
-          تضم هذه المساحة تعارف المشاركين ومقياس نمط قيادة الذكاء الاصطناعي.
-          أدخل بريدك أولاً حتى تُحفظ إجاباتك ونتائجك باسمك في لوحة المدرب.
+          تضم هذه المساحة اختبار اليوم الأول، وتمارين التطبيق، ومقياس نمط
+          قيادة الذكاء الاصطناعي. أدخل بريدك أولاً حتى تُحفظ إجاباتك ونتائجك
+          باسمك في لوحة المدرب.
         </p>
       </section>
 
@@ -49,6 +50,26 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">02 | تمرين</div>
+                <h2>تمرين صياغة أمر</h2>
+                <p>
+                  تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم
+                  فوري بالذكاء الاصطناعي وتوصيات لتحسين الصياغة.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="prompt-writing"
+                activityTitle="تمرين صياغة أمر"
+                compact
+              >
+                <a href="/exercises/prompt-writing" className="primary-link">
+                  فتح التمرين
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">03 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -68,7 +89,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">03 | مقياس</div>
+                <div className="section-kicker">04 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في

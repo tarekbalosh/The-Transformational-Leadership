@@ -51,7 +51,18 @@ export const audience = [
   "رواد الأعمال الذين يبحثون عن سرعة أكبر في اختبار الأفكار وبناء القرارات.",
 ];
 
-export const exercises: Exercise[] = [];
+export const exercises: Exercise[] = [
+  {
+    id: "prompt-writing",
+    title: "تمرين صياغة أمر",
+    status: "available",
+    duration: "10-15 دقيقة",
+    prompt:
+      "صغ أمراً متكاملاً من سبعة مكونات يطلب من الذكاء الاصطناعي إعداد مسودة خطة تحول رقمي لجهة حكومية.",
+    outcome:
+      "أمر عملي واضح قابل للاستخدام، مع تغذية راجعة فورية تساعدك على تحسين الصياغة.",
+  },
+];
 
 export const assessments: Assessment[] = [
   {
@@ -69,6 +80,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "اختبار اليوم الأول - المفاهيم الأساسية",
     category: "اختبار",
     code: "631041",
+  },
+  {
+    id: "prompt-writing",
+    title: "تمرين صياغة أمر",
+    category: "تمرين",
+    code: "845219",
   },
   {
     id: "introductions",

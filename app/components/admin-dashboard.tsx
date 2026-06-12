@@ -56,6 +56,42 @@ function formatAssessmentPayload(payload: string) {
   }
 }
 
+function formatExerciseAnswer(answer: string) {
+  try {
+    const parsed = JSON.parse(answer) as {
+      combinedPrompt?: string;
+      evaluation?: {
+        score?: number;
+        level?: string;
+        summary?: string;
+        missingComponents?: string[];
+        nextAction?: string;
+      };
+    };
+
+    if (!parsed.evaluation) {
+      return answer;
+    }
+
+    return [
+      `الدرجة: ${parsed.evaluation.score ?? "-"} / 100`,
+      parsed.evaluation.level ? `المستوى: ${parsed.evaluation.level}` : "",
+      parsed.evaluation.summary ? `الملخص: ${parsed.evaluation.summary}` : "",
+      parsed.evaluation.missingComponents?.length
+        ? `مكونات تحتاج تحسيناً: ${parsed.evaluation.missingComponents.join("، ")}`
+        : "",
+      parsed.evaluation.nextAction
+        ? `الخطوة التالية: ${parsed.evaluation.nextAction}`
+        : "",
+      parsed.combinedPrompt ? `الأمر الأصلي: ${parsed.combinedPrompt}` : "",
+    ]
+      .filter(Boolean)
+      .join(" | ");
+  } catch {
+    return answer;
+  }
+}
+
 export function AdminDashboard() {
   const [token, setToken] = useState("");
   const [data, setData] = useState<DashboardData | null>(null);
@@ -206,7 +242,7 @@ export function AdminDashboard() {
                   <tr key={`${answer.participant_email}-${answer.exercise_id}`}>
                     <td>{answer.participant_email}</td>
                     <td>{answer.exercise_id}</td>
-                    <td>{answer.answer}</td>
+                    <td>{formatExerciseAnswer(answer.answer)}</td>
                   </tr>
                 ))}
               </tbody>
