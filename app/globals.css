@@ -1242,6 +1242,14 @@ textarea:focus {
   align-items: center;
 }
 
+.exercise-receipt-message {
+  margin: 0;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .evaluation-card {
   display: grid;
   gap: 20px;
@@ -1336,6 +1344,120 @@ textarea:focus {
 .revised-prompt {
   display: grid;
   gap: 12px;
+}
+
+.exercise-pdf-root {
+  position: fixed;
+  top: 0;
+  left: -9999px;
+  width: 794px;
+  z-index: -1;
+}
+
+.exercise-pdf-sheet {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(212, 229, 28, 0.14), transparent 24%),
+    linear-gradient(145deg, #ffffff 0%, #f7f8fb 58%, #eef2ee 100%);
+  color: var(--ink);
+  padding: 34px;
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+}
+
+.exercise-pdf-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid rgba(38, 48, 46, 0.1);
+}
+
+.exercise-pdf-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.exercise-pdf-brand img {
+  width: 94px;
+  height: auto;
+}
+
+.exercise-pdf-kicker {
+  color: var(--teal);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.exercise-pdf-title {
+  margin-top: 4px;
+  color: var(--ink);
+  font-family: "Lyon Arabic Display", "Lyon Arabic", Arial, sans-serif;
+  font-size: 30px;
+  line-height: 1.3;
+}
+
+.exercise-pdf-subtitle {
+  margin: 8px 0 0;
+  color: var(--charcoal);
+  font-size: 16px;
+}
+
+.exercise-pdf-meta {
+  display: grid;
+  gap: 6px;
+  color: var(--stone);
+  font-size: 14px;
+  text-align: left;
+}
+
+.exercise-pdf-highlight {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 8px;
+  background: var(--teal-deep);
+  color: var(--white);
+}
+
+.exercise-pdf-highlight strong {
+  color: var(--lime-soft);
+  font-size: 18px;
+}
+
+.exercise-pdf-sections {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.exercise-pdf-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  break-inside: avoid;
+}
+
+.exercise-pdf-card h3 {
+  margin: 0 0 10px;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.exercise-pdf-card p {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.exercise-pdf-footer {
+  margin-top: 18px;
+  color: var(--stone);
+  font-size: 13px;
+  text-align: center;
 }
 
 .course-intro-band {

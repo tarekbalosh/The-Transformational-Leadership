@@ -99,6 +99,25 @@ function formatExerciseAnswer(answer: string) {
       return answer;
     }
 
+    if (parsed.exerciseId === "thinking-partner-crisis") {
+      return [
+        `الدرجة: ${parsed.evaluation.score ?? "-"} / 100`,
+        parsed.evaluation.level ? `المستوى: ${parsed.evaluation.level}` : "",
+        parsed.evaluation.summary ? `الملخص: ${parsed.evaluation.summary}` : "",
+        parsed.summary?.firstDecision
+          ? `أول قرار: ${parsed.summary.firstDecision}`
+          : "",
+        parsed.summary?.revisedDecision
+          ? `القرار المعدل: ${parsed.summary.revisedDecision}`
+          : "",
+        parsed.summary?.hallucination
+          ? `الهلوسة المرصودة: ${parsed.summary.hallucination}`
+          : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+    }
+
     return [
       `الدرجة: ${parsed.evaluation.score ?? "-"} / 100`,
       parsed.evaluation.level ? `المستوى: ${parsed.evaluation.level}` : "",

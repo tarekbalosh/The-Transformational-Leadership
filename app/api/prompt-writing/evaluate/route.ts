@@ -178,9 +178,7 @@ function normalizeEvaluation(value: unknown): Evaluation {
 
 async function evaluatePrompt(fields: PromptFields) {
   if (!runtime.OPENAI_API_KEY) {
-    throw new Error(
-      "تقييم الذكاء الاصطناعي غير مفعّل بعد. يرجى إضافة OPENAI_API_KEY في إعدادات بيئة الموقع ثم إعادة نشر النسخة."
-    );
+    throw new Error("OPENAI_API_KEY");
   }
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -235,7 +233,21 @@ export async function POST(request: Request) {
     const body = await request.json();
     const email = String(body.email ?? "").trim().toLowerCase();
     const fields = normalizeFields(body.fields);
-    const evaluation = await evaluatePrompt(fields);
+
+    let evaluation: Evaluation | null = null;
+    let message = "شكراً، لقد تم استلام إجابتك.";
+
+    try {
+      evaluation = await evaluatePrompt(fields);
+    } catch (error) {
+      const errorText =
+        error instanceof Error ? error.message : "evaluation-error";
+      if (errorText === "OPENAI_API_KEY") {
+        message += " تم حفظ الإجابة في الموقع، وسيظهر التقييم الذكي بعد تفعيل المفتاح.";
+      } else {
+        message += " تم حفظ الإجابة، لكن تعذر التقييم الذكي حالياً.";
+      }
+    }
 
     await saveExerciseAnswer(
       email,
@@ -253,12 +265,13 @@ export async function POST(request: Request) {
       )
     );
 
-    return NextResponse.json({ ok: true, evaluation });
+    return NextResponse.json({ ok: true, evaluation, message });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "تعذر تقييم الأمر حالياً.";
-    const status = message.includes("OPENAI_API_KEY") ? 503 : 400;
-
-    return NextResponse.json({ message }, { status });
+    return NextResponse.json(
+      {
+        message: error instanceof Error ? error.message : "تعذر حفظ الإجابة حالياً.",
+      },
+      { status: 400 }
+    );
   }
 }

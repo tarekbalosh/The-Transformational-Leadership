@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { downloadExercisePdf } from "@/app/lib/exercise-pdf";
 
 type Answers = {
   compositePrompt: string;
@@ -14,6 +15,16 @@ type Answers = {
   rejectedNote: string;
   addedIdea: string;
   hallucination: string;
+};
+
+type Evaluation = {
+  score: number;
+  level: string;
+  summary: string;
+  strengths: string[];
+  improvements: string[];
+  hallucinationReview: string;
+  nextAction: string;
 };
 
 const initialAnswers: Answers = {
@@ -50,8 +61,10 @@ const fields: Array<{
 
 export function ThinkingPartnerExercise() {
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
+  const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const completedCount = fields.filter((field) => answers[field.key].trim()).length;
 
@@ -62,6 +75,7 @@ export function ThinkingPartnerExercise() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("");
+    setEvaluation(null);
 
     const email = window.sessionStorage.getItem("participantEmail");
     if (!email) {
@@ -71,36 +85,68 @@ export function ThinkingPartnerExercise() {
 
     setIsSubmitting(true);
 
-    const payload = {
-      exerciseId: "thinking-partner-crisis",
-      title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
-      summary: {
-        verifiedFact: answers.verifiedFact,
-        firstDecision: answers.firstDecision,
-        revisedDecision: answers.revisedDecision,
-        hallucination: answers.hallucination,
-      },
-      answers,
-      savedAt: new Date().toISOString(),
-    };
-
-    const response = await fetch("/api/exercise-answers", {
+    const response = await fetch("/api/thinking-partner/evaluate", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        email,
-        exerciseId: "thinking-partner-crisis",
-        answer: JSON.stringify(payload, null, 2),
-      }),
+      body: JSON.stringify({ email, answers }),
     });
     const data = await response.json();
 
     setIsSubmitting(false);
-    setMessage(
-      response.ok
-        ? "تم حفظ إجابتك في الموقع ولوحة المدرب."
-        : data.message ?? "تعذر حفظ الإجابة حالياً."
-    );
+
+    if (!response.ok) {
+      setMessage(data.message ?? "تعذر حفظ الإجابة حالياً.");
+      return;
+    }
+
+    setEvaluation(data.evaluation ?? null);
+    setMessage(data.message ?? "شكراً، لقد تم استلام إجابتك.");
+  }
+
+  async function downloadPdf() {
+    const email = window.sessionStorage.getItem("participantEmail") || "غير متاح";
+    setIsDownloading(true);
+
+    try {
+      await downloadExercisePdf({
+        fileName: "thinking-partner-crisis-exercise.pdf",
+        title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
+        subtitle: "إجابة المشارك وتقييمها",
+        participantEmail: email,
+        statusLine: message || "شكراً، لقد تم استلام إجابتك.",
+        sections: [
+          {
+            title: "البرومبت المركب",
+            body: answers.compositePrompt,
+          },
+          {
+            title: "القرارات الثلاثة",
+            body: [answers.firstDecision, answers.secondDecision, answers.thirdDecision]
+              .filter(Boolean)
+              .join("\n"),
+          },
+          {
+            title: "تحليل ما قبل الوفاة والقرار المعدل",
+            body: `أسباب الفشل: ${answers.preMortem}\n\nالقرار المعدل: ${answers.revisedDecision}`,
+          },
+          {
+            title: "الفكرة المضافة والهلوسة المرصودة",
+            body: `الفكرة المضافة: ${answers.addedIdea}\n\nالهلوسة: ${answers.hallucination}`,
+          },
+          {
+            title: "ملخص التقييم",
+            body: evaluation
+              ? `الدرجة: ${evaluation.score}/100\nالمستوى: ${evaluation.level}\n${evaluation.summary}\n\nالمراجعة: ${evaluation.hallucinationReview}\n\nالخطوة التالية: ${evaluation.nextAction}`
+              : "تم حفظ الإجابة في الموقع.",
+          },
+        ],
+      });
+      setMessage("شكراً، لقد تم استلام إجابتك. وتم تنزيل ملف PDF.");
+    } catch {
+      setMessage("شكراً، لقد تم استلام إجابتك، لكن تعذر تنزيل ملف PDF حالياً.");
+    } finally {
+      setIsDownloading(false);
+    }
   }
 
   return (
@@ -188,11 +234,69 @@ export function ThinkingPartnerExercise() {
 
         <div className="prompt-actions">
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "جار الحفظ" : "حفظ التمرين"}
+            {isSubmitting ? "جار التسليم والتقييم" : "تسليم التمرين"}
           </button>
           {message ? <p className="form-message">{message}</p> : null}
         </div>
       </form>
+
+      {evaluation || message ? (
+        <section className="evaluation-card" aria-live="polite">
+          <div className="prompt-actions">
+            <p className="exercise-receipt-message">
+              {message || "شكراً، لقد تم استلام إجابتك."}
+            </p>
+          </div>
+
+          {evaluation ? (
+            <>
+              <div className="evaluation-head">
+                <div>
+                  <div className="section-kicker">نتيجة التقييم</div>
+                  <h2>{evaluation.level}</h2>
+                </div>
+                <strong>{Math.round(evaluation.score)}/100</strong>
+              </div>
+              <p>{evaluation.summary}</p>
+
+              <div className="feedback-grid">
+                <article>
+                  <h3>نقاط القوة</h3>
+                  <ul>
+                    {evaluation.strengths.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+                <article>
+                  <h3>فرص التحسين</h3>
+                  <ul>
+                    {evaluation.improvements.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+
+              <div className="missing-components">
+                <strong>مراجعة التحقق من الهلوسة</strong>
+                <span>{evaluation.hallucinationReview}</span>
+              </div>
+
+              <div className="next-action">
+                <strong>خطوتك التالية</strong>
+                <p>{evaluation.nextAction}</p>
+              </div>
+            </>
+          ) : null}
+
+          <div className="prompt-actions">
+            <button type="button" onClick={downloadPdf} disabled={isDownloading}>
+              {isDownloading ? "جار تجهيز PDF" : "تحميل الإجابة PDF"}
+            </button>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

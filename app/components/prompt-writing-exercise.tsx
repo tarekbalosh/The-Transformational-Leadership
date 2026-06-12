@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { downloadExercisePdf } from "@/app/lib/exercise-pdf";
 
 type PromptFieldKey =
   | "role"
@@ -98,6 +99,7 @@ export function PromptWritingExercise() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const completedCount = sections.filter((section) =>
     fields[section.key].trim()
@@ -134,7 +136,8 @@ export function PromptWritingExercise() {
       return;
     }
 
-    setEvaluation(data.evaluation);
+    setEvaluation(data.evaluation ?? null);
+    setMessage(data.message ?? "شكراً، لقد تم استلام إجابتك.");
   }
 
   async function copyResult() {
@@ -152,6 +155,50 @@ export function PromptWritingExercise() {
 
     await navigator.clipboard.writeText(text);
     setCopyMessage("تم نسخ النتيجة.");
+  }
+
+  async function downloadPdf() {
+    const email = window.sessionStorage.getItem("participantEmail") || "غير متاح";
+    setIsDownloading(true);
+
+    try {
+      await downloadExercisePdf({
+        fileName: "prompt-writing-exercise.pdf",
+        title: "تمرين صياغة أمر",
+        subtitle: "إجابة المشارك وتقييمها",
+        participantEmail: email,
+        statusLine: message || "شكراً، لقد تم استلام إجابتك.",
+        sections: [
+          {
+            title: "الأمر الذي كتبه المشارك",
+            body: combinedPrompt,
+          },
+          {
+            title: "ملخص التقييم",
+            body: evaluation
+              ? `الدرجة: ${evaluation.score}/100\nالمستوى: ${evaluation.level}\n${evaluation.summary}`
+              : "تم حفظ الإجابة في الموقع.",
+          },
+          {
+            title: "نقاط القوة",
+            body: evaluation ? evaluation.strengths.join("\n") : "لا يوجد تقييم معروض حالياً.",
+          },
+          {
+            title: "فرص التحسين",
+            body: evaluation ? evaluation.improvements.join("\n") : "لا يوجد تقييم معروض حالياً.",
+          },
+          {
+            title: "الصياغة المحسّنة المقترحة",
+            body: evaluation?.revisedPrompt || "تم حفظ الإجابة في الموقع دون صياغة محسنة معروضة حالياً.",
+          },
+        ],
+      });
+      setCopyMessage("تم تنزيل ملف PDF.");
+    } catch {
+      setCopyMessage("تعذر تنزيل ملف PDF حالياً.");
+    } finally {
+      setIsDownloading(false);
+    }
   }
 
   return (
@@ -222,73 +269,88 @@ export function PromptWritingExercise() {
 
         <div className="prompt-actions">
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "جار التقييم" : "قيّم الأمر بالذكاء الاصطناعي"}
+            {isSubmitting ? "جار التسليم والتقييم" : "تسليم التمرين"}
           </button>
           {message ? <p className="form-message">{message}</p> : null}
         </div>
       </form>
 
-      {evaluation ? (
+      {evaluation || message ? (
         <section className="evaluation-card" aria-live="polite">
-          <div className="evaluation-head">
-            <div>
-              <div className="section-kicker">نتيجة التقييم</div>
-              <h2>{evaluation.level || scoreLabel(evaluation.score)}</h2>
-            </div>
-            <strong>{Math.round(evaluation.score)}/100</strong>
-          </div>
-          <p>{evaluation.summary}</p>
-
-          <div className="component-score-grid">
-            {sections.map((section) => (
-              <article key={section.key}>
-                <span>{labels[section.key]}</span>
-                <strong>
-                  {Math.round(evaluation.componentScores[section.key] ?? 0)}%
-                </strong>
-              </article>
-            ))}
+          <div className="prompt-actions">
+            <p className="exercise-receipt-message">
+              {message || "شكراً، لقد تم استلام إجابتك."}
+            </p>
           </div>
 
-          <div className="feedback-grid">
-            <article>
-              <h3>نقاط القوة</h3>
-              <ul>
-                {evaluation.strengths.map((item) => (
-                  <li key={item}>{item}</li>
+          {evaluation ? (
+            <>
+              <div className="evaluation-head">
+                <div>
+                  <div className="section-kicker">نتيجة التقييم</div>
+                  <h2>{evaluation.level || scoreLabel(evaluation.score)}</h2>
+                </div>
+                <strong>{Math.round(evaluation.score)}/100</strong>
+              </div>
+              <p>{evaluation.summary}</p>
+
+              <div className="component-score-grid">
+                {sections.map((section) => (
+                  <article key={section.key}>
+                    <span>{labels[section.key]}</span>
+                    <strong>
+                      {Math.round(evaluation.componentScores[section.key] ?? 0)}%
+                    </strong>
+                  </article>
                 ))}
-              </ul>
-            </article>
-            <article>
-              <h3>فرص التحسين</h3>
-              <ul>
-                {evaluation.improvements.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          </div>
+              </div>
 
-          {evaluation.missingComponents.length ? (
-            <div className="missing-components">
-              <strong>مكونات تحتاج وضوحاً أكبر:</strong>
-              <span>{evaluation.missingComponents.join("، ")}</span>
-            </div>
+              <div className="feedback-grid">
+                <article>
+                  <h3>نقاط القوة</h3>
+                  <ul>
+                    {evaluation.strengths.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+                <article>
+                  <h3>فرص التحسين</h3>
+                  <ul>
+                    {evaluation.improvements.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+
+              {evaluation.missingComponents.length ? (
+                <div className="missing-components">
+                  <strong>مكونات تحتاج وضوحاً أكبر:</strong>
+                  <span>{evaluation.missingComponents.join("، ")}</span>
+                </div>
+              ) : null}
+
+              <section className="revised-prompt">
+                <h3>صياغة محسّنة مقترحة</h3>
+                <pre>{evaluation.revisedPrompt}</pre>
+              </section>
+
+              <div className="next-action">
+                <strong>خطوتك التالية</strong>
+                <p>{evaluation.nextAction}</p>
+              </div>
+            </>
           ) : null}
 
-          <section className="revised-prompt">
-            <h3>صياغة محسّنة مقترحة</h3>
-            <pre>{evaluation.revisedPrompt}</pre>
-          </section>
-
-          <div className="next-action">
-            <strong>خطوتك التالية</strong>
-            <p>{evaluation.nextAction}</p>
-          </div>
-
           <div className="prompt-actions">
-            <button type="button" onClick={copyResult}>
-              نسخ النتيجة
+            {evaluation ? (
+              <button type="button" onClick={copyResult}>
+                نسخ النتيجة
+              </button>
+            ) : null}
+            <button type="button" onClick={downloadPdf} disabled={isDownloading}>
+              {isDownloading ? "جار تجهيز PDF" : "تحميل الإجابة PDF"}
             </button>
             {copyMessage ? <p className="form-message">{copyMessage}</p> : null}
           </div>
