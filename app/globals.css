@@ -1349,9 +1349,12 @@ textarea:focus {
 .exercise-pdf-root {
   position: fixed;
   top: 0;
-  left: -9999px;
+  right: 0;
   width: 794px;
-  z-index: -1;
+  max-height: none;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2147483647;
 }
 
 .exercise-pdf-sheet {

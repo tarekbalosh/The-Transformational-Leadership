@@ -56,6 +56,32 @@ async function ensureHtml2Pdf() {
   await scriptPromise;
 }
 
+function delay(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+async function waitForPdfAssets(root: HTMLElement) {
+  await new Promise((resolve) => window.requestAnimationFrame(resolve));
+
+  const images = Array.from(root.querySelectorAll("img"));
+  await Promise.all(
+    images.map((image) =>
+      image.complete
+        ? Promise.resolve()
+        : new Promise((resolve) => {
+            image.onload = resolve;
+            image.onerror = resolve;
+          })
+    )
+  );
+
+  if (document.fonts?.ready) {
+    await document.fonts.ready;
+  }
+
+  await delay(180);
+}
+
 export async function downloadExercisePdf(options: ExercisePdfOptions) {
   await ensureHtml2Pdf();
 
@@ -114,6 +140,8 @@ export async function downloadExercisePdf(options: ExercisePdfOptions) {
   document.body.appendChild(exportRoot);
 
   try {
+    await waitForPdfAssets(exportRoot);
+
     await window
       .html2pdf()
       .set({
@@ -124,6 +152,10 @@ export async function downloadExercisePdf(options: ExercisePdfOptions) {
           scale: 2,
           useCORS: true,
           backgroundColor: "#ffffff",
+          width: 794,
+          windowWidth: 794,
+          scrollX: 0,
+          scrollY: 0,
         },
         jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["css", "legacy"] },
