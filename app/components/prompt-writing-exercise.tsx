@@ -38,57 +38,34 @@ const initialFields: PromptFields = {
 const sections: Array<{
   key: PromptFieldKey;
   title: string;
-  helper: string;
-  placeholder: string;
 }> = [
   {
     key: "role",
-    title: "الدور",
-    helper: "من هو الخبير الذي تريد من الذكاء الاصطناعي أن يتقمصه؟",
-    placeholder:
-      "تصرّف كخبير استراتيجي في التحول الرقمي الحكومي، لديك خبرة في إدارة التغيير وتصميم الخدمات.",
+    title: "الدور (Role)",
   },
   {
     key: "context",
-    title: "السياق",
-    helper: "صف الجهة، الأهداف، والتحديات المؤسسية بوضوح.",
-    placeholder:
-      "أعمل مديراً في هيئة حكومية خدمية تضم 1,200 موظف، ومطلوب أتمتة 60% من الخدمات خلال 18 شهراً...",
+    title: "السياق (Context)",
   },
   {
     key: "task",
-    title: "المهمة",
-    helper: "حدد المطلوب من الذكاء الاصطناعي بصيغة تنفيذية مباشرة.",
-    placeholder:
-      "أريد إعداد مسودة خطة تحول رقمي قابلة للتنفيذ لعرضها على اللجنة الحكومية المختصة.",
+    title: "المهمة (Task)",
   },
   {
     key: "format",
-    title: "تنسيق المخرجات",
-    helper: "اطلب شكل الإجابة الذي يسهل عرضه أو تنفيذه.",
-    placeholder:
-      "قدّم الإجابة في جدول يتضمن المبادرات، الهدف، الخطوات، المدة، التكلفة التقديرية، مؤشرات الأداء، والمخاطر.",
+    title: "تنسيق المخرجات (Format)",
   },
   {
     key: "constraints",
-    title: "القيود",
-    helper: "أدخل حدود الوقت والميزانية والواقع التشغيلي.",
-    placeholder:
-      "راعِ الميزانية المحدودة، الأنظمة التقنية القديمة، مقاومة الموظفين، وضعف المهارات الرقمية لدى 40% من القوى العاملة.",
+    title: "القيود (Constraints)",
   },
   {
     key: "example",
-    title: "مثال توضيحي",
-    helper: "قدّم مثالاً مصغراً للنمط الذي تريد أن تتكرر به الإجابة.",
-    placeholder:
-      "عند عرض كل مبادرة استخدم: المبادرة، الهدف، الخطوات، المدة، التكلفة، KPI.",
+    title: "مثال توضيحي لطريقة العرض (Example)",
   },
   {
     key: "tone",
-    title: "النبرة والأسلوب",
-    helper: "حدد طبيعة اللغة والجمهور المستهدف.",
-    placeholder:
-      "اكتب بأسلوب رسمي تنفيذي موجّه إلى لجنة حكومية، وتجنب المصطلحات التقنية المعقدة دون شرح.",
+    title: "النبرة والأسلوب (Tone)",
   },
 ];
 
@@ -179,49 +156,55 @@ export function PromptWritingExercise() {
 
   return (
     <div className="prompt-exercise-layout">
-      <aside className="prompt-scenario-card" aria-label="سيناريو التمرين">
-        <div className="section-kicker">السيناريو</div>
-        <h2>هيئة حكومية خدمية تضم 1,200 موظف</h2>
+      <section className="prompt-scenario-card" aria-label="سيناريو التمرين">
+        <div className="section-kicker">تمرين صياغة أمر</div>
+        <h2>السيناريو</h2>
+        <p>أنت مدير في هيئة حكومية خدمية تضم 1,200 موظف.</p>
         <p>
-          الحكومة أطلقت مبادرة وطنية للتحول الرقمي وتلزم الجهات بأتمتة 60% من
-          الخدمات خلال 18 شهراً، وتقليل زمن إنجاز المعاملات بنسبة 40%، ورفع
-          رضا المستفيدين إلى 90%.
+          الحكومة أطلقت مبادرة وطنية للتحول الرقمي، وتُلزم جميع الجهات بـ:
         </p>
+        <ul>
+          <li>أتمتة 60% من الخدمات خلال 18 شهرًا.</li>
+          <li>تقليل زمن إنجاز المعاملات بنسبة 40%.</li>
+          <li>رفع رضا المستفيدين إلى 90%.</li>
+        </ul>
+        <p>لكن تواجهك التحديات التالية:</p>
         <ul>
           <li>مقاومة داخلية من الموظفين.</li>
           <li>ضعف المهارات الرقمية لدى 40% من القوى العاملة.</li>
           <li>أنظمة تقنية قديمة.</li>
           <li>ميزانية محدودة للتحول.</li>
         </ul>
+        <p>تم تكليفك بإعداد خطة تحول رقمي متكاملة وقابلة للتنفيذ.</p>
+        <p>
+          المطلوب: قم بإعداد أمر يتضمن المكونات السبعة، تطلب فيه من الذكاء
+          الاصطناعي إعداد مسودة خطة تحول رقمي لعرضها على اللجنة الحكومية
+          المختصة.
+        </p>
         <div className="prompt-progress">
           <span>
             اكتمال المكونات: {completedCount} من {sections.length}
           </span>
           <progress value={completedCount} max={sections.length} />
         </div>
-      </aside>
+      </section>
 
       <form className="prompt-builder" onSubmit={submit}>
         <div className="section-heading">
           <div className="section-kicker">المطلوب</div>
           <h2>اكتب الأمر من سبعة مكونات</h2>
-          <p>
-            املأ الحقول بصياغتك الخاصة. كلما كان السياق والقيود والمخرجات أكثر
-            وضوحاً، أصبح تقييم الذكاء الاصطناعي أكثر فائدة.
-          </p>
         </div>
 
         <div className="prompt-field-grid">
           {sections.map((section) => (
             <label className="prompt-field" key={section.key}>
               <span>{section.title}</span>
-              <small>{section.helper}</small>
               <textarea
                 value={fields[section.key]}
                 onChange={(event) =>
                   updateField(section.key, event.target.value)
                 }
-                placeholder={section.placeholder}
+                aria-label={section.title}
                 rows={5}
                 required
               />
