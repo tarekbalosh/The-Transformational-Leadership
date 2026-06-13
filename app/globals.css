@@ -1242,6 +1242,13 @@ textarea:focus {
   margin: 0 auto;
 }
 
+.token-count-layout {
+  display: grid;
+  gap: 18px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
 .prompt-anatomy-layout {
   display: grid;
   gap: 18px;
@@ -1251,6 +1258,8 @@ textarea:focus {
 
 .comparison-intro-card,
 .comparison-prompt-card,
+.token-sentence-card,
+.token-reflection-card,
 .anatomy-table-card,
 .ideal-answer-card {
   border: 1px solid var(--line);
@@ -1280,7 +1289,23 @@ textarea:focus {
   gap: 16px;
 }
 
+.token-count-form {
+  display: grid;
+  gap: 18px;
+}
+
+.token-sentence-grid {
+  display: grid;
+  gap: 16px;
+}
+
 .comparison-prompt-card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.token-sentence-card {
   display: grid;
   gap: 16px;
   padding: clamp(18px, 3vw, 26px);
@@ -1329,6 +1354,33 @@ textarea:focus {
   color: var(--teal-deep);
   font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
   font-weight: 700;
+}
+
+.token-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.token-input-grid label,
+.token-reflection-card {
+  display: grid;
+  gap: 8px;
+}
+
+.token-input-grid span,
+.token-reflection-card label {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.token-reflection-card {
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.token-reflection-card textarea {
+  min-height: 120px;
 }
 
 .anatomy-table-card {
@@ -2104,6 +2156,7 @@ td {
   .hub-card-grid,
   .intro-card-grid,
   .prompt-field-grid,
+  .token-input-grid,
   .feedback-grid,
   .component-score-grid,
   .thinking-meta-grid {

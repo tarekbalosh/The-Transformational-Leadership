@@ -96,6 +96,16 @@ export const exercises: Exercise[] = [
       "فهم عملي لأثر السياق، الدور، المشكلة، والمخرجات المطلوبة على جودة إجابة الذكاء الاصطناعي.",
   },
   {
+    id: "token-count",
+    title: "تمرين حساب الرموز Tokens",
+    status: "available",
+    duration: "5 دقائق",
+    prompt:
+      "استخدم أداة OpenAI Tokenizer لمقارنة عدد الرموز والمحارف بين جملة عربية واضحة وجملة غير مألوفة.",
+    outcome:
+      "فهم عملي لفكرة الرموز Tokens ولماذا لا يتطابق عددها دائماً مع عدد الكلمات أو المحارف.",
+  },
+  {
     id: "thinking-partner-crisis",
     title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
     status: "available",
@@ -141,6 +151,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين مقارنة أمر بصيغتين",
     category: "تمرين",
     code: "528614",
+  },
+  {
+    id: "token-count",
+    title: "تمرين حساب الرموز Tokens",
+    category: "تمرين",
+    code: "274915",
   },
   {
     id: "thinking-partner-crisis",

@@ -61,7 +61,15 @@ function formatExerciseAnswer(answer: string) {
     const parsed = JSON.parse(answer) as {
       exerciseId?: string;
       combinedPrompt?: string;
-      answers?: Record<string, string>;
+      answers?:
+        | Record<string, string>
+        | Array<{
+            label?: string;
+            sentence?: string;
+            tokens?: string;
+            characters?: string;
+          }>;
+      reflection?: string;
       summary?: {
         verifiedFact?: string;
         firstDecision?: string;
@@ -79,12 +87,19 @@ function formatExerciseAnswer(answer: string) {
 
     if (!parsed.evaluation) {
       if (parsed.exerciseId === "prompt-anatomy") {
-        return parsed.answers
+        const anatomyAnswers =
+          parsed.answers && !Array.isArray(parsed.answers)
+            ? parsed.answers
+            : undefined;
+
+        return anatomyAnswers
           ? [
-              parsed.answers.tone ? `النبرة: ${parsed.answers.tone}` : "",
-              parsed.answers.task ? `المهمة: ${parsed.answers.task}` : "",
-              parsed.answers.context ? `السياق: ${parsed.answers.context}` : "",
-              parsed.answers.role ? `الدور: ${parsed.answers.role}` : "",
+              anatomyAnswers.tone ? `النبرة: ${anatomyAnswers.tone}` : "",
+              anatomyAnswers.task ? `المهمة: ${anatomyAnswers.task}` : "",
+              anatomyAnswers.context
+                ? `السياق: ${anatomyAnswers.context}`
+                : "",
+              anatomyAnswers.role ? `الدور: ${anatomyAnswers.role}` : "",
             ]
               .filter(Boolean)
               .join(" | ")
@@ -105,6 +120,27 @@ function formatExerciseAnswer(answer: string) {
           parsed.summary?.hallucination
             ? `الهلوسة المرصودة: ${parsed.summary.hallucination}`
             : "",
+        ]
+          .filter(Boolean)
+          .join(" | ");
+      }
+
+      if (parsed.exerciseId === "token-count") {
+        const rows = Array.isArray(parsed.answers)
+          ? parsed.answers.map((item) =>
+              [
+                item.label ?? "جملة",
+                item.tokens ? `الرموز: ${item.tokens}` : "",
+                item.characters ? `المحارف: ${item.characters}` : "",
+              ]
+                .filter(Boolean)
+                .join(" - ")
+            )
+          : [];
+
+        return [
+          ...rows,
+          parsed.reflection ? `الملاحظة: ${parsed.reflection}` : "",
         ]
           .filter(Boolean)
           .join(" | ");
@@ -133,12 +169,17 @@ function formatExerciseAnswer(answer: string) {
     }
 
     if (parsed.exerciseId === "prompt-anatomy") {
+      const anatomyAnswers =
+        parsed.answers && !Array.isArray(parsed.answers)
+          ? parsed.answers
+          : undefined;
+
       return [
         `الدرجة: ${parsed.evaluation.score ?? "-"} / 100`,
         parsed.evaluation.level ? `المستوى: ${parsed.evaluation.level}` : "",
         parsed.evaluation.summary ? `الملخص: ${parsed.evaluation.summary}` : "",
-        parsed.answers?.tone ? `النبرة: ${parsed.answers.tone}` : "",
-        parsed.answers?.task ? `المهمة: ${parsed.answers.task}` : "",
+        anatomyAnswers?.tone ? `النبرة: ${anatomyAnswers.tone}` : "",
+        anatomyAnswers?.task ? `المهمة: ${anatomyAnswers.task}` : "",
       ]
         .filter(Boolean)
         .join(" | ");
