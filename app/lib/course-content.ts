@@ -199,6 +199,20 @@ export const toolGroups: ToolGroup[] = [
       },
     ],
   },
+  {
+    title: "مساحات الابتكار والتعاون",
+    description:
+      "منصات تساعد الفرق على التفكير البصري، تنظيم الأفكار، وبناء خرائط عمل مشتركة أثناء الورش والاجتماعات.",
+    items: [
+      {
+        title: "Miro Innovation Workspace",
+        description:
+          "منصة عمل بصري تعاونية مناسبة للعصف الذهني، رسم خرائط الأفكار، تخطيط المبادرات، وتوثيق مخرجات الورش.",
+        href: "https://miro.com",
+        label: "فتح المنصة",
+      },
+    ],
+  },
 ];
 
 export const routeLinks = [
