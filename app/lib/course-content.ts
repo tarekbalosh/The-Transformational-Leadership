@@ -86,6 +86,16 @@ export const exercises: Exercise[] = [
       "أمر عملي واضح قابل للاستخدام، مع تغذية راجعة فورية تساعدك على تحسين الصياغة.",
   },
   {
+    id: "survey-builder",
+    title: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
+    status: "available",
+    duration: "10 دقائق",
+    prompt:
+      "اكتب برومبتاً يساعد الذكاء الاصطناعي على بناء استبيان عملاء قبل اتخاذ قرار الاستثمار في قناة بيع جديدة.",
+    outcome:
+      "برومبت عملي لبناء استبيان عملاء قابل للاستخدام، مع تقييم ذكي وصياغة محسنة مقترحة.",
+  },
+  {
     id: "prompt-comparison",
     title: "تمرين مقارنة أمر بصيغتين",
     status: "available",
@@ -145,6 +155,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين صياغة أمر",
     category: "تمرين",
     code: "845219",
+  },
+  {
+    id: "survey-builder",
+    title: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
+    category: "تمرين",
+    code: "359812",
   },
   {
     id: "prompt-comparison",

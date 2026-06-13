@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useState, useSyncExternalStore } from "react";
 
 type Props = {
   children: ReactNode;
@@ -13,16 +13,16 @@ export function EmailGate({
   title = "أدخل بريدك للمتابعة",
   description = "نستخدم البريد فقط لربط إجاباتك ونتائجك بك، دون كلمة مرور أو حساب جديد.",
 }: Props) {
-  const [email, setEmail] = useState(() =>
-    typeof window === "undefined"
-      ? ""
-      : window.sessionStorage.getItem("participantEmail") ?? ""
+  const storedEmail = useSyncExternalStore(
+    (onStoreChange) => {
+      window.addEventListener("participant-email-change", onStoreChange);
+      return () =>
+        window.removeEventListener("participant-email-change", onStoreChange);
+    },
+    () => window.sessionStorage.getItem("participantEmail") ?? "",
+    () => ""
   );
-  const [isAllowed, setIsAllowed] = useState(() =>
-    typeof window === "undefined"
-      ? false
-      : Boolean(window.sessionStorage.getItem("participantEmail"))
-  );
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -46,11 +46,11 @@ export function EmailGate({
     }
 
     window.sessionStorage.setItem("participantEmail", data.participant.email);
+    window.dispatchEvent(new Event("participant-email-change"));
     setEmail(data.participant.email);
-    setIsAllowed(true);
   }
 
-  if (isAllowed) {
+  if (storedEmail) {
     return <>{children}</>;
   }
 

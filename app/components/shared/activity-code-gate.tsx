@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useState, useSyncExternalStore } from "react";
 
 type Props = {
   activityId: string;
@@ -16,12 +16,16 @@ export function ActivityCodeGate({
   compact = false,
 }: Props) {
   const storageKey = `activityCode:${activityId}`;
-  const [code, setCode] = useState("");
-  const [isAllowed, setIsAllowed] = useState(() =>
-    typeof window === "undefined"
-      ? false
-      : window.sessionStorage.getItem(storageKey) === "ok"
+  const accessState = useSyncExternalStore(
+    (onStoreChange) => {
+      window.addEventListener("activity-code-change", onStoreChange);
+      return () =>
+        window.removeEventListener("activity-code-change", onStoreChange);
+    },
+    () => window.sessionStorage.getItem(storageKey) ?? "",
+    () => ""
   );
+  const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -45,10 +49,10 @@ export function ActivityCodeGate({
     }
 
     window.sessionStorage.setItem(storageKey, "ok");
-    setIsAllowed(true);
+    window.dispatchEvent(new Event("activity-code-change"));
   }
 
-  if (isAllowed) {
+  if (accessState === "ok") {
     return <>{children}</>;
   }
 
