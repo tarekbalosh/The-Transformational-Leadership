@@ -1251,7 +1251,8 @@ textarea:focus {
 
 .comparison-intro-card,
 .comparison-prompt-card,
-.anatomy-table-card {
+.anatomy-table-card,
+.ideal-answer-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
@@ -1336,7 +1337,8 @@ textarea:focus {
   padding: clamp(20px, 4vw, 34px);
 }
 
-.anatomy-table-card h3 {
+.anatomy-table-card h3,
+.ideal-answer-card h3 {
   margin-top: 6px;
   font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
   font-size: 26px;
@@ -1369,6 +1371,44 @@ textarea:focus {
 .anatomy-field textarea {
   min-height: 92px;
   background: var(--white);
+}
+
+.ideal-answer-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.ideal-answer-gate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.ideal-answer-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.ideal-answer-grid article {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.ideal-answer-grid strong {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.ideal-answer-grid p {
+  color: var(--charcoal);
+  font-size: 17px;
 }
 
 .prompt-actions {
@@ -2055,6 +2095,7 @@ td {
 
   .entry-row,
   .anatomy-field,
+  .ideal-answer-gate,
   .feature-grid,
   .choice-grid,
   .metrics-row,

@@ -62,6 +62,22 @@ const emptyAnswers = fields.reduce((accumulator, field) => {
   return accumulator;
 }, {} as AnatomyAnswers);
 
+const idealAnswers: AnatomyAnswers = {
+  tone:
+    "اكتب بلغة احترافية مبنية على البيانات وواقعية. تجنّب الحلول العامة أو المكررة. نريد أفكارًا مبتكرة وقابلة للتطبيق عمليًا، ومراعية للسياق السعودي وثقافة الشركة.",
+  task: "طوّر استراتيجية شاملة لخفض معدل الاستقالة إلى 15% خلال 12 شهرًا.",
+  context:
+    'شركتنا "تك إنوفيت" (Tech Innovate) هي شركة تطوير برمجيات B2B مقرها الرياض. نواجه معدل استقالة سنوي مرتفع يبلغ 23% (مقابل متوسط 18% في القطاع). أغلب من يتركون الشركة هم من المطورين والمهندسين ذوي الخبرة 5–10 سنوات. أظهر استطلاع Exit Interview أن أهم الأسباب: نقص فرص التطوير المهني، الرواتب أقل من متوسط السوق بـ 15%، وغياب برامج واضحة للتقدير والتحفيز.',
+  role:
+    "أنت خبير استراتيجي في إدارة المواهب والموارد البشرية، متخصص في شركات التقنية ذات حجم 200–500 موظف.",
+  example:
+    'عند كتابة تفاصيل أحد المحاور يمكن أن يكون الأسلوب بالشكل التالي: "المحور 1: برنامج التطوير المهني المتسارع — الهدف: زيادة رضا الموظفين عن فرص التطوير من 42% إلى 75%. الخطوات: إطلاق منصة تعليمية داخلية تركز على تطوير المهارات التقنية والقيادية للموظفين..."',
+  constraints:
+    "علماً أن الميزانية السنوية المتاحة لتنفيذ الاستراتيجية: 800,000 ريال، ولا يمكن زيادة الرواتب بأكثر من 10% هذا العام، أيضا يجب تنفيذ المحور الأول خلال 3 أشهر كحد أقصى لتحقيق إنجازات سريعة (Quick Wins)، مع مراعاة الالتزام بأنظمة وقوانين العمل السعودية.",
+  format:
+    "أريد منك: ملخص تنفيذي (حوالي 100 كلمة). تحليل للأسباب الجذرية للمشكلة (في 3–5 نقاط محددة). استراتيجية تتألف من 3 محاور رئيسية؛ كل محور يشمل: الهدف المنشود لهذا المحور. خطوات التنفيذ (3–5 خطوات عملية). مؤشرات قياس الأداء (KPIs) لمتابعة التقدم. الميزانية التقديرية. الإطار الزمني للتنفيذ. قسم أخير: المخاطر المتوقعة والحلول البديلة لكل محور إن وجدت.",
+};
+
 function CopyIcon() {
   return (
     <svg
@@ -90,6 +106,10 @@ export function PromptAnatomyExercise() {
   const [answers, setAnswers] = useState<AnatomyAnswers>(emptyAnswers);
   const [message, setMessage] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
+  const [idealCode, setIdealCode] = useState("");
+  const [idealMessage, setIdealMessage] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [showIdealAnswer, setShowIdealAnswer] = useState(false);
   const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -118,6 +138,8 @@ export function PromptAnatomyExercise() {
     const email = window.sessionStorage.getItem("participantEmail") || "";
     setIsSubmitting(true);
     setMessage("");
+    setIdealMessage("");
+    setShowIdealAnswer(false);
     setEvaluation(null);
 
     const response = await fetch("/api/prompt-anatomy/evaluate", {
@@ -136,6 +158,20 @@ export function PromptAnatomyExercise() {
 
     setEvaluation(data.evaluation ?? null);
     setMessage(data.message ?? "شكراً، لقد تم استلام إجابتك.");
+    setHasSubmitted(true);
+  }
+
+  function unlockIdealAnswer(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIdealMessage("");
+
+    if (idealCode.trim() !== "111") {
+      setIdealMessage("الكود غير صحيح.");
+      return;
+    }
+
+    setShowIdealAnswer(true);
+    setIdealMessage("تم عرض الإجابة المثالية.");
   }
 
   async function downloadPdf() {
@@ -249,6 +285,41 @@ export function PromptAnatomyExercise() {
           {message ? <p className="form-message">{message}</p> : null}
         </div>
       </form>
+
+      {hasSubmitted ? (
+        <section className="ideal-answer-card" aria-live="polite">
+          <div>
+            <div className="section-kicker">الإجابة المثالية</div>
+            <h3>أدخل كود المدرب لعرض الحل</h3>
+          </div>
+
+          {!showIdealAnswer ? (
+            <form className="ideal-answer-gate" onSubmit={unlockIdealAnswer}>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={idealCode}
+                onChange={(event) => setIdealCode(event.target.value)}
+                placeholder="أدخل الكود"
+                aria-label="كود عرض الإجابة المثالية"
+                required
+              />
+              <button type="submit">عرض الإجابة</button>
+            </form>
+          ) : (
+            <div className="ideal-answer-grid">
+              {fields.map((field) => (
+                <article key={field.key}>
+                  <strong>{field.label}</strong>
+                  <p>{idealAnswers[field.key]}</p>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {idealMessage ? <p className="form-message">{idealMessage}</p> : null}
+        </section>
+      ) : null}
 
       {evaluation ? (
         <section className="evaluation-card">
