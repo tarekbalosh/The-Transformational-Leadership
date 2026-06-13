@@ -50,6 +50,26 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">02 | تمرين</div>
+                <h2>تمرين تشريح الأمر الهندسي</h2>
+                <p>
+                  اقرأ برومبتًا كاملًا ثم صنّف أجزاءه داخل مكونات الأمر السبعة:
+                  الدور، السياق، المهمة، القيود، النبرة، المثال، والتنسيق.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="prompt-anatomy"
+                activityTitle="تمرين تشريح الأمر الهندسي"
+                compact
+              >
+                <a href="/exercises/prompt-anatomy" className="primary-link">
+                  فتح التمرين
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">03 | تمرين</div>
                 <h2>تمرين صياغة أمر</h2>
                 <p>
                   تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم
@@ -69,7 +89,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">03 | تمرين</div>
+                <div className="section-kicker">04 | تمرين</div>
                 <h2>تمرين مقارنة أمر بصيغتين</h2>
                 <p>
                   قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته
@@ -89,7 +109,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">04 | تمرين</div>
+                <div className="section-kicker">05 | تمرين</div>
                 <h2>تمرين شريك التفكير - أزمة منصة مهيمنة</h2>
                 <p>
                   تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة
@@ -112,7 +132,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">05 | تمرين</div>
+                <div className="section-kicker">06 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -132,7 +152,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">06 | مقياس</div>
+                <div className="section-kicker">07 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في

@@ -1242,8 +1242,16 @@ textarea:focus {
   margin: 0 auto;
 }
 
+.prompt-anatomy-layout {
+  display: grid;
+  gap: 18px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
 .comparison-intro-card,
-.comparison-prompt-card {
+.comparison-prompt-card,
+.anatomy-table-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
@@ -1320,6 +1328,47 @@ textarea:focus {
   color: var(--teal-deep);
   font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
   font-weight: 700;
+}
+
+.anatomy-table-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.anatomy-table-card h3 {
+  margin-top: 6px;
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.anatomy-field-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.anatomy-field {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.anatomy-field span {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.anatomy-field textarea {
+  min-height: 92px;
+  background: var(--white);
 }
 
 .prompt-actions {
@@ -2005,6 +2054,7 @@ td {
   }
 
   .entry-row,
+  .anatomy-field,
   .feature-grid,
   .choice-grid,
   .metrics-row,

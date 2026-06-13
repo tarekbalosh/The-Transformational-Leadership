@@ -66,6 +66,16 @@ export const audience = [
 
 export const exercises: Exercise[] = [
   {
+    id: "prompt-anatomy",
+    title: "تمرين تشريح الأمر الهندسي",
+    status: "available",
+    duration: "10 دقائق",
+    prompt:
+      "اقرأ برومبتًا كاملًا ثم صنّف أجزاءه داخل جدول مكونات البرومبت: النبرة، المهمة، السياق، الدور، المثال، القيود، والتنسيق.",
+    outcome:
+      "فهم عملي لبنية الأمر الجيد وقدرة أفضل على تفكيك الأوامر قبل صياغتها.",
+  },
+  {
     id: "prompt-writing",
     title: "تمرين صياغة أمر",
     status: "available",
@@ -113,6 +123,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "اختبار اليوم الأول - المفاهيم الأساسية",
     category: "اختبار",
     code: "631041",
+  },
+  {
+    id: "prompt-anatomy",
+    title: "تمرين تشريح الأمر الهندسي",
+    category: "تمرين",
+    code: "916472",
   },
   {
     id: "prompt-writing",

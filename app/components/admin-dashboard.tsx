@@ -61,6 +61,7 @@ function formatExerciseAnswer(answer: string) {
     const parsed = JSON.parse(answer) as {
       exerciseId?: string;
       combinedPrompt?: string;
+      answers?: Record<string, string>;
       summary?: {
         verifiedFact?: string;
         firstDecision?: string;
@@ -77,6 +78,19 @@ function formatExerciseAnswer(answer: string) {
     };
 
     if (!parsed.evaluation) {
+      if (parsed.exerciseId === "prompt-anatomy") {
+        return parsed.answers
+          ? [
+              parsed.answers.tone ? `النبرة: ${parsed.answers.tone}` : "",
+              parsed.answers.task ? `المهمة: ${parsed.answers.task}` : "",
+              parsed.answers.context ? `السياق: ${parsed.answers.context}` : "",
+              parsed.answers.role ? `الدور: ${parsed.answers.role}` : "",
+            ]
+              .filter(Boolean)
+              .join(" | ")
+          : answer;
+      }
+
       if (parsed.exerciseId === "thinking-partner-crisis") {
         return [
           parsed.summary?.verifiedFact
@@ -113,6 +127,18 @@ function formatExerciseAnswer(answer: string) {
         parsed.summary?.hallucination
           ? `الهلوسة المرصودة: ${parsed.summary.hallucination}`
           : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+    }
+
+    if (parsed.exerciseId === "prompt-anatomy") {
+      return [
+        `الدرجة: ${parsed.evaluation.score ?? "-"} / 100`,
+        parsed.evaluation.level ? `المستوى: ${parsed.evaluation.level}` : "",
+        parsed.evaluation.summary ? `الملخص: ${parsed.evaluation.summary}` : "",
+        parsed.answers?.tone ? `النبرة: ${parsed.answers.tone}` : "",
+        parsed.answers?.task ? `المهمة: ${parsed.answers.task}` : "",
       ]
         .filter(Boolean)
         .join(" | ");
