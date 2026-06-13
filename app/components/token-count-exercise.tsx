@@ -17,6 +17,18 @@ const sentences = [
     note: "جملة عربية غير مألوفة تتضمن ألفاظاً مركبة وغريبة.",
     text: "قزحبل مرجفان يطقطق زعنفيخ فوق خرنقوش عسير للغاية",
   },
+  {
+    id: "third",
+    label: "الجملة الثالثة",
+    note: "جملة عربية مفهومة تتضمن اسماً مركباً ومفردات أقل شيوعاً.",
+    text: "اشترى عبدالمنعم قزحيات نادرة من سوق الخزف القديم",
+  },
+  {
+    id: "fourth",
+    label: "الجملة الرابعة",
+    note: "جملة إنجليزية قصيرة للمقارنة بين العربية والإنجليزية.",
+    text: "The AI helps managers make better decisions fast",
+  },
 ] as const;
 
 type SentenceId = (typeof sentences)[number]["id"];
@@ -52,6 +64,8 @@ export function TokenCountExercise() {
   const [values, setValues] = useState<TokenValues>({
     first: { tokens: "", characters: "" },
     second: { tokens: "", characters: "" },
+    third: { tokens: "", characters: "" },
+    fourth: { tokens: "", characters: "" },
   });
   const [reflection, setReflection] = useState("");
   const [message, setMessage] = useState("");
@@ -138,11 +152,12 @@ export function TokenCountExercise() {
     <div className="token-count-layout">
       <section className="comparison-intro-card">
         <div className="section-kicker">تمرين حساب الرموز Tokens</div>
-        <h2>قارن بين عدد الرموز وعدد المحارف في نصين عربيين</h2>
+        <h2>قارن بين عدد الرموز وعدد المحارف في جمل عربية وإنجليزية</h2>
         <p>
           افتح أداة OpenAI Tokenizer، ثم انسخ كل جملة والصقها في الأداة. سجّل
           عدد الرموز Tokens وعدد المحارف Characters كما يظهران لك، ثم لاحظ كيف
-          يمكن أن يتغير عدد الرموز حتى عندما يبدو النص قصيراً.
+          يمكن أن يتغير عدد الرموز حسب اللغة وشكل الكلمات حتى عندما يبدو النص
+          قصيراً.
         </p>
         <a
           href={tokenizerUrl}
@@ -223,7 +238,7 @@ export function TokenCountExercise() {
             id="token-reflection"
             value={reflection}
             onChange={(event) => setReflection(event.target.value)}
-            placeholder="اكتب ملاحظة قصيرة حول الفرق بين عدد الرموز وعدد المحارف في الجملتين."
+            placeholder="اكتب ملاحظة قصيرة حول الفرق بين عدد الرموز وعدد المحارف في الجمل الأربع."
             required
           />
         </section>
