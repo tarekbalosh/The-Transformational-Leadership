@@ -76,6 +76,16 @@ export const exercises: Exercise[] = [
       "أمر عملي واضح قابل للاستخدام، مع تغذية راجعة فورية تساعدك على تحسين الصياغة.",
   },
   {
+    id: "prompt-comparison",
+    title: "تمرين مقارنة أمر بصيغتين",
+    status: "available",
+    duration: "5-8 دقائق",
+    prompt:
+      "قارن بين أمر عام غير محدد وأمر مهني واضح، وانسخ كل صيغة لتجربة الفرق في الاستجابة.",
+    outcome:
+      "فهم عملي لأثر السياق، الدور، المشكلة، والمخرجات المطلوبة على جودة إجابة الذكاء الاصطناعي.",
+  },
+  {
     id: "thinking-partner-crisis",
     title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
     status: "available",
@@ -109,6 +119,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين صياغة أمر",
     category: "تمرين",
     code: "845219",
+  },
+  {
+    id: "prompt-comparison",
+    title: "تمرين مقارنة أمر بصيغتين",
+    category: "تمرين",
+    code: "528614",
   },
   {
     id: "thinking-partner-crisis",

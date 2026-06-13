@@ -70,6 +70,26 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">03 | تمرين</div>
+                <h2>تمرين مقارنة أمر بصيغتين</h2>
+                <p>
+                  قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته
+                  وملاحظة أثر جودة الصياغة على استجابة الذكاء الاصطناعي.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="prompt-comparison"
+                activityTitle="تمرين مقارنة أمر بصيغتين"
+                compact
+              >
+                <a href="/exercises/prompt-comparison" className="primary-link">
+                  فتح التمرين
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">04 | تمرين</div>
                 <h2>تمرين شريك التفكير - أزمة منصة مهيمنة</h2>
                 <p>
                   تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة
@@ -92,7 +112,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">04 | تمرين</div>
+                <div className="section-kicker">05 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -112,7 +132,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">05 | مقياس</div>
+                <div className="section-kicker">06 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
