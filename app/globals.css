@@ -2235,6 +2235,40 @@ textarea:focus {
   padding-top: 28px;
 }
 
+.admin-command-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(13, 38, 48, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(31, 63, 67, 0.08), rgba(212, 229, 28, 0.12)),
+    var(--white);
+}
+
+.admin-command-center > div {
+  display: grid;
+  gap: 8px;
+  max-width: 820px;
+}
+
+.admin-command-center h2,
+.admin-panel h2 {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.admin-command-center h2 {
+  font-size: clamp(30px, 3vw, 44px);
+}
+
+.admin-command-center p {
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -2242,10 +2276,20 @@ textarea:focus {
 }
 
 .metrics-row article {
+  display: grid;
+  gap: 8px;
   padding: 18px;
   border-radius: 8px;
   background: var(--teal-deep);
   color: var(--white);
+}
+
+.metrics-row.infographic article {
+  min-height: 150px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent),
+    var(--teal-deep);
 }
 
 .metrics-row span {
@@ -2256,15 +2300,321 @@ textarea:focus {
 
 .metrics-row strong {
   display: block;
-  margin-top: 8px;
   color: var(--lime);
   font-size: 34px;
   line-height: 1;
 }
 
+.metrics-row small {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 13px;
+}
+
 .admin-actions {
   display: flex;
   justify-content: flex-start;
+}
+
+.admin-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.admin-panel {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.admin-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.admin-panel h2 {
+  margin-top: 4px;
+  font-size: clamp(24px, 2.5vw, 34px);
+}
+
+.admin-ring-grid,
+.admin-score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-ring-card,
+.admin-score-grid article {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 180px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.admin-ring-card {
+  justify-items: center;
+  text-align: center;
+}
+
+.admin-ring {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 999px;
+  background: conic-gradient(var(--teal-deep) var(--ring-value), var(--mist) 0);
+  position: relative;
+}
+
+.admin-ring::before {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border-radius: inherit;
+  background: var(--paper);
+}
+
+.admin-ring span {
+  position: relative;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.admin-ring-card strong,
+.admin-score-grid strong {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.admin-ring-card p {
+  color: var(--stone);
+  font-size: 14px;
+}
+
+.admin-score-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-score-grid article {
+  min-height: 138px;
+}
+
+.admin-score-grid span,
+.admin-score-grid em {
+  color: var(--stone);
+  font-style: normal;
+}
+
+.admin-score-grid strong {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1;
+}
+
+.admin-bar-list,
+.admin-mini-chart-list {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-bar-row {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.42fr) minmax(180px, 1fr) 74px;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.admin-bar-row strong,
+.admin-bar-row span {
+  display: block;
+}
+
+.admin-bar-row strong {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.admin-bar-row span,
+.admin-bar-row em {
+  color: var(--stone);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.admin-bar-track {
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--mist);
+}
+
+.admin-bar-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal-deep), var(--lime));
+}
+
+.admin-bar-row em {
+  justify-self: end;
+  min-width: 68px;
+  color: var(--teal-deep);
+  font-weight: 700;
+  text-align: left;
+}
+
+.testimonial-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.testimonial-card-grid article {
+  display: grid;
+  gap: 16px;
+  min-height: 210px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.testimonial-card-grid blockquote {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
+.testimonial-card-grid blockquote::before {
+  content: "“";
+  color: var(--gold);
+  font-size: 34px;
+  line-height: 0;
+}
+
+.testimonial-card-grid div {
+  display: grid;
+  gap: 4px;
+  align-self: end;
+}
+
+.testimonial-card-grid strong {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.testimonial-card-grid span,
+.testimonial-card-grid em {
+  color: var(--stone);
+  font-size: 14px;
+  font-style: normal;
+}
+
+.admin-timeline,
+.participant-status-list {
+  display: grid;
+  gap: 10px;
+  max-height: 620px;
+  overflow: auto;
+  padding-left: 4px;
+}
+
+.admin-timeline article,
+.participant-status-list article {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.admin-timeline article {
+  grid-template-columns: 72px minmax(0, 1fr);
+}
+
+.admin-timeline > article > span {
+  display: inline-grid;
+  place-items: center;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--teal-deep);
+  color: var(--lime);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-timeline strong,
+.participant-status-list strong {
+  display: block;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.admin-timeline p {
+  margin-top: 4px;
+  color: var(--charcoal);
+}
+
+.admin-timeline small,
+.participant-status-list span {
+  color: var(--stone);
+}
+
+.participant-status-list article {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.participant-status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.participant-status-badges em {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--mist);
+  color: var(--stone);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.participant-status-badges em[data-active="true"] {
+  background: var(--teal-deep);
+  color: var(--lime);
+}
+
+.admin-empty-state {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--stone);
 }
 
 .admin-table-wrap {
@@ -2356,6 +2706,10 @@ td {
   .feature-grid,
   .choice-grid,
   .metrics-row,
+  .admin-visual-grid,
+  .admin-ring-grid,
+  .admin-score-grid,
+  .testimonial-card-grid,
   .goal-grid,
   .hub-card-grid,
   .intro-card-grid,
@@ -2368,6 +2722,21 @@ td {
 
   .rating-options.eleven {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .admin-command-center,
+  .admin-panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-bar-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-bar-row em {
+    justify-self: start;
+    text-align: right;
   }
 
   .intro-toolbar {
@@ -2398,6 +2767,10 @@ td {
   .feature-grid,
   .choice-grid,
   .metrics-row,
+  .admin-visual-grid,
+  .admin-ring-grid,
+  .admin-score-grid,
+  .testimonial-card-grid,
   .goal-grid,
   .intro-form-grid,
   .hub-card-grid,
@@ -2410,6 +2783,15 @@ td {
   .component-score-grid,
   .thinking-meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-timeline article,
+  .participant-status-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-status-badges {
+    justify-content: flex-start;
   }
 
   .rating-options,
