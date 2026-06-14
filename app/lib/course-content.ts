@@ -259,6 +259,13 @@ export const toolGroups: ToolGroup[] = [
         href: "https://miro.com",
         label: "فتح المنصة",
       },
+      {
+        title: "Right Click Prompt",
+        description:
+          "منصة لتجميع الأوامر واستخدامها بسرعة، مناسبة لمن يريد بناء مكتبة Prompts عملية قابلة لإعادة الاستخدام.",
+        href: "https://rightclickprompt.com/",
+        label: "فتح الأداة",
+      },
     ],
   },
 ];
@@ -289,20 +296,6 @@ export const skillCommandGroups: ToolGroup[] = [
           "دليل لخوادم وأدوات MCP، مفيد لمن يريد فهم منظومة الأدوات والوصلات التي توسّع قدرات تطبيقات الذكاء الاصطناعي.",
         href: "https://mcp.directory",
         label: "فتح الموقع",
-      },
-    ],
-  },
-  {
-    title: "إدارة الأوامر",
-    description:
-      "أدوات تساعد في جمع الأوامر المفيدة وتنظيمها وتسريع الوصول إليها أثناء العمل والتجريب.",
-    items: [
-      {
-        title: "Right Click Prompt",
-        description:
-          "منصة لتجميع الأوامر واستخدامها بسرعة، مناسبة لمن يريد بناء مكتبة Prompts عملية قابلة لإعادة الاستخدام.",
-        href: "https://rightclickprompt.com/",
-        label: "فتح الأداة",
       },
     ],
   },
