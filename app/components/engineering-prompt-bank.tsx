@@ -78,6 +78,19 @@ export function EngineeringPromptBank() {
               <h3>{prompt.title}</h3>
               <p>{prompt.description}</p>
             </div>
+          </div>
+
+          <div className="engineering-prompt-badges" aria-label="خصائص الأمر">
+            {prompt.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
+
+          <pre className="engineering-prompt-box" dir="rtl">
+            {generatedPrompt(prompt)}
+          </pre>
+
+          <div className="engineering-prompt-actions">
             <button
               type="button"
               className="copy-prompt-button engineering-copy-button"
@@ -88,12 +101,6 @@ export function EngineeringPromptBank() {
               <CopyIcon />
               <span>نسخ الأمر</span>
             </button>
-          </div>
-
-          <div className="engineering-prompt-badges" aria-label="خصائص الأمر">
-            {prompt.tags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
           </div>
 
           <section
@@ -147,10 +154,6 @@ export function EngineeringPromptBank() {
               تفريغ المتغيرات
             </button>
           </section>
-
-          <pre className="engineering-prompt-box" dir="rtl">
-            {generatedPrompt(prompt)}
-          </pre>
         </article>
       ))}
 

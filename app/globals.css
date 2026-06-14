@@ -1094,6 +1094,11 @@ textarea:focus {
   margin-top: 2px;
 }
 
+.engineering-prompt-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .engineering-prompt-badges {
   display: flex;
   flex-wrap: wrap;
