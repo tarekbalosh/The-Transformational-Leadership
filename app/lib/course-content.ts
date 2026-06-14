@@ -45,6 +45,13 @@ export type ToolGroup = {
   items: ToolResource[];
 };
 
+export type EngineeringPrompt = {
+  title: string;
+  description: string;
+  tags: string[];
+  text: string;
+};
+
 export const partner = {
   name: "شركة الإبداع الخليجي للتدريب والاستشارات",
   logo: "/brand/ebdaa.png",
@@ -298,6 +305,25 @@ export const skillCommandGroups: ToolGroup[] = [
         label: "فتح الموقع",
       },
     ],
+  },
+];
+
+export const engineeringPromptBank: EngineeringPrompt[] = [
+  {
+    title: "توليد أفكار واسعة",
+    description:
+      "أمر يساعد القائد على توسيع مساحة التفكير حول تحدٍ مؤسسي، ثم تنظيم الأفكار في فئات قابلة للنقاش والاختيار.",
+    tags: ["20 فكرة", "تصنيف الأفكار", "توضيح المتغيرات"],
+    text: `أنا قائد/مدير في [نوع المؤسسة].
+التحدي: [وصف مختصر للتحدي].
+القيود: [ميزانية / زمن / أنظمة] أو اكتب "لا توجد قيود".
+أعطني 20 فكرة متنوعة وغير تقليدية لحل هذا التحدي.
+صنّف كل فكرة إلى: أفكار مبتكرة / أفكار عملية / أفكار منخفضة التكلفة.
+إذا كان أي متغير غير واضح، اسألني عنه أولاً قبل البدء.
+المتغيرات:
+[نوع المؤسسة]
+[وصف مختصر للتحدي]
+[ميزانية / زمن / أنظمة]`,
   },
 ];
 

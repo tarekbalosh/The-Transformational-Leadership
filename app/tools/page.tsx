@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/app/components/site-header";
+import { EngineeringPromptBank } from "@/app/components/engineering-prompt-bank";
 import { skillCommandGroups, toolGroups } from "@/app/lib/course-content";
 
 export default function ToolsPage() {
@@ -100,6 +101,18 @@ export default function ToolsPage() {
             </section>
           ))}
         </div>
+      </section>
+
+      <section className="content-band">
+        <div className="tools-section-heading">
+          <div className="section-kicker">القسم الثالث</div>
+          <h2>بنك الأوامر الهندسية</h2>
+          <p>
+            أوامر جاهزة ومنظمة تساعد المشاركين على تحويل الأفكار والتحديات إلى
+            مطالبات واضحة قابلة للاستخدام مباشرة مع أدوات الذكاء الاصطناعي.
+          </p>
+        </div>
+        <EngineeringPromptBank />
       </section>
     </main>
   );

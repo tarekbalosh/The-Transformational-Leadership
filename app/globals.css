@@ -30,6 +30,7 @@
   --charcoal: #26302e;
   --teal: #31575b;
   --teal-deep: #1f3f43;
+  --gold: #b58a2a;
   --lime: #d4e51c;
   --lime-soft: #f0f5a2;
   --mist: #eef2ee;
@@ -1033,6 +1034,98 @@ textarea:focus {
   color: var(--teal-deep);
   font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
   font-weight: 700;
+}
+
+.engineering-prompt-bank {
+  display: grid;
+  gap: 14px;
+}
+
+.engineering-prompt-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(13, 38, 48, 0.04), rgba(212, 229, 28, 0.08)),
+    var(--white);
+}
+
+.engineering-prompt-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.engineering-prompt-head > div {
+  display: grid;
+  gap: 8px;
+  max-width: 840px;
+}
+
+.engineering-prompt-head span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(13, 38, 48, 0.14);
+  border-radius: 8px;
+  background: var(--mist);
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.engineering-prompt-head h3 {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+}
+
+.engineering-prompt-head p {
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
+.engineering-copy-button {
+  margin-top: 2px;
+}
+
+.engineering-prompt-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.engineering-prompt-badges span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid rgba(13, 38, 48, 0.12);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--teal-deep);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.engineering-prompt-box {
+  margin: 0;
+  padding: clamp(18px, 3vw, 24px);
+  border: 1px solid rgba(13, 38, 48, 0.14);
+  border-right: 5px solid var(--gold);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .prompt-hero {
