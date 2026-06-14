@@ -273,6 +273,13 @@ export const toolGroups: ToolGroup[] = [
         href: "https://miro.com",
         label: "فتح المنصة",
       },
+      {
+        title: "بنك المهارات",
+        description:
+          "منصة للبحث عن المهارات وتنظيمها، مفيدة في بناء خرائط مهارية وتحديد فرص التطوير المهني.",
+        href: "https://www.skills.sh",
+        label: "فتح الأداة",
+      },
     ],
   },
 ];
