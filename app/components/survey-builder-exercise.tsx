@@ -208,7 +208,6 @@ export function SurveyBuilderExercise() {
             onChange={(event) => setPrompt(event.target.value)}
             rows={14}
             placeholder="اكتب هنا البرومبت الذي ستستخدمه لبناء استبيان العملاء..."
-            required
           />
         </label>
 

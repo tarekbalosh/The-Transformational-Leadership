@@ -253,7 +253,6 @@ export function PromptWritingExercise() {
                 }
                 aria-label={section.title}
                 rows={5}
-                required
               />
             </label>
           ))}

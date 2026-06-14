@@ -205,7 +205,6 @@ export function TokenCountExercise() {
                     onChange={(event) =>
                       updateValue(sentence.id, "tokens", event.target.value)
                     }
-                    required
                   />
                 </label>
                 <label>
@@ -222,7 +221,6 @@ export function TokenCountExercise() {
                         event.target.value
                       )
                     }
-                    required
                   />
                 </label>
               </div>
@@ -239,7 +237,6 @@ export function TokenCountExercise() {
             value={reflection}
             onChange={(event) => setReflection(event.target.value)}
             placeholder="اكتب ملاحظة قصيرة حول الفرق بين عدد الرموز وعدد المحارف في الجمل الأربع."
-            required
           />
         </section>
 

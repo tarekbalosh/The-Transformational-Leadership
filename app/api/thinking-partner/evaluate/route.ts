@@ -69,50 +69,25 @@ const evaluationSchema = {
   ],
 };
 
-function requireText(value: unknown, label: string) {
-  const text = String(value ?? "").trim();
-  if (!text) {
-    throw new Error(`يرجى تعبئة حقل ${label}.`);
-  }
-  return text;
+function optionalText(value: unknown) {
+  return String(value ?? "").trim();
 }
 
 function normalizeAnswers(input: unknown): Answers {
   const source = (input ?? {}) as Record<string, unknown>;
 
   return {
-    compositePrompt: requireText(source.compositePrompt, "البرومبت المركب"),
-    verifiedFact: requireText(
-      source.verifiedFact,
-      "المعلومة الواقعية التي اخترتها للتحقق"
-    ),
-    sourceCheck: requireText(
-      source.sourceCheck,
-      "المصدر أو نتيجة التحقق التي وصلت إليها"
-    ),
-    firstDecision: requireText(source.firstDecision, "القرار الأول"),
-    secondDecision: requireText(source.secondDecision, "القرار الثاني"),
-    thirdDecision: requireText(source.thirdDecision, "القرار الثالث"),
-    preMortem: requireText(
-      source.preMortem,
-      "أسباب الفشل الأكثر ترجيحاً بعد تحليل ما قبل الوفاة"
-    ),
-    revisedDecision: requireText(
-      source.revisedDecision,
-      "القرار الذي عدّلته بعد النقد"
-    ),
-    rejectedNote: requireText(
-      source.rejectedNote,
-      "الملاحظة التي رفضتها ولماذا"
-    ),
-    addedIdea: requireText(
-      source.addedIdea,
-      "الفكرة التي أضافها الذكاء الاصطناعي"
-    ),
-    hallucination: requireText(
-      source.hallucination,
-      "الهلوسة التي اصطدتها وكيف اكتشفتها"
-    ),
+    compositePrompt: optionalText(source.compositePrompt),
+    verifiedFact: optionalText(source.verifiedFact),
+    sourceCheck: optionalText(source.sourceCheck),
+    firstDecision: optionalText(source.firstDecision),
+    secondDecision: optionalText(source.secondDecision),
+    thirdDecision: optionalText(source.thirdDecision),
+    preMortem: optionalText(source.preMortem),
+    revisedDecision: optionalText(source.revisedDecision),
+    rejectedNote: optionalText(source.rejectedNote),
+    addedIdea: optionalText(source.addedIdea),
+    hallucination: optionalText(source.hallucination),
   };
 }
 

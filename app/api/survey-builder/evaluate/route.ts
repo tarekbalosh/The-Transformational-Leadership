@@ -90,19 +90,7 @@ const evaluationSchema = {
 };
 
 function normalizePrompt(value: unknown) {
-  const prompt = String(value ?? "").trim();
-
-  if (!prompt) {
-    throw new Error("يرجى كتابة البرومبت قبل تسليم التمرين.");
-  }
-
-  if (prompt.length < 180) {
-    throw new Error(
-      "يرجى إضافة تفاصيل أكثر في البرومبت حتى يكون مناسباً لبناء استبيان فعلي."
-    );
-  }
-
-  return prompt;
+  return String(value ?? "").trim();
 }
 
 function extractOutputText(payload: OpenAIResponse) {

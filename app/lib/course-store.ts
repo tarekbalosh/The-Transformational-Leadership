@@ -162,9 +162,7 @@ export async function saveExerciseAnswer(
     throw new Error("هذا التمرين غير متاح حالياً.");
   }
 
-  if (!answer.trim()) {
-    throw new Error("يرجى كتابة إجابة قبل الحفظ.");
-  }
+  const trimmedAnswer = answer.trim();
 
   await upsertParticipant(email);
 
@@ -181,7 +179,7 @@ export async function saveExerciseAnswer(
              answer = excluded.answer,
              updated_at = excluded.updated_at`
         )
-        .bind(email, exerciseId, answer.trim(), timestamp, timestamp)
+        .bind(email, exerciseId, trimmedAnswer, timestamp, timestamp)
         .run();
 
       await database
@@ -208,13 +206,13 @@ export async function saveExerciseAnswer(
   );
 
   if (existing) {
-    existing.answer = answer.trim();
+    existing.answer = trimmedAnswer;
     existing.updated_at = timestamp;
   } else {
     store.exerciseAnswers.push({
       participant_email: email,
       exercise_id: exerciseId,
-      answer: answer.trim(),
+      answer: trimmedAnswer,
       created_at: timestamp,
       updated_at: timestamp,
     });

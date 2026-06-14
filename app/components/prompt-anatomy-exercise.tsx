@@ -269,7 +269,6 @@ export function PromptAnatomyExercise() {
                 onChange={(event) => updateAnswer(field.key, event.target.value)}
                 rows={3}
                 placeholder="الصق النص المقابل من البرومبت هنا..."
-                required
               />
             </label>
           ))}

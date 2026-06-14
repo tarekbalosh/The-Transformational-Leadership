@@ -43,12 +43,12 @@ type CompletionSurveyPayload = {
   participantEmail?: string;
   name?: string;
   affiliation?: string;
-  experienceRating?: number;
-  usefulnessRating?: number;
+  experienceRating?: number | null;
+  usefulnessRating?: number | null;
   mostUseful?: string;
   application?: string;
   improvement?: string;
-  recommendationScore?: number;
+  recommendationScore?: number | null;
   testimonial?: string;
   testimonialConsent?: string;
   submittedAt?: string;

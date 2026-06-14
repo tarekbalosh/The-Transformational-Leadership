@@ -75,18 +75,14 @@ const evaluationSchema = {
   ],
 };
 
-function requireText(value: unknown, label: string) {
-  const text = String(value ?? "").trim();
-  if (!text) {
-    throw new Error(`يرجى تعبئة حقل ${label}.`);
-  }
-  return text;
+function optionalText(value: unknown) {
+  return String(value ?? "").trim();
 }
 
 function normalizeAnswers(input: unknown): AnatomyAnswers {
   const source = (input ?? {}) as Record<string, unknown>;
   return fieldKeys.reduce((accumulator, key) => {
-    accumulator[key] = requireText(source[key], fieldLabels[key]);
+    accumulator[key] = optionalText(source[key]);
     return accumulator;
   }, {} as AnatomyAnswers);
 }

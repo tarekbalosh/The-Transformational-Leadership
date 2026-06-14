@@ -99,32 +99,10 @@ const evaluationSchema = {
 
 function normalizeFields(fields: unknown): PromptFields {
   const source = (fields ?? {}) as Record<string, unknown>;
-  const normalized = fieldKeys.reduce((accumulator, key) => {
+  return fieldKeys.reduce((accumulator, key) => {
     accumulator[key] = String(source[key] ?? "").trim();
     return accumulator;
   }, {} as PromptFields);
-
-  const missing = fieldKeys.filter((key) => !normalized[key]);
-  if (missing.length) {
-    throw new Error(
-      `يرجى تعبئة المكونات التالية قبل التقييم: ${missing
-        .map((key) => fieldLabels[key])
-        .join("، ")}.`
-    );
-  }
-
-  const combinedLength = fieldKeys.reduce(
-    (total, key) => total + normalized[key].length,
-    0
-  );
-
-  if (combinedLength < 160) {
-    throw new Error(
-      "يرجى إضافة تفاصيل أكثر في الأمر قبل التقييم حتى تكون التغذية الراجعة مفيدة."
-    );
-  }
-
-  return normalized;
 }
 
 function combinedPrompt(fields: PromptFields) {

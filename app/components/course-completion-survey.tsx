@@ -25,6 +25,10 @@ type FormState = {
   testimonialConsent: string;
 };
 
+function optionalNumber(value: string) {
+  return value ? Number(value) : null;
+}
+
 const initialForm: FormState = {
   name: "",
   affiliation: "",
@@ -45,12 +49,12 @@ function buildSurveyPayload(form: FormState, participantEmail: string) {
     participantEmail,
     name: form.name.trim(),
     affiliation: form.affiliation.trim(),
-    experienceRating: Number(form.experienceRating),
-    usefulnessRating: Number(form.usefulnessRating),
+    experienceRating: optionalNumber(form.experienceRating),
+    usefulnessRating: optionalNumber(form.usefulnessRating),
     mostUseful: form.mostUseful.trim(),
     application: form.application.trim(),
     improvement: form.improvement.trim(),
-    recommendationScore: Number(form.recommendationScore),
+    recommendationScore: optionalNumber(form.recommendationScore),
     testimonial: form.testimonial.trim(),
     testimonialConsent: form.testimonialConsent,
     consentNote: "قد يتم تحرير الشهادة لغويًا دون تغيير المعنى.",
@@ -146,7 +150,6 @@ export function CourseCompletionSurvey() {
                     onChange={(event) =>
                       updateField("experienceRating", event.target.value)
                     }
-                    required
                   />
                   <span>{value}</span>
                 </label>
@@ -167,7 +170,6 @@ export function CourseCompletionSurvey() {
                     onChange={(event) =>
                       updateField("usefulnessRating", event.target.value)
                     }
-                    required
                   />
                   <span>{value}</span>
                 </label>
@@ -185,7 +187,6 @@ export function CourseCompletionSurvey() {
             <textarea
               value={form.mostUseful}
               onChange={(event) => updateField("mostUseful", event.target.value)}
-              required
             />
           </label>
           <label>
@@ -193,7 +194,6 @@ export function CourseCompletionSurvey() {
             <textarea
               value={form.application}
               onChange={(event) => updateField("application", event.target.value)}
-              required
             />
           </label>
           <label>
@@ -201,7 +201,6 @@ export function CourseCompletionSurvey() {
             <textarea
               value={form.improvement}
               onChange={(event) => updateField("improvement", event.target.value)}
-              required
             />
           </label>
         </div>
@@ -222,7 +221,6 @@ export function CourseCompletionSurvey() {
                   onChange={(event) =>
                     updateField("recommendationScore", event.target.value)
                   }
-                  required
                 />
                 <span>{value}</span>
               </label>
@@ -237,7 +235,6 @@ export function CourseCompletionSurvey() {
             value={form.testimonial}
             onChange={(event) => updateField("testimonial", event.target.value)}
             placeholder="ساعدتني الدورة على..."
-            required
           />
         </label>
 
@@ -256,7 +253,6 @@ export function CourseCompletionSurvey() {
                   onChange={(event) =>
                     updateField("testimonialConsent", event.target.value)
                   }
-                  required
                 />
                 <span>{option}</span>
               </label>

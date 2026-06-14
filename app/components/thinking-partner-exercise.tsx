@@ -226,7 +226,6 @@ export function ThinkingPartnerExercise() {
                 value={answers[field.key]}
                 onChange={(event) => updateField(field.key, event.target.value)}
                 rows={field.rows}
-                required
               />
             </label>
           ))}

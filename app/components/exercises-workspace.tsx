@@ -95,7 +95,6 @@ export function ExercisesWorkspace({ exercises }: Props) {
                 rows={8}
                 placeholder="اكتب إجابتك العملية هنا..."
                 disabled={activeExercise.status === "soon"}
-                required
               />
               <button type="submit" disabled={isSaving || activeExercise.status === "soon"}>
                 {isSaving ? "جار الحفظ" : "حفظ الإجابة"}
