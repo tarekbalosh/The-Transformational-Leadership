@@ -1,22 +1,74 @@
 import { SiteHeader } from "@/app/components/site-header";
-import { toolGroups } from "@/app/lib/course-content";
+import { skillCommandGroups, toolGroups } from "@/app/lib/course-content";
 
 export default function ToolsPage() {
   return (
     <main>
       <SiteHeader />
       <section className="page-hero compact-hero tools-hero">
-        <div className="section-kicker">الأدوات</div>
-        <h1>أدوات مساعدة لاستخدام الذكاء الاصطناعي بشكل أسهل وأسرع</h1>
+        <div className="section-kicker">الأدوات و الأوامر</div>
+        <h1>أدوات ومواقع وأوامر تساعدك على استخدام الذكاء الاصطناعي بفاعلية</h1>
         <p>
-          هذه الصفحة تجمع الأدوات والإضافات التي يمكن الرجوع إليها أثناء
-          الدورة. قد تحتوي كل مجموعة على أداة واحدة أو عدة أدوات بحسب الحاجة.
+          هذه الصفحة تجمع الأدوات والمواقع المهمة التي يمكن الرجوع إليها أثناء
+          الدورة، إضافة إلى مواقع المهارات ومصادر إدارة الأوامر.
         </p>
       </section>
 
       <section className="content-band">
+        <div className="tools-section-heading">
+          <div className="section-kicker">القسم الأول</div>
+          <h2>الأدوات والمواقع المهمة</h2>
+          <p>
+            روابط عملية تساعد المشاركين على حل مشكلات الاستخدام، تنظيم العمل،
+            وفهم بعض المفاهيم التشغيلية أثناء تطبيقات الدورة.
+          </p>
+        </div>
         <div className="tools-group-stack">
           {toolGroups.map((group, index) => (
+            <section className="tools-group-card" key={group.title}>
+              <div className="tools-group-head">
+                <div className="section-kicker">
+                  المجموعة {String(index + 1).padStart(2, "0")}
+                </div>
+                <h2>{group.title}</h2>
+                <p>{group.description}</p>
+              </div>
+
+              <div className="tools-item-list">
+                {group.items.map((item, itemIndex) => (
+                  <article className="tool-item-card" key={item.href}>
+                    <div>
+                      <span>{String(itemIndex + 1).padStart(2, "0")}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                    <a
+                      href={item.href}
+                      className="primary-link"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {item.label}
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section className="content-band">
+        <div className="tools-section-heading">
+          <div className="section-kicker">القسم الثاني</div>
+          <h2>مواقع المهارات و الأوامر</h2>
+          <p>
+            مصادر تساعد على استكشاف المهارات وبناء مكتبات أوامر قابلة لإعادة
+            الاستخدام في العمل والتدريب.
+          </p>
+        </div>
+        <div className="tools-group-stack">
+          {skillCommandGroups.map((group, index) => (
             <section className="tools-group-card" key={group.title}>
               <div className="tools-group-head">
                 <div className="section-kicker">

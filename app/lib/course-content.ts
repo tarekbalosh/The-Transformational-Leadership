@@ -234,20 +234,6 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    title: "إدارة الأوامر الهندسية",
-    description:
-      "أدوات تساعد في جمع الأوامر المفيدة وتنظيمها وتسريع الوصول إليها أثناء العمل والتجريب.",
-    items: [
-      {
-        title: "Right Click Prompt",
-        description:
-          "منصة لتجميع الأوامر واستخدامها بسرعة، مناسبة لمن يريد بناء مكتبة Prompts عملية قابلة لإعادة الاستخدام.",
-        href: "https://rightclickprompt.com/",
-        label: "فتح الأداة",
-      },
-    ],
-  },
-  {
     title: "قياس الرموز والسياق",
     description:
       "أدوات تساعد على فهم عدد الرموز داخل النصوص والأوامر قبل استخدامها مع نماذج الذكاء الاصطناعي.",
@@ -273,11 +259,49 @@ export const toolGroups: ToolGroup[] = [
         href: "https://miro.com",
         label: "فتح المنصة",
       },
+    ],
+  },
+];
+
+export const skillCommandGroups: ToolGroup[] = [
+  {
+    title: "مواقع المهارات",
+    description:
+      "مواقع تساعد في استكشاف المهارات، تصنيفها، وبناء خرائط تطوير مرتبطة بأدوار العمل والذكاء الاصطناعي.",
+    items: [
       {
-        title: "بنك المهارات",
+        title: "Skills Bank",
         description:
-          "منصة للبحث عن المهارات وتنظيمها، مفيدة في بناء خرائط مهارية وتحديد فرص التطوير المهني.",
+          "منصة مختصرة لاستكشاف المهارات وتنظيمها، مناسبة لبناء قوائم مهارات قابلة للاستخدام في التدريب والتطوير.",
         href: "https://www.skills.sh",
+        label: "فتح الموقع",
+      },
+      {
+        title: "Skills Directory",
+        description:
+          "دليل واسع للمهارات يساعد على البحث عن المهارات وربطها بالمجالات والأدوار المهنية.",
+        href: "https://www.skillsdirectory.com",
+        label: "فتح الموقع",
+      },
+      {
+        title: "MCP Directory",
+        description:
+          "دليل لخوادم وأدوات MCP، مفيد لمن يريد فهم منظومة الأدوات والوصلات التي توسّع قدرات تطبيقات الذكاء الاصطناعي.",
+        href: "https://mcp.directory",
+        label: "فتح الموقع",
+      },
+    ],
+  },
+  {
+    title: "إدارة الأوامر",
+    description:
+      "أدوات تساعد في جمع الأوامر المفيدة وتنظيمها وتسريع الوصول إليها أثناء العمل والتجريب.",
+    items: [
+      {
+        title: "Right Click Prompt",
+        description:
+          "منصة لتجميع الأوامر واستخدامها بسرعة، مناسبة لمن يريد بناء مكتبة Prompts عملية قابلة لإعادة الاستخدام.",
+        href: "https://rightclickprompt.com/",
         label: "فتح الأداة",
       },
     ],
@@ -288,6 +312,6 @@ export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن الدورة" },
   { href: "/links", label: "روابط الدورة" },
-  { href: "/tools", label: "الأدوات" },
+  { href: "/tools", label: "الأدوات و الأوامر" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];

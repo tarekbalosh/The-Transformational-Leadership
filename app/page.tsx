@@ -23,7 +23,7 @@ export default function Home() {
               الانتقال إلى التمارين و المقاييس
             </Link>
             <Link href="/tools" className="secondary-link">
-              الأدوات
+              الأدوات و الأوامر
             </Link>
             <Link href="/links" className="secondary-link">
               روابط الدورة

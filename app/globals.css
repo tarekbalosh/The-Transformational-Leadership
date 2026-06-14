@@ -957,6 +957,24 @@ textarea:focus {
   gap: 14px;
 }
 
+.tools-section-heading {
+  display: grid;
+  gap: 8px;
+  max-width: 900px;
+  margin-bottom: 18px;
+}
+
+.tools-section-heading h2 {
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+}
+
+.tools-section-heading p {
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
 .tools-group-card,
 .tool-item-card {
   border: 1px solid var(--line);
