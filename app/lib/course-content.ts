@@ -49,6 +49,12 @@ export type EngineeringPrompt = {
   title: string;
   description: string;
   tags: string[];
+  variables: Array<{
+    token: string;
+    label: string;
+    placeholder: string;
+    inputType?: "text" | "textarea";
+  }>;
   text: string;
 };
 
@@ -330,6 +336,24 @@ export const engineeringPromptBank: EngineeringPrompt[] = [
     description:
       "أمر يساعد القائد على توسيع مساحة التفكير حول تحدٍ مؤسسي، ثم تنظيم الأفكار في فئات قابلة للنقاش والاختيار.",
     tags: ["20 فكرة", "تصنيف الأفكار", "توضيح المتغيرات"],
+    variables: [
+      {
+        token: "[نوع المؤسسة]",
+        label: "نوع المؤسسة",
+        placeholder: "مثال: هيئة حكومية خدمية",
+      },
+      {
+        token: "[وصف مختصر للتحدي]",
+        label: "وصف مختصر للتحدي",
+        placeholder: "مثال: ارتفاع زمن إنجاز المعاملات وضعف رضا المستفيدين",
+        inputType: "textarea",
+      },
+      {
+        token: "[ميزانية / زمن / أنظمة]",
+        label: "القيود",
+        placeholder: "مثال: ميزانية محدودة، 90 يوماً، أنظمة قديمة",
+      },
+    ],
     text: `أنا قائد/مدير في [نوع المؤسسة].
 التحدي: [وصف مختصر للتحدي].
 القيود: [ميزانية / زمن / أنظمة] أو اكتب "لا توجد قيود".

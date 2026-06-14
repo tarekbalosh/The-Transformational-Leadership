@@ -1113,6 +1113,43 @@ textarea:focus {
   font-weight: 700;
 }
 
+.engineering-variable-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid rgba(13, 38, 48, 0.12);
+  border-radius: 8px;
+  background: rgba(238, 242, 238, 0.76);
+}
+
+.engineering-variable-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.engineering-variable-field {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.engineering-variable-field span {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.engineering-variable-field textarea {
+  min-height: 118px;
+  resize: vertical;
+}
+
+.engineering-clear-button {
+  justify-self: start;
+}
+
 .engineering-prompt-box {
   margin: 0;
   padding: clamp(18px, 3vw, 24px);
@@ -2710,6 +2747,7 @@ td {
   .admin-ring-grid,
   .admin-score-grid,
   .testimonial-card-grid,
+  .engineering-variable-grid,
   .goal-grid,
   .hub-card-grid,
   .intro-card-grid,
@@ -2771,6 +2809,7 @@ td {
   .admin-ring-grid,
   .admin-score-grid,
   .testimonial-card-grid,
+  .engineering-variable-grid,
   .goal-grid,
   .intro-form-grid,
   .hub-card-grid,

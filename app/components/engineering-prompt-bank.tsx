@@ -24,6 +24,34 @@ function CopyIcon() {
 
 export function EngineeringPromptBank() {
   const [copiedTitle, setCopiedTitle] = useState("");
+  const [variableValues, setVariableValues] = useState<
+    Record<string, Record<string, string>>
+  >({});
+
+  function generatedPrompt(prompt: (typeof engineeringPromptBank)[number]) {
+    return prompt.variables.reduce((text, variable) => {
+      const value = variableValues[prompt.title]?.[variable.token]?.trim();
+      return text.replaceAll(variable.token, value || variable.token);
+    }, prompt.text);
+  }
+
+  function updateVariable(promptTitle: string, token: string, value: string) {
+    setVariableValues((current) => ({
+      ...current,
+      [promptTitle]: {
+        ...current[promptTitle],
+        [token]: value,
+      },
+    }));
+  }
+
+  function clearVariables(promptTitle: string) {
+    setVariableValues((current) => ({
+      ...current,
+      [promptTitle]: {},
+    }));
+    setCopiedTitle("");
+  }
 
   async function copyPrompt(text: string, title: string) {
     try {
@@ -53,7 +81,7 @@ export function EngineeringPromptBank() {
             <button
               type="button"
               className="copy-prompt-button engineering-copy-button"
-              onClick={() => copyPrompt(prompt.text, prompt.title)}
+              onClick={() => copyPrompt(generatedPrompt(prompt), prompt.title)}
               aria-label={`نسخ أمر ${prompt.title}`}
               title={`نسخ أمر ${prompt.title}`}
             >
@@ -68,8 +96,60 @@ export function EngineeringPromptBank() {
             ))}
           </div>
 
+          <section
+            className="engineering-variable-panel"
+            aria-label={`متغيرات أمر ${prompt.title}`}
+          >
+            <div className="section-kicker">المتغيرات</div>
+            <div className="engineering-variable-grid">
+              {prompt.variables.map((variable) => {
+                const value =
+                  variableValues[prompt.title]?.[variable.token] ?? "";
+
+                return (
+                  <label className="engineering-variable-field" key={variable.token}>
+                    <span>{variable.label}</span>
+                    {variable.inputType === "textarea" ? (
+                      <textarea
+                        value={value}
+                        onChange={(event) =>
+                          updateVariable(
+                            prompt.title,
+                            variable.token,
+                            event.target.value
+                          )
+                        }
+                        placeholder={variable.placeholder}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={(event) =>
+                          updateVariable(
+                            prompt.title,
+                            variable.token,
+                            event.target.value
+                          )
+                        }
+                        placeholder={variable.placeholder}
+                      />
+                    )}
+                  </label>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              className="secondary-link engineering-clear-button"
+              onClick={() => clearVariables(prompt.title)}
+            >
+              تفريغ المتغيرات
+            </button>
+          </section>
+
           <pre className="engineering-prompt-box" dir="rtl">
-            {prompt.text}
+            {generatedPrompt(prompt)}
           </pre>
         </article>
       ))}
