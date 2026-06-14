@@ -36,6 +36,27 @@ type DashboardData = {
   };
 };
 
+type CompletionSurveyPayload = {
+  exerciseId?: string;
+  participantEmail?: string;
+  name?: string;
+  affiliation?: string;
+  experienceRating?: number;
+  usefulnessRating?: number;
+  mostUseful?: string;
+  application?: string;
+  improvement?: string;
+  recommendationScore?: number;
+  testimonial?: string;
+  testimonialConsent?: string;
+  submittedAt?: string;
+};
+
+type CompletionSurveyRow = CompletionSurveyPayload & {
+  participant_email: string;
+  updated_at: string;
+};
+
 function formatAssessmentPayload(payload: string) {
   try {
     const parsed = JSON.parse(payload) as {
@@ -53,6 +74,32 @@ function formatAssessmentPayload(payload: string) {
       .join(" | ");
   } catch {
     return payload;
+  }
+}
+
+function parseCompletionSurveyAnswer(answer: {
+  participant_email: string;
+  exercise_id: string;
+  answer: string;
+  updated_at: string;
+}): CompletionSurveyRow | null {
+  if (answer.exercise_id !== "course-completion-survey") {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(answer.answer) as CompletionSurveyPayload;
+
+    return {
+      ...parsed,
+      participant_email: answer.participant_email,
+      updated_at: answer.updated_at,
+    };
+  } catch {
+    return {
+      participant_email: answer.participant_email,
+      updated_at: answer.updated_at,
+    };
   }
 }
 
@@ -84,6 +131,27 @@ function formatExerciseAnswer(answer: string) {
         nextAction?: string;
       };
     };
+
+    if (parsed.exerciseId === "course-completion-survey") {
+      const survey = parsed as CompletionSurveyPayload;
+
+      return [
+        survey.experienceRating
+          ? `تقييم التجربة: ${survey.experienceRating} / 5`
+          : "",
+        survey.usefulnessRating
+          ? `فائدة المحتوى: ${survey.usefulnessRating} / 5`
+          : "",
+        typeof survey.recommendationScore === "number"
+          ? `الترشيح: ${survey.recommendationScore} / 10`
+          : "",
+        survey.mostUseful ? `الأكثر فائدة: ${survey.mostUseful}` : "",
+        survey.application ? `سيطبق: ${survey.application}` : "",
+        survey.improvement ? `تحسين مقترح: ${survey.improvement}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+    }
 
     if (!parsed.evaluation) {
       if (parsed.exerciseId === "prompt-anatomy") {
@@ -209,6 +277,14 @@ export function AdminDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const completionSurveyRows =
+    data?.exerciseAnswers
+      .map(parseCompletionSurveyAnswer)
+      .filter((row): row is CompletionSurveyRow => row !== null) ?? [];
+  const exerciseRows =
+    data?.exerciseAnswers.filter(
+      (answer) => answer.exercise_id !== "course-completion-survey"
+    ) ?? [];
 
   async function load(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -350,11 +426,51 @@ export function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {data.exerciseAnswers.map((answer) => (
+                {exerciseRows.map((answer) => (
                   <tr key={`${answer.participant_email}-${answer.exercise_id}`}>
                     <td>{answer.participant_email}</td>
                     <td>{answer.exercise_id}</td>
                     <td>{formatExerciseAnswer(answer.answer)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section className="admin-table-wrap">
+            <h2>استبيان ما بعد الدورة التدريبية</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>المشارك</th>
+                  <th>الاسم</th>
+                  <th>المسمى أو الجهة</th>
+                  <th>تقييم التجربة</th>
+                  <th>فائدة المحتوى</th>
+                  <th>أكثر جزء مفيد</th>
+                  <th>ما سيطبقه</th>
+                  <th>التحسين المقترح</th>
+                  <th>الترشيح</th>
+                  <th>الشهادة</th>
+                  <th>الموافقة</th>
+                  <th>آخر تحديث</th>
+                </tr>
+              </thead>
+              <tbody>
+                {completionSurveyRows.map((row) => (
+                  <tr key={`${row.participant_email}-${row.updated_at}`}>
+                    <td>{row.participant_email}</td>
+                    <td>{row.name || "-"}</td>
+                    <td>{row.affiliation || "-"}</td>
+                    <td>{row.experienceRating ?? "-"}</td>
+                    <td>{row.usefulnessRating ?? "-"}</td>
+                    <td>{row.mostUseful || "-"}</td>
+                    <td>{row.application || "-"}</td>
+                    <td>{row.improvement || "-"}</td>
+                    <td>{row.recommendationScore ?? "-"}</td>
+                    <td>{row.testimonial || "-"}</td>
+                    <td>{row.testimonialConsent || "-"}</td>
+                    <td>{new Date(row.updated_at).toLocaleString("ar")}</td>
                   </tr>
                 ))}
               </tbody>

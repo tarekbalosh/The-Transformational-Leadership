@@ -132,6 +132,16 @@ export const exercises: Exercise[] = [
     outcome:
       "3 قرارات عملية، قرار واحد مُعدّل بوعي، وهلوسة واحدة تم التحقق منها وتوثيقها.",
   },
+  {
+    id: "course-completion-survey",
+    title: "استبيان ما بعد الدورة التدريبية",
+    status: "available",
+    duration: "3-5 دقائق",
+    prompt:
+      "شارك تقييمك النهائي للدورة، أكثر ما أفادك، ما ستطبقه لاحقاً، وشهادتك الاختيارية لاستخدامها بعد موافقتك.",
+    outcome:
+      "تغذية راجعة واضحة تساعد على تطوير التجربة التعليمية وتوثيق أثر الدورة.",
+  },
 ];
 
 export const assessments: Assessment[] = [
@@ -186,6 +196,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
     category: "تمرين",
     code: "864531",
+  },
+  {
+    id: "course-completion-survey",
+    title: "استبيان ما بعد الدورة التدريبية",
+    category: "تمرين",
+    code: "517903",
   },
   {
     id: "introductions",

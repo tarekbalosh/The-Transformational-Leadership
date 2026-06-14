@@ -1581,6 +1581,136 @@ textarea:focus {
   align-items: center;
 }
 
+.completion-survey-form {
+  display: grid;
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.completion-survey-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.completion-survey-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.completion-survey-grid.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.completion-survey-form label,
+.rating-field,
+.consent-field {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.completion-survey-form label > span,
+.rating-field legend,
+.consent-field legend {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.completion-survey-form textarea {
+  min-height: 112px;
+}
+
+.completion-survey-form .testimonial-field {
+  min-height: 150px;
+}
+
+.rating-options,
+.consent-options {
+  display: grid;
+  gap: 8px;
+}
+
+.rating-options {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.rating-options.eleven {
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.rating-options label,
+.consent-options label {
+  position: relative;
+  margin: 0;
+}
+
+.rating-options input,
+.consent-options input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rating-options span,
+.consent-options span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--charcoal);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.rating-options input:checked + span,
+.consent-options input:checked + span {
+  border-color: var(--teal-deep);
+  background: var(--teal-deep);
+  color: var(--lime);
+  transform: translateY(-1px);
+}
+
+.rating-options input:focus-visible + span,
+.consent-options input:focus-visible + span {
+  outline: 3px solid var(--lime-soft);
+  outline-offset: 2px;
+}
+
+.consent-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consent-options span {
+  justify-content: flex-start;
+  min-height: 58px;
+  text-align: right;
+}
+
+.consent-field p {
+  margin: 0;
+  color: var(--stone);
+  font-size: 15px;
+}
+
 .exercise-receipt-message {
   margin: 0;
   color: var(--teal-deep);
@@ -2229,9 +2359,15 @@ td {
   .goal-grid,
   .hub-card-grid,
   .intro-card-grid,
+  .completion-survey-grid.two-columns,
+  .consent-options,
   .component-score-grid,
   .thinking-meta-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rating-options.eleven {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .intro-toolbar {
@@ -2266,12 +2402,19 @@ td {
   .intro-form-grid,
   .hub-card-grid,
   .intro-card-grid,
+  .completion-survey-grid.two-columns,
+  .consent-options,
   .prompt-field-grid,
   .token-input-grid,
   .feedback-grid,
   .component-score-grid,
   .thinking-meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .rating-options,
+  .rating-options.eleven {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .evaluation-head {

@@ -174,6 +174,29 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">08 | تمرين</div>
+                <h2>استبيان ما بعد الدورة التدريبية</h2>
+                <p>
+                  استبيان ختامي قصير لقياس تجربتك، فائدة المحتوى، وما الذي
+                  ستطبقه بعد الدورة، مع خيار الموافقة على استخدام شهادتك.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="course-completion-survey"
+                activityTitle="استبيان ما بعد الدورة التدريبية"
+                compact
+              >
+                <a
+                  href="/exercises/course-completion-survey"
+                  className="primary-link"
+                >
+                  فتح الاستبيان
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">09 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن خمسة أسئلة قصيرة ليتمكن المشاركون من معرفة خلفيتك
@@ -193,7 +216,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">09 | مقياس</div>
+                <div className="section-kicker">10 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
