@@ -1,4 +1,5 @@
-import { env } from "cloudflare:workers";
+let _cfEnv: Record<string, unknown> = {};
+try { _cfEnv = (await import("cloudflare:workers")).env as Record<string, unknown>; } catch {}
 import { NextResponse } from "next/server";
 import { saveExerciseAnswer } from "@/app/lib/course-store";
 
@@ -40,7 +41,7 @@ type OpenAIResponse = {
   };
 };
 
-const runtime = env as unknown as RuntimeEnv;
+const runtime = _cfEnv as unknown as RuntimeEnv;
 
 const fieldLabels: Record<AnatomyKey, string> = {
   tone: "النبرة",

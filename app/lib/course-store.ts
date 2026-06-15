@@ -1,5 +1,11 @@
-import { env } from "cloudflare:workers";
 import { assessments, exercises } from "./course-content";
+
+let _env: Record<string, unknown> = {};
+try {
+  _env = (await import("cloudflare:workers")).env as Record<string, unknown>;
+} catch {
+  // Not running in Cloudflare Workers — API routes will use in-memory fallback.
+}
 
 type D1Result<T> = { results?: T[] };
 
@@ -67,7 +73,7 @@ declare global {
   var __aiLeadersCourseStore: MemoryStore | undefined;
 }
 
-const runtime = env as unknown as RuntimeEnv;
+const runtime = _env as unknown as RuntimeEnv;
 
 function memoryStore() {
   globalThis.__aiLeadersCourseStore ??= {
