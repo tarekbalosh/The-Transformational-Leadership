@@ -5,24 +5,40 @@ import Link from "next/link";
 
 const fields = [
   {
+    id: "country",
+    label: "من أي بلد تحضر معنا اليوم؟",
+    placeholder: "مثال: السعودية، عُمان، الإمارات، ماليزيا...",
+    multiline: false,
+  },
+  {
     id: "professionalBackground",
     label: "الخلفية المهنية",
     placeholder: "مثال: مدير عمليات في قطاع التعليم، أعمل على تحسين تجربة العملاء...",
+    multiline: true,
   },
   {
     id: "aiInterests",
     label: "اهتماماتك في الذكاء الاصطناعي",
     placeholder: "ما المجالات أو التطبيقات التي تثير اهتمامك؟",
+    multiline: true,
+  },
+  {
+    id: "aiModel",
+    label: "ما هو نموذج الذكاء الاصطناعي الذي تستخدمه؟",
+    placeholder: "مثال: ChatGPT، Claude، Gemini، Copilot...",
+    multiline: false,
   },
   {
     id: "courseGoals",
     label: "أهدافك من الدورة",
     placeholder: "ما الذي تريد الخروج به من هذه التجربة التدريبية؟",
+    multiline: true,
   },
   {
     id: "funFact",
     label: "حقيقة ممتعة عنك",
     placeholder: "شيء خفيف يساعد الآخرين على تذكرك وبدء حديث معك.",
+    multiline: true,
   },
 ] as const;
 
@@ -36,8 +52,10 @@ type FormState = Record<FieldId, string> & {
 const initialState: FormState = {
   email: "",
   name: "",
+  country: "",
   professionalBackground: "",
   aiInterests: "",
+  aiModel: "",
   courseGoals: "",
   funFact: "",
 };
@@ -112,13 +130,21 @@ export function ProfileForm() {
       {fields.map((field) => (
         <label key={field.id}>
           {field.label}
-          <textarea
-            value={form[field.id]}
-            onChange={(event) => update(field.id, event.target.value)}
-            placeholder={field.placeholder}
-            rows={4}
-            required
-          />
+          {field.multiline ? (
+            <textarea
+              value={form[field.id]}
+              onChange={(event) => update(field.id, event.target.value)}
+              placeholder={field.placeholder}
+              rows={4}
+            />
+          ) : (
+            <input
+              type="text"
+              value={form[field.id]}
+              onChange={(event) => update(field.id, event.target.value)}
+              placeholder={field.placeholder}
+            />
+          )}
         </label>
       ))}
 

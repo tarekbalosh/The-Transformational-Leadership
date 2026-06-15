@@ -13,7 +13,8 @@ export default function IntroductionsWelcomePage() {
           <h1>مساحة قصيرة ليعرف المشاركون بعضهم قبل وأثناء الدورة</h1>
           <p>
             شارك تعريفاً موجزاً عنك، خلفيتك المهنية، ما يهمك في الذكاء
-            الاصطناعي، هدفك من الدورة، وحقيقة ممتعة تفتح باب الحديث.
+            الاصطناعي، البلد الذي تحضر منه، النموذج الذي تستخدمه، هدفك من
+            الدورة، وحقيقة ممتعة تفتح باب الحديث.
           </p>
           <EmailGate title="أدخل بريدك لفتح تعارف المشاركين">
             <ActivityCodeGate
@@ -32,7 +33,7 @@ export default function IntroductionsWelcomePage() {
           </EmailGate>
         </div>
         <aside className="intro-hero-panel">
-          <strong>خمسة أسئلة فقط</strong>
+          <strong>أسئلة قصيرة فقط</strong>
           <p>
             لا توجد كلمة مرور ولا حساب جديد. البريد يُستخدم فقط لتحديث بطاقتك
             عند الحاجة.

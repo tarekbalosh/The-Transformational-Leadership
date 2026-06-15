@@ -5,8 +5,10 @@ import { useMemo, useState } from "react";
 export type ProfileCard = {
   participant_email: string;
   name: string;
+  country?: string | null;
   professional_background: string;
   ai_interests: string;
+  ai_model?: string | null;
   course_goals: string;
   fun_fact: string;
   updated_at: string;
@@ -18,8 +20,10 @@ type Props = {
 
 const filters = [
   { id: "all", label: "الكل" },
+  { id: "country", label: "البلد" },
   { id: "professional_background", label: "الخلفية" },
   { id: "ai_interests", label: "الاهتمامات" },
+  { id: "ai_model", label: "النموذج" },
   { id: "course_goals", label: "الأهداف" },
 ] as const;
 
@@ -41,8 +45,10 @@ export function ProfileBoard({ profiles }: Props) {
         filter === "all"
           ? [
               profile.name,
+              profile.country ?? "",
               profile.professional_background,
               profile.ai_interests,
+              profile.ai_model ?? "",
               profile.course_goals,
               profile.fun_fact,
             ].join(" ")
@@ -61,7 +67,7 @@ export function ProfileBoard({ profiles }: Props) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="ابحث بالاسم، الخلفية، الاهتمامات، أو الأهداف..."
+            placeholder="ابحث بالاسم، البلد، الخلفية، الاهتمامات، النموذج، أو الأهداف..."
           />
         </label>
         <div className="intro-filter" aria-label="تصفية النتائج">
@@ -90,13 +96,25 @@ export function ProfileBoard({ profiles }: Props) {
                 <span>{profile.name.slice(0, 1)}</span>
                 <div>
                   <h2>{profile.name}</h2>
-                  <p>{profile.professional_background}</p>
+                  <p>
+                    {[profile.country, profile.professional_background]
+                      .filter(Boolean)
+                      .join(" | ")}
+                  </p>
                 </div>
               </div>
               <dl>
                 <div>
+                  <dt>يحضر من</dt>
+                  <dd>{profile.country || "لم يحدد"}</dd>
+                </div>
+                <div>
                   <dt>اهتماماته في الذكاء الاصطناعي</dt>
                   <dd>{profile.ai_interests}</dd>
+                </div>
+                <div>
+                  <dt>النموذج الذي يستخدمه</dt>
+                  <dd>{profile.ai_model || "لم يحدد"}</dd>
                 </div>
                 <div>
                   <dt>أهدافه من الدورة</dt>

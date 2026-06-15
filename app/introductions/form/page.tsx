@@ -10,7 +10,7 @@ export default function IntroductionsFormPage() {
       <SiteHeader />
       <section className="page-hero compact-hero intro-page-hero">
         <div className="section-kicker">نموذج التعارف</div>
-        <h1>عرّف بنفسك للمشاركين في خمس إجابات قصيرة</h1>
+        <h1>عرّف بنفسك للمشاركين في إجابات قصيرة</h1>
         <p>
           اكتب إجابات عملية وواضحة. ستظهر للزملاء في لوحة بطاقات المشاركين
           لتسهيل التعارف وبدء الحوارات.

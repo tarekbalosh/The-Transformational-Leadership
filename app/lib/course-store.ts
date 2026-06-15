@@ -46,8 +46,10 @@ export type AssessmentAnswerRow = {
 export type ParticipantProfileRow = {
   participant_email: string;
   name: string;
+  country: string;
   professional_background: string;
   ai_interests: string;
+  ai_model: string;
   course_goals: string;
   fun_fact: string;
   created_at: string;
@@ -231,26 +233,39 @@ function requiredText(value: unknown, fieldName: string) {
   return text;
 }
 
+function optionalText(value: unknown) {
+  return String(value ?? "").trim();
+}
+
+async function ensureParticipantProfileColumns(database: D1DatabaseLike) {
+  await database
+    .prepare("alter table participant_profiles add column country text not null default ''")
+    .run()
+    .catch(() => {});
+  await database
+    .prepare("alter table participant_profiles add column ai_model text not null default ''")
+    .run()
+    .catch(() => {});
+}
+
 export async function saveParticipantProfile(input: {
   email: string;
   name: string;
+  country?: string;
   professionalBackground: string;
   aiInterests: string;
+  aiModel?: string;
   courseGoals: string;
   funFact: string;
 }) {
   const email = normalizeEmail(input.email);
   const name = requiredText(input.name, "الاسم");
-  const professionalBackground = requiredText(
-    input.professionalBackground,
-    "الخلفية المهنية"
-  );
-  const aiInterests = requiredText(
-    input.aiInterests,
-    "الاهتمامات في الذكاء الاصطناعي"
-  );
-  const courseGoals = requiredText(input.courseGoals, "الأهداف من الدورة");
-  const funFact = requiredText(input.funFact, "الحقيقة الممتعة");
+  const country = optionalText(input.country);
+  const professionalBackground = optionalText(input.professionalBackground);
+  const aiInterests = optionalText(input.aiInterests);
+  const aiModel = optionalText(input.aiModel);
+  const courseGoals = optionalText(input.courseGoals);
+  const funFact = optionalText(input.funFact);
   const timestamp = now();
 
   await upsertParticipant(email, name);
@@ -259,15 +274,18 @@ export async function saveParticipantProfile(input: {
 
   if (database) {
     try {
+      await ensureParticipantProfileColumns(database);
       await database
         .prepare(
           `insert into participant_profiles
-            (participant_email, name, professional_background, ai_interests, course_goals, fun_fact, created_at, updated_at)
-           values (?, ?, ?, ?, ?, ?, ?, ?)
+            (participant_email, name, country, professional_background, ai_interests, ai_model, course_goals, fun_fact, created_at, updated_at)
+           values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
            on conflict(participant_email) do update set
              name = excluded.name,
+             country = excluded.country,
              professional_background = excluded.professional_background,
              ai_interests = excluded.ai_interests,
+             ai_model = excluded.ai_model,
              course_goals = excluded.course_goals,
              fun_fact = excluded.fun_fact,
              updated_at = excluded.updated_at`
@@ -275,8 +293,10 @@ export async function saveParticipantProfile(input: {
         .bind(
           email,
           name,
+          country,
           professionalBackground,
           aiInterests,
+          aiModel,
           courseGoals,
           funFact,
           timestamp,
@@ -297,8 +317,10 @@ export async function saveParticipantProfile(input: {
 
   if (existing) {
     existing.name = name;
+    existing.country = country;
     existing.professional_background = professionalBackground;
     existing.ai_interests = aiInterests;
+    existing.ai_model = aiModel;
     existing.course_goals = courseGoals;
     existing.fun_fact = funFact;
     existing.updated_at = timestamp;
@@ -306,8 +328,10 @@ export async function saveParticipantProfile(input: {
     store.participantProfiles.push({
       participant_email: email,
       name,
+      country,
       professional_background: professionalBackground,
       ai_interests: aiInterests,
+      ai_model: aiModel,
       course_goals: courseGoals,
       fun_fact: funFact,
       created_at: timestamp,
@@ -319,9 +343,15 @@ export async function saveParticipantProfile(input: {
 }
 
 export async function participantProfilesData() {
+  const database = db();
+
   try {
+    if (database) {
+      await ensureParticipantProfileColumns(database);
+    }
+
     return await readRows<ParticipantProfileRow>(
-      `select participant_email, name, professional_background, ai_interests, course_goals, fun_fact, created_at, updated_at
+      `select participant_email, name, coalesce(country, '') as country, professional_background, ai_interests, coalesce(ai_model, '') as ai_model, course_goals, fun_fact, created_at, updated_at
        from participant_profiles
        order by updated_at desc`
     );
@@ -525,8 +555,10 @@ export async function dashboardCsv() {
       "introductions",
       [
         `الاسم: ${profile.name}`,
+        `البلد: ${profile.country}`,
         `الخلفية المهنية: ${profile.professional_background}`,
         `الاهتمامات: ${profile.ai_interests}`,
+        `نموذج الذكاء الاصطناعي: ${profile.ai_model}`,
         `الأهداف: ${profile.course_goals}`,
         `حقيقة ممتعة: ${profile.fun_fact}`,
       ].join(" | "),

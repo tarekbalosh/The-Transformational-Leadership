@@ -9,8 +9,10 @@ type DashboardData = {
   participantProfiles: Array<{
     participant_email: string;
     name: string;
+    country: string;
     professional_background: string;
     ai_interests: string;
+    ai_model: string;
     course_goals: string;
     fun_fact: string;
     updated_at: string;
@@ -894,8 +896,10 @@ export function AdminDashboard() {
                 <tr>
                   <th>الاسم</th>
                   <th>البريد</th>
+                  <th>البلد</th>
                   <th>الخلفية المهنية</th>
                   <th>الاهتمامات</th>
+                  <th>النموذج المستخدم</th>
                   <th>الأهداف</th>
                   <th>حقيقة ممتعة</th>
                 </tr>
@@ -905,8 +909,10 @@ export function AdminDashboard() {
                   <tr key={profile.participant_email}>
                     <td>{profile.name}</td>
                     <td>{profile.participant_email}</td>
+                    <td>{profile.country || "-"}</td>
                     <td>{profile.professional_background}</td>
                     <td>{profile.ai_interests}</td>
+                    <td>{profile.ai_model || "-"}</td>
                     <td>{profile.course_goals}</td>
                     <td>{profile.fun_fact}</td>
                   </tr>
