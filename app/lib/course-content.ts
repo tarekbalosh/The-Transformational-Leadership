@@ -90,6 +90,16 @@ export const exercises: Exercise[] = [
       "فهم عملي لبنية الأمر الجيد وقدرة أفضل على تفكيك الأوامر قبل صياغتها.",
   },
   {
+    id: "professional-prompt-engineering",
+    title: "هندسة الأوامر الاحترافية",
+    status: "available",
+    duration: "8-10 دقائق",
+    prompt:
+      "أنشئ مشروع هندسة أوامر احترافية وفق الأطر الحديثة التي تم شرحها في الدورة، ثم انسخ أحد الأمرين الجاهزين حسب مستوى التفصيل المطلوب.",
+    outcome:
+      "أمر هندسي جاهز لبناء مشروع أوامر احترافية، بصيغة موسعة أو مبسطة قابلة للنسخ والاستخدام مباشرة.",
+  },
+  {
     id: "prompt-writing",
     title: "تمرين صياغة أمر",
     status: "available",
@@ -173,6 +183,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "تمرين تشريح الأمر الهندسي",
     category: "تمرين",
     code: "916472",
+  },
+  {
+    id: "professional-prompt-engineering",
+    title: "هندسة الأوامر الاحترافية",
+    category: "تمرين",
+    code: "638527",
   },
   {
     id: "prompt-writing",

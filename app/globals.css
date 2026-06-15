@@ -1423,8 +1423,16 @@ textarea:focus {
   margin: 0 auto;
 }
 
+.professional-prompts-layout {
+  display: grid;
+  gap: 18px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
 .comparison-intro-card,
 .comparison-prompt-card,
+.professional-prompt-card,
 .token-sentence-card,
 .token-reflection-card,
 .anatomy-table-card,
@@ -1456,6 +1464,11 @@ textarea:focus {
   gap: 16px;
 }
 
+.professional-prompt-list {
+  display: grid;
+  gap: 16px;
+}
+
 .token-count-form {
   display: grid;
   gap: 18px;
@@ -1470,6 +1483,18 @@ textarea:focus {
   display: grid;
   gap: 16px;
   padding: clamp(18px, 3vw, 26px);
+}
+
+.professional-prompt-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.professional-prompt-card p {
+  margin-top: 6px;
+  color: var(--charcoal);
+  font-size: 16px;
 }
 
 .token-sentence-card {
@@ -1514,6 +1539,40 @@ textarea:focus {
   line-height: 1.95;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+.professional-prompt-field {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.professional-prompt-field span {
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.professional-prompt-field textarea {
+  min-height: 420px;
+  border-color: color-mix(in srgb, var(--teal) 34%, var(--line));
+  background: var(--paper);
+  color: var(--charcoal);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
+.professional-prompt-field textarea:focus {
+  background: var(--white);
+}
+
+.professional-copy-status {
+  min-height: 30px;
+  color: var(--teal-deep);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
 }
 
 .comparison-status {
