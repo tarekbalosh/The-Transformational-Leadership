@@ -2,6 +2,145 @@ import { SiteHeader } from "@/app/components/site-header";
 import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 
+const kahootUrl =
+  "https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544";
+
+const activityCards = [
+  {
+    number: "01",
+    type: "تمرين",
+    title: "عرّف بنفسك للمجموعة",
+    description:
+      "أجب عن أسئلة قصيرة ليتمكن المشاركون من معرفة بلدك وخلفيتك واهتماماتك والنموذج الذي تستخدمه وأهدافك من الدورة.",
+    activityId: "introductions",
+    activityTitle: "تعارف المشاركين",
+    href: "/introductions",
+    linkLabel: "فتح التعارف",
+  },
+  {
+    number: "02",
+    type: "تمرين",
+    title: "تمرين المفاهيم الأساسية",
+    description:
+      "تمرين سريع عبر Kahoot لمراجعة مفاهيم اليوم الأول والتأكد من وضوح الأساسيات قبل الانتقال للأنشطة التالية.",
+    activityId: "day-one-concepts-test",
+    activityTitle: "تمرين المفاهيم الأساسية",
+    href: kahootUrl,
+    linkLabel: "فتح التمرين",
+    external: true,
+  },
+  {
+    number: "03",
+    type: "مقياس",
+    title: "ما نمط قيادتك للذكاء الاصطناعي؟",
+    description:
+      "اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.",
+    activityId: "ai-leader-style",
+    activityTitle: "مقياس نمط قيادة الذكاء الاصطناعي",
+    href: "/ai-leader-style.html",
+    linkLabel: "بدء المقياس",
+  },
+  {
+    number: "04",
+    type: "تمرين",
+    title: "تمرين حساب الرموز Tokens",
+    description:
+      "استخدم أداة OpenAI Tokenizer لمقارنة عدد الرموز والمحارف بين جملتين، ثم سجّل ملاحظتك حول الفرق بين النص الواضح والنص غير المألوف.",
+    activityId: "token-count",
+    activityTitle: "تمرين حساب الرموز Tokens",
+    href: "/exercises/token-count",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "05",
+    type: "تمرين",
+    title: "تمرين تشريح الأمر الهندسي",
+    description:
+      "اقرأ برومبتًا كاملًا ثم صنّف أجزاءه داخل مكونات الأمر السبعة: الدور، السياق، المهمة، القيود، النبرة، المثال، والتنسيق.",
+    activityId: "prompt-anatomy",
+    activityTitle: "تمرين تشريح الأمر الهندسي",
+    href: "/exercises/prompt-anatomy",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "06",
+    type: "تمرين",
+    title: "هندسة الأوامر الاحترافية",
+    description:
+      "أنشئ مشروع هندسة أوامر احترافية وفق الأطر الحديثة التي تم شرحها في الدورة، مع أمر موسع وآخر مبسط قابلين للنسخ مباشرة.",
+    activityId: "professional-prompt-engineering",
+    activityTitle: "هندسة الأوامر الاحترافية",
+    href: "/exercises/professional-prompt-engineering",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "07",
+    type: "تمرين",
+    title: "إنشاء مشروع تحليل SWOT",
+    description:
+      "حمّل ملف swot-core المرفق، ثم استخدمه لبناء مشروع ذكاء اصطناعي يجري التحليل الرباعي للشركات بطريقة منهجية.",
+    activityId: "swot-project",
+    activityTitle: "إنشاء مشروع تحليل SWOT",
+    href: "/exercises/swot-project",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "08",
+    type: "تمرين",
+    title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
+    description:
+      "تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة Unity، كتابة 3 قرارات أولية، ومهاجمتها بتحليل ما قبل الوفاة.",
+    activityId: "thinking-partner-crisis",
+    activityTitle: "تمرين شريك التفكير - أزمة منصة مهيمنة",
+    href: "/exercises/thinking-partner-crisis",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "09",
+    type: "تمرين",
+    title: "تمرين صياغة أمر",
+    description:
+      "تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم فوري بالذكاء الاصطناعي وتوصيات لتحسين الصياغة.",
+    activityId: "prompt-writing",
+    activityTitle: "تمرين صياغة أمر",
+    href: "/exercises/prompt-writing",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "10",
+    type: "تمرين",
+    title: "تمرين مقارنة أمر بصيغتين",
+    description:
+      "قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته وملاحظة أثر جودة الصياغة على استجابة الذكاء الاصطناعي.",
+    activityId: "prompt-comparison",
+    activityTitle: "تمرين مقارنة أمر بصيغتين",
+    href: "/exercises/prompt-comparison",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "11",
+    type: "تمرين",
+    title: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
+    description:
+      "اكتب برومبتاً يساعد الذكاء الاصطناعي على بناء استبيان عملاء لشركة أزياء قبل اتخاذ قرار الاستثمار في TikTok Shop.",
+    activityId: "survey-builder",
+    activityTitle: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
+    href: "/exercises/survey-builder",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "12",
+    type: "تمرين",
+    title: "استبيان ما بعد الدورة التدريبية",
+    description:
+      "استبيان ختامي قصير لقياس تجربتك، فائدة المحتوى، وما الذي ستطبقه بعد الدورة، مع خيار الموافقة على استخدام شهادتك.",
+    activityId: "course-completion-survey",
+    activityTitle: "استبيان ما بعد الدورة التدريبية",
+    href: "/exercises/course-completion-survey",
+    linkLabel: "فتح الاستبيان",
+  },
+];
+
 export function AssessmentHub() {
   return (
     <main>
@@ -22,272 +161,32 @@ export function AssessmentHub() {
       >
         <section className="content-band">
           <div className="hub-card-grid">
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">01 | اختبار</div>
-                <h2>اختبار اليوم الأول - المفاهيم الأساسية</h2>
-                <p>
-                  اختبار سريع عبر Kahoot لمراجعة مفاهيم اليوم الأول والتأكد من
-                  وضوح الأساسيات قبل الانتقال للأنشطة التالية.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="day-one-concepts-test"
-                activityTitle="اختبار اليوم الأول"
-                compact
-                redirectTo="https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544"
-              >
-                <a
-                  href="https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544"
-                  className="primary-link"
-                  target="_blank"
-                  rel="noreferrer"
+            {activityCards.map((activity) => (
+              <div className="assessment-launch-card" key={activity.activityId}>
+                <div>
+                  <div className="section-kicker">
+                    {activity.number} | {activity.type}
+                  </div>
+                  <h2>{activity.title}</h2>
+                  <p>{activity.description}</p>
+                </div>
+                <ActivityCodeGate
+                  activityId={activity.activityId}
+                  activityTitle={activity.activityTitle}
+                  compact
+                  redirectTo={activity.href}
                 >
-                  فتح الاختبار
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">02 | تمرين</div>
-                <h2>تمرين تشريح الأمر الهندسي</h2>
-                <p>
-                  اقرأ برومبتًا كاملًا ثم صنّف أجزاءه داخل مكونات الأمر السبعة:
-                  الدور، السياق، المهمة، القيود، النبرة، المثال، والتنسيق.
-                </p>
+                  <a
+                    href={activity.href}
+                    className="primary-link"
+                    target={activity.external ? "_blank" : undefined}
+                    rel={activity.external ? "noreferrer" : undefined}
+                  >
+                    {activity.linkLabel}
+                  </a>
+                </ActivityCodeGate>
               </div>
-              <ActivityCodeGate
-                activityId="prompt-anatomy"
-                activityTitle="تمرين تشريح الأمر الهندسي"
-                compact
-                redirectTo="/exercises/prompt-anatomy"
-              >
-                <a href="/exercises/prompt-anatomy" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">03 | تمرين</div>
-                <h2>هندسة الأوامر الاحترافية</h2>
-                <p>
-                  أنشئ مشروع هندسة أوامر احترافية وفق الأطر الحديثة التي تم
-                  شرحها في الدورة، مع أمر موسع وآخر مبسط قابلين للنسخ مباشرة.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="professional-prompt-engineering"
-                activityTitle="هندسة الأوامر الاحترافية"
-                compact
-                redirectTo="/exercises/professional-prompt-engineering"
-              >
-                <a
-                  href="/exercises/professional-prompt-engineering"
-                  className="primary-link"
-                >
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">04 | تمرين</div>
-                <h2>إنشاء مشروع تحليل SWOT</h2>
-                <p>
-                  حمّل ملف swot-core المرفق، ثم استخدمه لبناء مشروع ذكاء
-                  اصطناعي يجري التحليل الرباعي للشركات بطريقة منهجية.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="swot-project"
-                activityTitle="إنشاء مشروع تحليل SWOT"
-                compact
-                redirectTo="/exercises/swot-project"
-              >
-                <a href="/exercises/swot-project" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">05 | تمرين</div>
-                <h2>تمرين صياغة أمر</h2>
-                <p>
-                  تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم
-                  فوري بالذكاء الاصطناعي وتوصيات لتحسين الصياغة.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="prompt-writing"
-                activityTitle="تمرين صياغة أمر"
-                compact
-                redirectTo="/exercises/prompt-writing"
-              >
-                <a href="/exercises/prompt-writing" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">06 | تمرين</div>
-                <h2>تمرين بناء استبيان باستخدام الذكاء الاصطناعي</h2>
-                <p>
-                  اكتب برومبتاً يساعد الذكاء الاصطناعي على بناء استبيان عملاء
-                  لشركة أزياء قبل اتخاذ قرار الاستثمار في TikTok Shop.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="survey-builder"
-                activityTitle="تمرين بناء استبيان باستخدام الذكاء الاصطناعي"
-                compact
-                redirectTo="/exercises/survey-builder"
-              >
-                <a href="/exercises/survey-builder" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">07 | تمرين</div>
-                <h2>تمرين مقارنة أمر بصيغتين</h2>
-                <p>
-                  قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته
-                  وملاحظة أثر جودة الصياغة على استجابة الذكاء الاصطناعي.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="prompt-comparison"
-                activityTitle="تمرين مقارنة أمر بصيغتين"
-                compact
-                redirectTo="/exercises/prompt-comparison"
-              >
-                <a href="/exercises/prompt-comparison" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">08 | تمرين</div>
-                <h2>تمرين حساب الرموز Tokens</h2>
-                <p>
-                  استخدم أداة OpenAI Tokenizer لمقارنة عدد الرموز والمحارف بين
-                  جملتين، ثم سجّل ملاحظتك حول الفرق بين النص الواضح والنص غير
-                  المألوف.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="token-count"
-                activityTitle="تمرين حساب الرموز Tokens"
-                compact
-                redirectTo="/exercises/token-count"
-              >
-                <a href="/exercises/token-count" className="primary-link">
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">09 | تمرين</div>
-                <h2>تمرين شريك التفكير - أزمة منصة مهيمنة</h2>
-                <p>
-                  تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة
-                  Unity، كتابة 3 قرارات أولية، ومهاجمتها بتحليل ما قبل الوفاة.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="thinking-partner-crisis"
-                activityTitle="تمرين شريك التفكير - أزمة منصة مهيمنة"
-                compact
-                redirectTo="/exercises/thinking-partner-crisis"
-              >
-                <a
-                  href="/exercises/thinking-partner-crisis"
-                  className="primary-link"
-                >
-                  فتح التمرين
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">10 | تمرين</div>
-                <h2>استبيان ما بعد الدورة التدريبية</h2>
-                <p>
-                  استبيان ختامي قصير لقياس تجربتك، فائدة المحتوى، وما الذي
-                  ستطبقه بعد الدورة، مع خيار الموافقة على استخدام شهادتك.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="course-completion-survey"
-                activityTitle="استبيان ما بعد الدورة التدريبية"
-                compact
-                redirectTo="/exercises/course-completion-survey"
-              >
-                <a
-                  href="/exercises/course-completion-survey"
-                  className="primary-link"
-                >
-                  فتح الاستبيان
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">11 | تمرين</div>
-                <h2>عرّف بنفسك للمجموعة</h2>
-                <p>
-                  أجب عن أسئلة قصيرة ليتمكن المشاركون من معرفة بلدك وخلفيتك
-                  واهتماماتك والنموذج الذي تستخدمه وأهدافك من الدورة.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="introductions"
-                activityTitle="تعارف المشاركين"
-                compact
-                redirectTo="/introductions"
-              >
-                <a href="/introductions" className="primary-link">
-                  فتح التعارف
-                </a>
-              </ActivityCodeGate>
-            </div>
-
-            <div className="assessment-launch-card">
-              <div>
-                <div className="section-kicker">12 | مقياس</div>
-                <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
-                <p>
-                  اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في
-                  تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.
-                </p>
-              </div>
-              <ActivityCodeGate
-                activityId="ai-leader-style"
-                activityTitle="مقياس نمط قيادة الذكاء الاصطناعي"
-                compact
-                redirectTo="/ai-leader-style.html"
-              >
-                <a href="/ai-leader-style.html" className="primary-link">
-                  بدء المقياس
-                </a>
-              </ActivityCodeGate>
-            </div>
+            ))}
           </div>
         </section>
       </EmailGate>
