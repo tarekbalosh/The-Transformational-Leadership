@@ -139,6 +139,164 @@ main {
   border: 1px solid var(--line);
 }
 
+/* ── Hamburger button ── */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  cursor: pointer;
+  position: relative;
+  z-index: 30;
+  transition: background 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  background: var(--mist);
+}
+
+.hamburger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--teal-deep);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Sidebar overlay ── */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(23, 33, 31, 0.5);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Sidebar drawer ── */
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  width: min(320px, 85vw);
+  height: 100dvh;
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  box-shadow: -8px 0 40px rgba(23, 33, 31, 0.14);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-drawer.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar-header .brand-logo {
+  width: 72px;
+}
+
+.sidebar-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--teal-deep);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+  background: var(--mist);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  color: var(--charcoal);
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 0;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a:focus-visible {
+  background: var(--mist);
+  color: var(--teal-deep);
+  outline: none;
+}
+
+.sidebar-admin-link {
+  margin: 8px 20px 20px;
+  padding: 12px 20px !important;
+  border: 1px solid var(--line);
+  border-radius: 8px !important;
+  text-align: center;
+  justify-content: center !important;
+  color: var(--teal-deep) !important;
+  background: var(--white);
+}
+
+.sidebar-admin-link:hover {
+  background: var(--mist) !important;
+  border-color: var(--teal) !important;
+}
+
 .hero-section {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
@@ -2833,7 +2991,19 @@ td {
 }
 
 @media (max-width: 980px) {
-  .site-header,
+  .site-header {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
   .partner-link {
     align-items: flex-start;
     flex-direction: column;
@@ -2939,16 +3109,8 @@ td {
 }
 
 @media (max-width: 620px) {
-  .site-header {
-    position: static;
-  }
-
   .brand-logo {
     width: 78px;
-  }
-
-  .main-nav {
-    justify-content: flex-start;
   }
 
   h1 {
