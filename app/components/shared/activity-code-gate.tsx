@@ -7,6 +7,7 @@ type Props = {
   activityTitle: string;
   children: ReactNode;
   compact?: boolean;
+  redirectTo?: string;
 };
 
 export function ActivityCodeGate({
@@ -14,6 +15,7 @@ export function ActivityCodeGate({
   activityTitle,
   children,
   compact = false,
+  redirectTo,
 }: Props) {
   const storageKey = `activityCode:${activityId}`;
   const accessState = useSyncExternalStore(
@@ -50,6 +52,10 @@ export function ActivityCodeGate({
 
     window.sessionStorage.setItem(storageKey, "ok");
     window.dispatchEvent(new Event("activity-code-change"));
+
+    if (redirectTo) {
+      window.location.assign(redirectTo);
+    }
   }
 
   if (accessState === "ok") {

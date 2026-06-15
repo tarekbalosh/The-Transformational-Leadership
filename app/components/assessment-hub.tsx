@@ -35,6 +35,7 @@ export function AssessmentHub() {
                 activityId="day-one-concepts-test"
                 activityTitle="اختبار اليوم الأول"
                 compact
+                redirectTo="https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544"
               >
                 <a
                   href="https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544"
@@ -60,6 +61,7 @@ export function AssessmentHub() {
                 activityId="prompt-anatomy"
                 activityTitle="تمرين تشريح الأمر الهندسي"
                 compact
+                redirectTo="/exercises/prompt-anatomy"
               >
                 <a href="/exercises/prompt-anatomy" className="primary-link">
                   فتح التمرين
@@ -80,6 +82,7 @@ export function AssessmentHub() {
                 activityId="professional-prompt-engineering"
                 activityTitle="هندسة الأوامر الاحترافية"
                 compact
+                redirectTo="/exercises/professional-prompt-engineering"
               >
                 <a
                   href="/exercises/professional-prompt-engineering"
@@ -103,6 +106,7 @@ export function AssessmentHub() {
                 activityId="swot-project"
                 activityTitle="إنشاء مشروع تحليل SWOT"
                 compact
+                redirectTo="/exercises/swot-project"
               >
                 <a href="/exercises/swot-project" className="primary-link">
                   فتح التمرين
@@ -123,6 +127,7 @@ export function AssessmentHub() {
                 activityId="prompt-writing"
                 activityTitle="تمرين صياغة أمر"
                 compact
+                redirectTo="/exercises/prompt-writing"
               >
                 <a href="/exercises/prompt-writing" className="primary-link">
                   فتح التمرين
@@ -143,6 +148,7 @@ export function AssessmentHub() {
                 activityId="survey-builder"
                 activityTitle="تمرين بناء استبيان باستخدام الذكاء الاصطناعي"
                 compact
+                redirectTo="/exercises/survey-builder"
               >
                 <a href="/exercises/survey-builder" className="primary-link">
                   فتح التمرين
@@ -163,6 +169,7 @@ export function AssessmentHub() {
                 activityId="prompt-comparison"
                 activityTitle="تمرين مقارنة أمر بصيغتين"
                 compact
+                redirectTo="/exercises/prompt-comparison"
               >
                 <a href="/exercises/prompt-comparison" className="primary-link">
                   فتح التمرين
@@ -184,6 +191,7 @@ export function AssessmentHub() {
                 activityId="token-count"
                 activityTitle="تمرين حساب الرموز Tokens"
                 compact
+                redirectTo="/exercises/token-count"
               >
                 <a href="/exercises/token-count" className="primary-link">
                   فتح التمرين
@@ -204,6 +212,7 @@ export function AssessmentHub() {
                 activityId="thinking-partner-crisis"
                 activityTitle="تمرين شريك التفكير - أزمة منصة مهيمنة"
                 compact
+                redirectTo="/exercises/thinking-partner-crisis"
               >
                 <a
                   href="/exercises/thinking-partner-crisis"
@@ -227,6 +236,7 @@ export function AssessmentHub() {
                 activityId="course-completion-survey"
                 activityTitle="استبيان ما بعد الدورة التدريبية"
                 compact
+                redirectTo="/exercises/course-completion-survey"
               >
                 <a
                   href="/exercises/course-completion-survey"
@@ -250,6 +260,7 @@ export function AssessmentHub() {
                 activityId="introductions"
                 activityTitle="تعارف المشاركين"
                 compact
+                redirectTo="/introductions"
               >
                 <a href="/introductions" className="primary-link">
                   فتح التعارف
@@ -270,6 +281,7 @@ export function AssessmentHub() {
                 activityId="ai-leader-style"
                 activityTitle="مقياس نمط قيادة الذكاء الاصطناعي"
                 compact
+                redirectTo="/ai-leader-style.html"
               >
                 <a href="/ai-leader-style.html" className="primary-link">
                   بدء المقياس
