@@ -100,6 +100,16 @@ export const exercises: Exercise[] = [
       "أمر هندسي جاهز لبناء مشروع أوامر احترافية، بصيغة موسعة أو مبسطة قابلة للنسخ والاستخدام مباشرة.",
   },
   {
+    id: "swot-project",
+    title: "إنشاء مشروع تحليل SWOT",
+    status: "available",
+    duration: "8-10 دقائق",
+    prompt:
+      "حمّل الملف المرجعي swot-core واستخدمه لبناء مشروع ذكاء اصطناعي يساعدك على إجراء التحليل الرباعي للشركات.",
+    outcome:
+      "مشروع جاهز لإجراء تحليل SWOT منهجي للشركات الصغيرة والمتوسطة اعتماداً على ملف معرفي واضح.",
+  },
+  {
     id: "prompt-writing",
     title: "تمرين صياغة أمر",
     status: "available",
@@ -189,6 +199,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "هندسة الأوامر الاحترافية",
     category: "تمرين",
     code: "638527",
+  },
+  {
+    id: "swot-project",
+    title: "إنشاء مشروع تحليل SWOT",
+    category: "تمرين",
+    code: "492681",
   },
   {
     id: "prompt-writing",

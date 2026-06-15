@@ -93,6 +93,26 @@ export function AssessmentHub() {
             <div className="assessment-launch-card">
               <div>
                 <div className="section-kicker">04 | تمرين</div>
+                <h2>إنشاء مشروع تحليل SWOT</h2>
+                <p>
+                  حمّل ملف swot-core المرفق، ثم استخدمه لبناء مشروع ذكاء
+                  اصطناعي يجري التحليل الرباعي للشركات بطريقة منهجية.
+                </p>
+              </div>
+              <ActivityCodeGate
+                activityId="swot-project"
+                activityTitle="إنشاء مشروع تحليل SWOT"
+                compact
+              >
+                <a href="/exercises/swot-project" className="primary-link">
+                  فتح التمرين
+                </a>
+              </ActivityCodeGate>
+            </div>
+
+            <div className="assessment-launch-card">
+              <div>
+                <div className="section-kicker">05 | تمرين</div>
                 <h2>تمرين صياغة أمر</h2>
                 <p>
                   تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم
@@ -112,7 +132,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">05 | تمرين</div>
+                <div className="section-kicker">06 | تمرين</div>
                 <h2>تمرين بناء استبيان باستخدام الذكاء الاصطناعي</h2>
                 <p>
                   اكتب برومبتاً يساعد الذكاء الاصطناعي على بناء استبيان عملاء
@@ -132,7 +152,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">06 | تمرين</div>
+                <div className="section-kicker">07 | تمرين</div>
                 <h2>تمرين مقارنة أمر بصيغتين</h2>
                 <p>
                   قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته
@@ -152,7 +172,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">07 | تمرين</div>
+                <div className="section-kicker">08 | تمرين</div>
                 <h2>تمرين حساب الرموز Tokens</h2>
                 <p>
                   استخدم أداة OpenAI Tokenizer لمقارنة عدد الرموز والمحارف بين
@@ -173,7 +193,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">08 | تمرين</div>
+                <div className="section-kicker">09 | تمرين</div>
                 <h2>تمرين شريك التفكير - أزمة منصة مهيمنة</h2>
                 <p>
                   تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة
@@ -196,7 +216,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">09 | تمرين</div>
+                <div className="section-kicker">10 | تمرين</div>
                 <h2>استبيان ما بعد الدورة التدريبية</h2>
                 <p>
                   استبيان ختامي قصير لقياس تجربتك، فائدة المحتوى، وما الذي
@@ -219,7 +239,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">10 | تمرين</div>
+                <div className="section-kicker">11 | تمرين</div>
                 <h2>عرّف بنفسك للمجموعة</h2>
                 <p>
                   أجب عن أسئلة قصيرة ليتمكن المشاركون من معرفة بلدك وخلفيتك
@@ -239,7 +259,7 @@ export function AssessmentHub() {
 
             <div className="assessment-launch-card">
               <div>
-                <div className="section-kicker">11 | مقياس</div>
+                <div className="section-kicker">12 | مقياس</div>
                 <h2>ما نمط قيادتك للذكاء الاصطناعي؟</h2>
                 <p>
                   اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في

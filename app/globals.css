@@ -1430,9 +1430,18 @@ textarea:focus {
   margin: 0 auto;
 }
 
+.resource-exercise-layout {
+  display: grid;
+  gap: 18px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
 .comparison-intro-card,
 .comparison-prompt-card,
 .professional-prompt-card,
+.resource-download-card,
+.resource-steps-card,
 .token-sentence-card,
 .token-reflection-card,
 .anatomy-table-card,
@@ -1467,6 +1476,65 @@ textarea:focus {
 .professional-prompt-list {
   display: grid;
   gap: 16px;
+}
+
+.resource-download-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.resource-download-card h3,
+.resource-steps-card h3 {
+  margin-top: 6px;
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.resource-download-card p {
+  max-width: 720px;
+  margin-top: 10px;
+  color: var(--charcoal);
+  font-size: 17px;
+}
+
+.resource-download-card small {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--stone);
+  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  min-width: max-content;
+}
+
+.resource-steps-card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.resource-steps-card ol {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-inline-start: 24px;
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
+.resource-steps-card li::marker {
+  color: var(--teal-deep);
+  font-weight: 700;
 }
 
 .token-count-form {
@@ -2793,6 +2861,16 @@ td {
   .course-link-card {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .resource-download-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resource-actions {
+    justify-content: flex-start;
+    min-width: 0;
   }
 
   .comparison-prompt-head {
