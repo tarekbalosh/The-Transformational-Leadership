@@ -107,12 +107,20 @@ export default function Home() {
       </section>
 
       <section className="partner-band">
-        <div>
-          <span>بالتعاون مع</span>
-          <strong>{partner.name}</strong>
-          <p>{partner.note}</p>
-        </div>
-        <img src={partner.logo} alt={partner.name} />
+        <a
+          href={partner.href}
+          className="partner-link"
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`زيارة موقع ${partner.name}`}
+        >
+          <div>
+            <span>بالتعاون مع</span>
+            <strong>{partner.name}</strong>
+            <p>{partner.note}</p>
+          </div>
+          <img src={partner.logo} alt={partner.name} />
+        </a>
       </section>
 
       <section className="content-band">

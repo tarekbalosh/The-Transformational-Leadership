@@ -59,8 +59,9 @@ export type EngineeringPrompt = {
 };
 
 export const partner = {
-  name: "شركة الإبداع الخليجي للتدريب والاستشارات",
+  name: "أكاديمية الإبداع الخليجي للتدريب الإلكتروني",
   logo: "/brand/ebdaa.png",
+  href: "https://egulfinnovation.com/",
   note: "تنفذ الدورة بالتعاون مع شريك تدريبي متخصص في تطوير القادة والمؤسسات.",
 };
 
