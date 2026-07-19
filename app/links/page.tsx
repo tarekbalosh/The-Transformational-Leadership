@@ -5,13 +5,18 @@ export default function CourseLinksPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="page-hero compact-hero links-hero">
-        <div className="section-kicker">روابط الدورة</div>
-        <h1>روابط مهمة سيتم إرسالها واستخدامها أثناء الدورة</h1>
-        <p>
-          هذه الصفحة تجمع الروابط التي يحتاجها المشاركون خلال البرنامج، حتى تبقى
-          مرجعاً سريعاً وسهل الوصول من أي جهاز.
-        </p>
+      <section className="hero-section">
+        <div className="hero-copy">
+          <div className="section-kicker">روابط الدورة</div>
+          <h1>روابط مهمة سيتم إرسالها واستخدامها أثناء الدورة</h1>
+          <p className="hero-subtitle">
+            هذه الصفحة تجمع الروابط التي يحتاجها المشاركون خلال البرنامج، حتى تبقى
+            مرجعاً سريعاً وسهل الوصول من أي جهاز.
+          </p>
+        </div>
+        <div className="hero-media">
+          <img src="/images/links-hero.png" alt="القيادة التحويلية - روابط مهمة" />
+        </div>
       </section>
 
       <section className="content-band">

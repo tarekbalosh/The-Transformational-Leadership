@@ -1,43 +1,475 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+/* Landing Page Specific Styles for Transformational Leadership */
 
-@font-face {
-  font-family: "Lyon Arabic";
-  src: url("/fonts/lyon-arabic-text-regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+.landing-section {
+  padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 80px);
 }
 
-@font-face {
-  font-family: "Lyon Arabic";
-  src: url("/fonts/lyon-arabic-text-bold.otf") format("opentype");
+.landing-section-alt {
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Typography Enhancements */
+.landing-kicker {
+  display: inline-flex;
+  align-items: center;
+  color: var(--navy);
+  font-size: 19px;
   font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  margin-bottom: 20px;
+  padding: 10px 26px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--blue) 20%, transparent);
+  border-radius: 100px;
+  box-shadow: 0 4px 16px rgba(20, 35, 61, 0.05);
+  transition: all 0.3s ease;
 }
 
-@font-face {
-  font-family: "Lyon Arabic Display";
-  src: url("/fonts/lyon-arabic-display-regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+.landing-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-left: 12px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 20%, transparent);
+  transition: transform 0.3s ease;
+}
+
+.landing-kicker:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(20, 35, 61, 0.08);
+  border-color: color-mix(in srgb, var(--blue) 40%, transparent);
+}
+
+.landing-kicker:hover::before {
+  transform: scale(1.2);
+}
+
+.landing-title {
+  color: var(--navy);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  max-width: 800px;
+}
+
+.landing-subtitle {
+  color: var(--text-2);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+/* Stats Cards (The Leadership Gap) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(20, 35, 61, 0.08);
+}
+
+.stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+.stat-value {
+  display: block;
+  font-size: clamp(48px, 6vw, 64px);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.stat-label {
+  color: var(--text-2);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Comparison Table (Why This Course) */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 48px;
+}
+
+@media (max-width: 768px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.comparison-column {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.comparison-column.transformational {
+  background: var(--navy);
+  border-color: var(--navy-mid);
+  color: white;
+  box-shadow: 0 20px 40px rgba(20, 35, 61, 0.15);
+}
+
+.comparison-header {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.transformational .comparison-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.comparison-item {
+  margin-bottom: 24px;
+}
+
+.comparison-item h4 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+
+.transformational .comparison-item h4 {
+  color: var(--gold);
+}
+
+.comparison-item p {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.transformational .comparison-item p {
+  color: white;
+}
+
+/* Feature Cards (What You'll Learn & Pillars) */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: var(--surface-2);
+  border-color: var(--blue-track);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--blue) 10%, transparent);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.feature-card p {
+  color: var(--text-2);
+  font-size: 16px;
+}
+
+/* Timeline (Curriculum) */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding-right: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 20px; /* RTL */
+  width: 2px;
+  background: var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  right: -32px;
+  top: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 4px solid var(--surface);
+  z-index: 2;
+  box-shadow: 0 0 0 2px var(--blue-track);
+}
+
+.timeline-content {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-content:hover {
+  transform: translateX(-8px);
+  box-shadow: 0 8px 24px rgba(20, 35, 61, 0.08);
+}
+
+.timeline-module {
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.timeline-title {
+  font-size: 22px;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.timeline-desc {
+  color: var(--text-2);
+  margin-bottom: 16px;
+}
+
+.timeline-subs {
+  color: var(--text-3);
+  font-size: 14px;
+  background: var(--bg);
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+/* Registration CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy) 0%, #0d172a 100%);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 24px;
+  margin: 40px clamp(20px, 5vw, 80px);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(42, 120, 214, 0.2), transparent 50%);
+  pointer-events: none;
+}
+
+.cta-title {
+  color: white;
+  font-size: clamp(32px, 5vw, 48px);
+  margin-bottom: 24px;
+}
+
+.cta-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+.cta-button {
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 18px;
+  padding: 16px 36px;
+  border-radius: 30px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(250, 178, 25, 0.3);
+}
+
+.email-registration-form {
+  background-color: #f4f7f9;
+  padding: 32px;
+  border-radius: 16px;
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.email-registration-label {
+  display: block;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.email-registration-input-group {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.email-registration-input {
+  flex-grow: 1;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--navy);
+  outline: none;
+  background: transparent;
+  width: 100%;
+  text-align: right;
+  direction: ltr;
+}
+
+.email-registration-input::placeholder {
+  color: #94a3b8;
+  text-align: right;
+}
+
+.email-registration-submit {
+  background-color: #1d3640;
+  color: #ffffff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.email-registration-submit:hover {
+  background-color: var(--navy);
+}
+
+.contact-info {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.contact-icon {
+  color: var(--gold);
 }
 
 :root {
-  --ink: #17211f;
-  --charcoal: #26302e;
-  --teal: #31575b;
-  --teal-deep: #1f3f43;
-  --gold: #b58a2a;
-  --lime: #d4e51c;
-  --lime-soft: #f0f5a2;
-  --mist: #eef2ee;
-  --stone: #7f8882;
-  --line: #dbe2dc;
-  --paper: #fbfcf7;
-  --white: #ffffff;
+  --navy:       #14233D;
+  --navy-mid:   #1F5296;
+  --blue:       #2A78D6;
+  --blue-track: #CDE2FB;
+  --gold:       #FAB219;
+  --text-1:     #0B0B0B;
+  --text-2:     #52514E;
+  --text-3:     #898781;
+  --bg:         #F9F9F7;
+  --surface:    #FCFCFB;
+  --surface-2:  #F0EFEC;
+  --line:       #E1E0D9;
+  /* Status colors */
+  --success-text: #1C6B2D;
+  --success-bg:   #EFF8F0;
+  --success-line: #BFE3C3;
+  --error-text:   #A5401F;
+  --error-bg:     #FBEFEC;
+  --error-line:   #F0C9BE;
 }
 
 * {
@@ -50,15 +482,21 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "Lyon Arabic", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   line-height: 1.7;
   text-align: right;
 }
 
 body::selection {
-  background: var(--lime-soft);
+  background: var(--blue-track);
+}
+
+.en {
+  font-family: 'IBM Plex Sans', 'IBM Plex Sans Arabic', sans-serif;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 a {
@@ -85,6 +523,14 @@ main {
   min-height: 100vh;
 }
 
+.gold-accent {
+  display: block;
+  width: 52px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -94,7 +540,7 @@ main {
   justify-content: space-between;
   gap: 24px;
   padding: 14px clamp(18px, 4vw, 64px);
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(18px);
 }
@@ -104,7 +550,7 @@ main {
   align-items: center;
   gap: 12px;
   min-width: max-content;
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
@@ -123,19 +569,19 @@ main {
 
 .main-nav a {
   padding: 8px 12px;
-  border-radius: 8px;
-  color: var(--charcoal);
+  border-radius: 14px;
+  color: var(--text-2);
   font-size: 15px;
 }
 
 .main-nav a:hover,
 .main-nav a:focus-visible {
-  background: var(--mist);
+  background: var(--surface-2);
   outline: none;
 }
 
 .main-nav .admin-nav-link {
-  color: var(--teal-deep);
+  color: var(--navy);
   border: 1px solid var(--line);
 }
 
@@ -150,8 +596,8 @@ main {
   height: 42px;
   padding: 0;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
   cursor: pointer;
   position: relative;
   z-index: 30;
@@ -159,14 +605,14 @@ main {
 }
 
 .hamburger-btn:hover {
-  background: var(--mist);
+  background: var(--surface-2);
 }
 
 .hamburger-line {
   display: block;
   width: 20px;
   height: 2px;
-  background: var(--teal-deep);
+  background: var(--navy);
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -189,7 +635,7 @@ main {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(23, 33, 31, 0.5);
+  background: rgba(20, 35, 61, 0.5);
   backdrop-filter: blur(6px);
   opacity: 0;
   visibility: hidden;
@@ -209,9 +655,9 @@ main {
   z-index: 50;
   width: min(320px, 85vw);
   height: 100dvh;
-  background: var(--paper);
+  background: var(--bg);
   border-left: 1px solid var(--line);
-  box-shadow: -8px 0 40px rgba(23, 33, 31, 0.14);
+  box-shadow: -8px 0 40px rgba(20, 35, 61, 0.14);
   transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
@@ -244,15 +690,15 @@ main {
   min-height: 38px;
   padding: 0;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--teal-deep);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--navy);
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .sidebar-close-btn:hover {
-  background: var(--mist);
+  background: var(--surface-2);
 }
 
 .sidebar-nav {
@@ -267,7 +713,7 @@ main {
   align-items: center;
   gap: 10px;
   padding: 14px 24px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 17px;
   font-weight: 700;
   border-radius: 0;
@@ -276,8 +722,8 @@ main {
 
 .sidebar-nav a:hover,
 .sidebar-nav a:focus-visible {
-  background: var(--mist);
-  color: var(--teal-deep);
+  background: var(--surface-2);
+  color: var(--navy);
   outline: none;
 }
 
@@ -288,13 +734,13 @@ main {
   border-radius: 8px !important;
   text-align: center;
   justify-content: center !important;
-  color: var(--teal-deep) !important;
-  background: var(--white);
+  color: var(--navy) !important;
+  background: var(--surface);
 }
 
 .sidebar-admin-link:hover {
-  background: var(--mist) !important;
-  border-color: var(--teal) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--blue) !important;
 }
 
 .hero-section {
@@ -304,8 +750,8 @@ main {
   align-items: center;
   padding: clamp(18px, 2.6vw, 34px) clamp(18px, 5vw, 72px) 18px;
   background:
-    radial-gradient(circle at 12% 16%, rgba(212, 229, 28, 0.18), transparent 28%),
-    linear-gradient(135deg, #fbfcf7 0%, #f1f4ef 54%, #e8eee8 100%);
+    radial-gradient(circle at 12% 16%, rgba(42, 120, 214, 0.08), transparent 28%),
+    linear-gradient(135deg, var(--bg) 0%, #f2f2ef 54%, #eaeae6 100%);
 }
 
 .hero-copy {
@@ -313,17 +759,19 @@ main {
 }
 
 .section-kicker {
-  color: var(--teal);
-  font-size: 15px;
+  color: var(--text-3);
+  font-size: 13px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
 }
 
 h1,
 h2,
 h3 {
   margin: 0;
-  color: var(--ink);
-  font-family: "Lyon Arabic Display", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   line-height: 1.18;
   letter-spacing: 0;
 }
@@ -331,13 +779,18 @@ h3 {
 h1 {
   margin-top: 12px;
   max-width: 820px;
-  font-size: clamp(42px, 6.4vw, 82px);
-  font-weight: 400;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 700;
 }
 
 h2 {
-  font-size: clamp(30px, 3.6vw, 52px);
-  font-weight: 400;
+  font-size: clamp(26px, 3vw, 42px);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 19px;
+  font-weight: 700;
 }
 
 p {
@@ -348,7 +801,7 @@ p {
 .page-hero p {
   max-width: 760px;
   margin-top: 18px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: clamp(18px, 2vw, 24px);
 }
 
@@ -367,20 +820,20 @@ button {
   justify-content: center;
   min-height: 46px;
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: 14px;
   border: 1px solid transparent;
   font-weight: 700;
 }
 
 .primary-link,
 button {
-  background: var(--teal-deep);
-  color: var(--white);
+  background: var(--blue);
+  color: #fff;
 }
 
 .primary-link:hover,
 button:hover {
-  background: var(--teal);
+  background: var(--navy-mid);
 }
 
 button:disabled {
@@ -389,9 +842,9 @@ button:disabled {
 }
 
 .secondary-link {
-  background: var(--white);
+  background: var(--surface);
   border-color: var(--line);
-  color: var(--teal-deep);
+  color: var(--navy);
 }
 
 .entry-form,
@@ -402,7 +855,7 @@ button:disabled {
   padding: 18px;
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 14px;
 }
 
 .entry-form.compact {
@@ -414,8 +867,8 @@ button:disabled {
   margin-top: 18px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--white) 86%, var(--mist));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 86%, var(--surface-2));
 }
 
 .activity-code-form.compact {
@@ -429,7 +882,7 @@ button:disabled {
 label {
   display: block;
   margin-bottom: 8px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-weight: 700;
 }
 
@@ -443,9 +896,9 @@ input,
 textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--ink);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-1);
   padding: 12px 14px;
   outline: none;
 }
@@ -456,20 +909,20 @@ textarea {
 
 input:focus,
 textarea:focus {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(49, 87, 91, 0.14);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(42, 120, 214, 0.14);
 }
 
 .form-note,
 .form-message,
 .quiet-line {
   margin-top: 10px;
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 14px;
 }
 
 .form-message {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
@@ -478,8 +931,8 @@ textarea:focus {
   align-self: stretch;
   height: clamp(380px, 58vh, 500px);
   overflow: hidden;
-  border-radius: 8px;
-  background: var(--teal-deep);
+  border-radius: 14px;
+  background: var(--navy);
 }
 
 .trainer-photo-link {
@@ -492,7 +945,7 @@ textarea:focus {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(23, 33, 31, 0.7));
+  background: linear-gradient(180deg, transparent 40%, rgba(20, 35, 61, 0.75));
   opacity: 0.82;
   transition: opacity 0.2s ease;
   pointer-events: none;
@@ -504,7 +957,7 @@ textarea:focus {
 }
 
 .trainer-photo-link:focus-visible {
-  outline: 3px solid var(--lime);
+  outline: 3px solid var(--blue);
   outline-offset: 4px;
 }
 
@@ -530,22 +983,22 @@ textarea:focus {
   display: grid;
   gap: 3px;
   max-width: 360px;
-  color: var(--white);
+  color: var(--surface);
 }
 
 .trainer-name-card span,
 .trainer-name-card small {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .trainer-name-card span {
-  color: var(--lime-soft);
+  color: var(--blue-track);
   font-size: 14px;
 }
 
 .trainer-name-card strong {
-  font-family: "Lyon Arabic Display", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(30px, 4vw, 46px);
   font-weight: 400;
   line-height: 1.12;
@@ -562,7 +1015,7 @@ textarea:focus {
   bottom: 18px;
   max-width: 280px;
   padding: 14px 16px;
-  border-radius: 8px;
+  border-radius: 14px;
   background: rgba(251, 252, 247, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.72);
   z-index: 2;
@@ -570,7 +1023,7 @@ textarea:focus {
 
 .hero-badge span {
   display: block;
-  color: var(--teal);
+  color: var(--blue);
   font-size: 13px;
   font-weight: 700;
 }
@@ -578,7 +1031,7 @@ textarea:focus {
 .hero-badge strong {
   display: block;
   margin-top: 3px;
-  color: var(--ink);
+  color: var(--text-1);
 }
 
 .trainer-profile-modal {
@@ -608,8 +1061,8 @@ textarea:focus {
   max-height: min(86vh, 900px);
   overflow: auto;
   border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
   box-shadow: 0 28px 90px rgba(23, 33, 31, 0.28);
 }
 
@@ -621,10 +1074,10 @@ textarea:focus {
   margin: 14px 14px 0;
   padding: 8px 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
 }
@@ -635,7 +1088,7 @@ textarea:focus {
   gap: clamp(18px, 4vw, 34px);
   align-items: center;
   padding: clamp(24px, 5vw, 48px);
-  background: linear-gradient(135deg, #fbfcf7 0%, #eef2ee 100%);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--surface-2) 100%);
   border-bottom: 1px solid var(--line);
 }
 
@@ -644,7 +1097,7 @@ textarea:focus {
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center 28%;
-  border-radius: 8px;
+  border-radius: 14px;
   border: 1px solid var(--line);
 }
 
@@ -654,8 +1107,8 @@ textarea:focus {
 
 .trainer-profile-head p {
   margin-top: 8px;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 700;
 }
@@ -664,7 +1117,7 @@ textarea:focus {
   display: grid;
   gap: 16px;
   padding: clamp(22px, 5vw, 46px);
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: clamp(17px, 2vw, 20px);
 }
 
@@ -672,13 +1125,13 @@ textarea:focus {
   margin-top: 6px;
   padding: 20px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .trainer-profile-section h3 {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -694,23 +1147,23 @@ textarea:focus {
 
 .trainer-profile-section li {
   padding: 12px 14px;
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--ink);
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--text-1);
   font-weight: 700;
 }
 
 .trainer-profile-highlight {
   padding: 20px;
-  border-radius: 8px;
-  background: var(--teal-deep);
-  color: var(--white);
+  border-radius: 14px;
+  background: var(--navy);
+  color: var(--surface);
 }
 
 .trainer-profile-highlight strong {
   display: block;
-  color: var(--lime-soft);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: #D9E4F5;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 20px;
 }
 
@@ -721,7 +1174,7 @@ textarea:focus {
 
 .partner-band {
   padding: 0;
-  background: var(--white);
+  background: var(--surface);
   border-block: 1px solid var(--line);
 }
 
@@ -740,21 +1193,21 @@ textarea:focus {
 }
 
 .partner-link:hover {
-  background: color-mix(in srgb, var(--gold) 10%, var(--white));
+  background: color-mix(in srgb, var(--gold) 10%, var(--surface));
 }
 
 .partner-link span {
-  color: var(--stone);
+  color: var(--text-3);
 }
 
 .partner-link strong {
   display: block;
-  color: var(--teal-deep);
+  color: var(--navy);
   font-size: 22px;
 }
 
 .partner-link p {
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .partner-link img {
@@ -772,12 +1225,11 @@ textarea:focus {
 }
 
 .content-band.muted {
-  background: var(--mist);
+  background: var(--surface-2);
 }
 
 .section-heading {
-  display: grid;
-  gap: 10px;
+  display: block;
   max-width: 760px;
   margin-bottom: 28px;
 }
@@ -791,19 +1243,19 @@ textarea:focus {
 .feature-grid article {
   min-height: 150px;
   padding: 20px;
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
   border: 1px solid var(--line);
 }
 
 .feature-grid span {
-  color: var(--lime);
-  text-shadow: 0 0 0 var(--teal);
+  color: var(--gold);
+  text-shadow: none;
 }
 
 .feature-grid p {
   margin-top: 18px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -814,8 +1266,8 @@ textarea:focus {
   gap: 24px;
   padding: clamp(22px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .hub-card-grid {
@@ -831,7 +1283,7 @@ textarea:focus {
 .assessment-launch-card p {
   max-width: 760px;
   margin-top: 12px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -839,7 +1291,7 @@ textarea:focus {
 .intro-page-hero,
 .intro-form-section,
 .intro-board {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
 }
 
 .intro-hero {
@@ -849,13 +1301,13 @@ textarea:focus {
   align-items: center;
   padding: clamp(42px, 7vw, 96px) clamp(18px, 5vw, 72px);
   background:
-    radial-gradient(circle at 16% 18%, rgba(212, 229, 28, 0.18), transparent 28%),
-    linear-gradient(135deg, #fbfcf7 0%, #eef4f0 100%);
+    radial-gradient(circle at 16% 18%, rgba(42, 120, 214, 0.08), transparent 28%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .intro-hero h1 {
   max-width: 850px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
   font-size: clamp(40px, 6vw, 78px);
 }
@@ -864,19 +1316,19 @@ textarea:focus {
 .intro-page-hero p {
   max-width: 760px;
   margin-top: 18px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: clamp(18px, 2vw, 23px);
 }
 
 .intro-hero-panel {
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .intro-hero-panel strong {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-size: 24px;
 }
 
@@ -885,7 +1337,7 @@ textarea:focus {
 }
 
 .intro-page-hero h1 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -900,8 +1352,8 @@ textarea:focus {
   max-width: 920px;
   padding: clamp(20px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .intro-form-grid {
@@ -938,20 +1390,20 @@ textarea:focus {
 .intro-filter button {
   min-height: 42px;
   padding: 8px 12px;
-  background: var(--white);
-  color: var(--teal-deep);
+  background: var(--surface);
+  color: var(--navy);
   border: 1px solid var(--line);
 }
 
 .intro-filter button.active {
-  background: var(--teal-deep);
-  color: var(--white);
-  border-color: var(--teal-deep);
+  background: var(--navy);
+  color: var(--surface);
+  border-color: var(--navy);
 }
 
 .intro-count {
   margin-bottom: 18px;
-  color: var(--stone);
+  color: var(--text-3);
   font-weight: 700;
 }
 
@@ -966,8 +1418,8 @@ textarea:focus {
   gap: 18px;
   padding: 20px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .profile-card-head {
@@ -983,22 +1435,22 @@ textarea:focus {
   flex: 0 0 48px;
   width: 48px;
   height: 48px;
-  border-radius: 8px;
-  background: var(--lime);
-  color: var(--teal-deep);
+  border-radius: 14px;
+  background: var(--blue-track);
+  color: var(--navy);
   font-size: 22px;
   font-weight: 700;
 }
 
 .profile-card-head h2 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 24px;
   font-weight: 700;
 }
 
 .profile-card-head p {
   margin-top: 4px;
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .intro-profile-card dl {
@@ -1008,21 +1460,21 @@ textarea:focus {
 }
 
 .intro-profile-card dt {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
 .intro-profile-card dd {
   margin: 3px 0 0;
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .empty-board {
   padding: 28px;
   border: 1px dashed var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--stone);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-3);
   text-align: center;
 }
 
@@ -1031,13 +1483,13 @@ textarea:focus {
   margin: clamp(28px, 5vw, 58px) auto;
   padding: clamp(22px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .email-gate h2 {
   margin-top: 8px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 700;
 }
@@ -1045,13 +1497,13 @@ textarea:focus {
 .email-gate p {
   max-width: 680px;
   margin-top: 10px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
 .page-hero {
   padding: clamp(42px, 7vw, 98px) clamp(18px, 5vw, 72px);
-  background: linear-gradient(135deg, #f9fbf3 0%, #eef3ee 100%);
+  background: linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .compact-hero {
@@ -1060,20 +1512,20 @@ textarea:focus {
 
 .about-hero {
   background:
-    radial-gradient(circle at 12% 18%, rgba(212, 229, 28, 0.16), transparent 26%),
-    linear-gradient(135deg, #fbfcf7 0%, #eef3ee 100%);
+    radial-gradient(circle at 12% 18%, rgba(42, 120, 214, 0.08), transparent 26%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .links-hero {
   background:
-    radial-gradient(circle at 12% 18%, rgba(49, 87, 91, 0.12), transparent 28%),
-    linear-gradient(135deg, #fbfcf7 0%, #edf3ee 100%);
+    radial-gradient(circle at 12% 18%, rgba(42, 120, 214, 0.06), transparent 28%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .tools-hero {
   background:
-    radial-gradient(circle at 14% 18%, rgba(212, 229, 28, 0.16), transparent 28%),
-    linear-gradient(135deg, #fbfcf7 0%, #eef4ef 100%);
+    radial-gradient(circle at 14% 18%, rgba(42, 120, 214, 0.08), transparent 28%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .page-hero h1 {
@@ -1092,8 +1544,8 @@ textarea:focus {
   gap: 24px;
   padding: clamp(22px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .course-link-card > div {
@@ -1108,10 +1560,10 @@ textarea:focus {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1120,7 +1572,7 @@ textarea:focus {
 }
 
 .course-link-card p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1138,21 +1590,21 @@ textarea:focus {
 }
 
 .tools-section-heading h2 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(32px, 4vw, 52px);
   font-weight: 700;
 }
 
 .tools-section-heading p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
 .tools-group-card,
 .tool-item-card {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .tools-group-card {
@@ -1168,7 +1620,7 @@ textarea:focus {
 
 .tools-group-head h2,
 .tool-item-card h3 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1178,7 +1630,7 @@ textarea:focus {
 
 .tools-group-head p,
 .tool-item-card p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1201,10 +1653,10 @@ textarea:focus {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1218,10 +1670,10 @@ textarea:focus {
   gap: 18px;
   padding: clamp(22px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 14px;
   background:
-    linear-gradient(135deg, rgba(13, 38, 48, 0.04), rgba(212, 229, 28, 0.08)),
-    var(--white);
+    linear-gradient(135deg, rgba(20, 35, 61, 0.04), rgba(42, 120, 214, 0.06)),
+    var(--surface);
 }
 
 .engineering-prompt-head {
@@ -1244,21 +1696,21 @@ textarea:focus {
   width: 44px;
   height: 44px;
   border: 1px solid rgba(13, 38, 48, 0.14);
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .engineering-prompt-head h3 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 700;
 }
 
 .engineering-prompt-head p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1283,9 +1735,9 @@ textarea:focus {
   min-height: 36px;
   padding: 6px 12px;
   border: 1px solid rgba(13, 38, 48, 0.12);
-  border-radius: 8px;
-  background: var(--paper);
-  color: var(--teal-deep);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--navy);
   font-size: 15px;
   font-weight: 700;
 }
@@ -1295,7 +1747,7 @@ textarea:focus {
   gap: 14px;
   padding: 18px;
   border: 1px solid rgba(13, 38, 48, 0.12);
-  border-radius: 8px;
+  border-radius: 14px;
   background: rgba(238, 242, 238, 0.76);
 }
 
@@ -1313,8 +1765,8 @@ textarea:focus {
 }
 
 .engineering-variable-field span {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1332,10 +1784,10 @@ textarea:focus {
   padding: clamp(18px, 3vw, 24px);
   border: 1px solid rgba(13, 38, 48, 0.14);
   border-right: 5px solid var(--gold);
-  border-radius: 8px;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(16px, 2vw, 18px);
   line-height: 2;
   white-space: pre-wrap;
@@ -1344,14 +1796,14 @@ textarea:focus {
 
 .prompt-hero {
   background:
-    radial-gradient(circle at 12% 18%, rgba(212, 229, 28, 0.16), transparent 26%),
-    linear-gradient(135deg, #fbfcf7 0%, #edf3ee 100%);
+    radial-gradient(circle at 12% 18%, rgba(42, 120, 214, 0.08), transparent 26%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .thinking-hero {
   background:
-    radial-gradient(circle at 12% 18%, rgba(49, 87, 91, 0.14), transparent 28%),
-    linear-gradient(135deg, #fbfcf7 0%, #eef3ee 100%);
+    radial-gradient(circle at 12% 18%, rgba(20, 35, 61, 0.06), transparent 28%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .prompt-exercise-layout {
@@ -1377,8 +1829,8 @@ textarea:focus {
 .thinking-brief-card,
 .thinking-form-card {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .prompt-scenario-card {
@@ -1388,7 +1840,7 @@ textarea:focus {
 }
 
 .prompt-scenario-card h2 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 700;
 }
@@ -1396,7 +1848,7 @@ textarea:focus {
 .prompt-scenario-card p,
 .prompt-builder p,
 .evaluation-card p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1406,7 +1858,7 @@ textarea:focus {
   gap: 8px;
   margin: 0;
   padding: 0 20px 0 0;
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .prompt-progress {
@@ -1414,14 +1866,14 @@ textarea:focus {
   gap: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--line);
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
 .prompt-progress progress {
   width: 100%;
   height: 12px;
-  accent-color: var(--teal-deep);
+  accent-color: var(--navy);
 }
 
 .prompt-builder {
@@ -1438,8 +1890,8 @@ textarea:focus {
 }
 
 .thinking-context-title {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(22px, 2.8vw, 30px);
   font-weight: 700;
 }
@@ -1454,15 +1906,15 @@ textarea:focus {
 .thinking-section-block {
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .thinking-meta-grid strong,
 .thinking-section-block h3,
 .thinking-field span {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1472,7 +1924,7 @@ textarea:focus {
 }
 
 .thinking-meta-grid span {
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .thinking-section-block {
@@ -1481,7 +1933,7 @@ textarea:focus {
 }
 
 .thinking-section-block p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1490,7 +1942,7 @@ textarea:focus {
   gap: 10px;
   margin: 0;
   padding: 0 20px 0 0;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1521,7 +1973,7 @@ textarea:focus {
 }
 
 .prompt-field span {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
@@ -1533,13 +1985,13 @@ textarea:focus {
   display: grid;
   gap: 14px;
   padding: 18px;
-  background: var(--mist);
+  background: var(--surface-2);
 }
 
 .prompt-preview h3,
 .evaluation-card h3,
 .revised-prompt h3 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 22px;
   font-weight: 700;
 }
@@ -1551,10 +2003,10 @@ textarea:focus {
   margin: 0;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--charcoal);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 15px;
   line-height: 1.8;
   white-space: pre-wrap;
@@ -1605,8 +2057,8 @@ textarea:focus {
 .anatomy-table-card,
 .ideal-answer-card {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .comparison-intro-card {
@@ -1616,13 +2068,13 @@ textarea:focus {
 }
 
 .comparison-intro-card h2 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 700;
 }
 
 .comparison-intro-card p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -1647,7 +2099,7 @@ textarea:focus {
 .resource-download-card h3,
 .resource-steps-card h3 {
   margin-top: 6px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 28px;
   font-weight: 700;
 }
@@ -1655,15 +2107,15 @@ textarea:focus {
 .resource-download-card p {
   max-width: 720px;
   margin-top: 10px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 17px;
 }
 
 .resource-download-card small {
   display: inline-block;
   margin-top: 12px;
-  color: var(--stone);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--text-3);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1686,12 +2138,12 @@ textarea:focus {
   gap: 12px;
   margin: 0;
   padding-inline-start: 24px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
 .resource-steps-card li::marker {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
@@ -1719,7 +2171,7 @@ textarea:focus {
 
 .professional-prompt-card p {
   margin-top: 6px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 16px;
 }
 
@@ -1738,7 +2190,7 @@ textarea:focus {
 
 .comparison-prompt-head h3 {
   margin-top: 6px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 24px;
   font-weight: 700;
 }
@@ -1757,10 +2209,10 @@ textarea:focus {
   margin: 0;
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
-  color: var(--charcoal);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text-2);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 17px;
   line-height: 1.95;
   white-space: pre-wrap;
@@ -1774,37 +2226,37 @@ textarea:focus {
 }
 
 .professional-prompt-field span {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .professional-prompt-field textarea {
   min-height: 420px;
-  border-color: color-mix(in srgb, var(--teal) 34%, var(--line));
-  background: var(--paper);
-  color: var(--charcoal);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-color: color-mix(in srgb, var(--blue) 34%, var(--line));
+  background: var(--bg);
+  color: var(--text-2);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 16px;
   line-height: 1.9;
   white-space: pre-wrap;
 }
 
 .professional-prompt-field textarea:focus {
-  background: var(--white);
+  background: var(--surface);
 }
 
 .professional-copy-status {
   min-height: 30px;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .comparison-status {
   min-height: 30px;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1822,8 +2274,8 @@ textarea:focus {
 
 .token-input-grid span,
 .token-reflection-card label {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1844,7 +2296,7 @@ textarea:focus {
 .anatomy-table-card h3,
 .ideal-answer-card h3 {
   margin-top: 6px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 26px;
   font-weight: 700;
 }
@@ -1862,19 +2314,19 @@ textarea:focus {
   margin: 0;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .anatomy-field span {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .anatomy-field textarea {
   min-height: 92px;
-  background: var(--white);
+  background: var(--surface);
 }
 
 .ideal-answer-card {
@@ -1900,18 +2352,18 @@ textarea:focus {
   gap: 8px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .ideal-answer-grid strong {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .ideal-answer-grid p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 17px;
 }
 
@@ -1934,8 +2386,8 @@ textarea:focus {
   gap: 18px;
   padding: clamp(20px, 4vw, 34px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .completion-survey-grid {
@@ -1960,8 +2412,8 @@ textarea:focus {
 .completion-survey-form label > span,
 .rating-field legend,
 .consent-field legend {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
 }
@@ -2009,10 +2461,10 @@ textarea:focus {
   min-height: 46px;
   padding: 10px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
-  color: var(--charcoal);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text-2);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
   text-align: center;
   transition:
@@ -2024,15 +2476,15 @@ textarea:focus {
 
 .rating-options input:checked + span,
 .consent-options input:checked + span {
-  border-color: var(--teal-deep);
-  background: var(--teal-deep);
-  color: var(--lime);
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
   transform: translateY(-1px);
 }
 
 .rating-options input:focus-visible + span,
 .consent-options input:focus-visible + span {
-  outline: 3px solid var(--lime-soft);
+  outline: 3px solid var(--blue-track);
   outline-offset: 2px;
 }
 
@@ -2048,14 +2500,14 @@ textarea:focus {
 
 .consent-field p {
   margin: 0;
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 15px;
 }
 
 .exercise-receipt-message {
   margin: 0;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
 }
@@ -2077,7 +2529,7 @@ textarea:focus {
 
 .evaluation-head h2 {
   margin-top: 8px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -2088,8 +2540,8 @@ textarea:focus {
   width: 116px;
   height: 116px;
   border-radius: 999px;
-  background: var(--teal-deep);
-  color: var(--lime);
+  background: var(--navy);
+  color: var(--gold);
   font-size: 30px;
   line-height: 1;
 }
@@ -2110,8 +2562,8 @@ textarea:focus {
 .next-action {
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .component-score-grid span,
@@ -2121,14 +2573,14 @@ textarea:focus {
 }
 
 .component-score-grid span {
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 13px;
   font-weight: 700;
 }
 
 .component-score-grid strong {
   margin-top: 6px;
-  color: var(--teal-deep);
+  color: var(--navy);
   font-size: 24px;
 }
 
@@ -2148,7 +2600,7 @@ textarea:focus {
 
 .missing-components strong,
 .next-action strong {
-  color: var(--teal-deep);
+  color: var(--navy);
 }
 
 .revised-prompt {
@@ -2176,11 +2628,11 @@ textarea:focus {
   direction: rtl;
   text-align: right;
   background:
-    radial-gradient(circle at 12% 12%, rgba(212, 229, 28, 0.14), transparent 24%),
-    linear-gradient(145deg, #ffffff 0%, #f7f8fb 58%, #eef2ee 100%);
-  color: var(--ink);
+    radial-gradient(circle at 12% 12%, rgba(42, 120, 214, 0.08), transparent 24%),
+    linear-gradient(145deg, #ffffff 0%, #f9f9f7 58%, #f0efec 100%);
+  color: var(--text-1);
   padding: 34px;
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
 }
 
 .exercise-pdf-head {
@@ -2209,15 +2661,15 @@ textarea:focus {
 }
 
 .exercise-pdf-kicker {
-  color: var(--teal);
+  color: var(--navy);
   font-size: 14px;
   font-weight: 700;
 }
 
 .exercise-pdf-title {
   margin-top: 4px;
-  color: var(--ink);
-  font-family: "Lyon Arabic Display", "Lyon Arabic", Arial, sans-serif;
+  color: var(--text-1);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 30px;
   line-height: 1.3;
   overflow-wrap: anywhere;
@@ -2225,14 +2677,14 @@ textarea:focus {
 
 .exercise-pdf-subtitle {
   margin: 8px 0 0;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 16px;
 }
 
 .exercise-pdf-meta {
   display: grid;
   gap: 6px;
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 14px;
   text-align: left;
 }
@@ -2240,14 +2692,14 @@ textarea:focus {
 .exercise-pdf-highlight {
   margin-top: 18px;
   padding: 18px 20px;
-  border-radius: 8px;
-  background: var(--teal-deep);
-  color: var(--white);
+  border-radius: 14px;
+  background: var(--navy);
+  color: var(--surface);
   box-sizing: border-box;
 }
 
 .exercise-pdf-highlight strong {
-  color: var(--lime-soft);
+  color: #D9E4F5;
   font-size: 18px;
   overflow-wrap: anywhere;
 }
@@ -2261,7 +2713,7 @@ textarea:focus {
 .exercise-pdf-card {
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.95);
   break-inside: avoid;
   box-sizing: border-box;
@@ -2270,15 +2722,15 @@ textarea:focus {
 
 .exercise-pdf-card h3 {
   margin: 0 0 10px;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 20px;
   font-weight: 700;
 }
 
 .exercise-pdf-card p {
   margin: 0;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 16px;
   line-height: 1.9;
   overflow-wrap: anywhere;
@@ -2286,7 +2738,7 @@ textarea:focus {
 
 .exercise-pdf-footer {
   margin-top: 18px;
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 13px;
   text-align: center;
 }
@@ -2297,14 +2749,14 @@ textarea:focus {
   gap: 24px;
   align-items: start;
   padding: clamp(42px, 6vw, 82px) clamp(18px, 5vw, 72px);
-  background: var(--white);
+  background: var(--surface);
   border-block: 1px solid var(--line);
 }
 
 .course-lead,
 .course-quote,
 .course-closing {
-  border-radius: 8px;
+  border-radius: 14px;
 }
 
 .course-lead {
@@ -2315,21 +2767,21 @@ textarea:focus {
 .course-lead p,
 .course-quote p,
 .course-closing p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: clamp(18px, 2vw, 22px);
 }
 
 .course-quote {
   padding: 24px;
-  background: var(--teal-deep);
-  color: var(--white);
+  background: var(--navy);
+  color: var(--surface);
 }
 
 .course-quote strong,
 .course-closing strong {
   display: block;
-  color: var(--lime-soft);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: #D9E4F5;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 22px;
 }
 
@@ -2348,8 +2800,8 @@ textarea:focus {
   min-height: 210px;
   padding: 20px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .goal-grid span {
@@ -2358,16 +2810,16 @@ textarea:focus {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .goal-grid p {
   margin-top: 16px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 17px;
 }
 
@@ -2382,20 +2834,20 @@ textarea:focus {
   gap: 22px;
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .module-card h3 {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 700;
 }
 
 .module-card p {
   margin-top: 10px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -2409,17 +2861,17 @@ textarea:focus {
 
 .module-card li {
   padding: 10px 12px;
-  border-radius: 8px;
-  background: var(--mist);
-  color: var(--ink);
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--text-1);
   font-weight: 700;
 }
 
 .course-closing {
   margin: 0 clamp(18px, 5vw, 72px) clamp(42px, 6vw, 82px);
   padding: clamp(24px, 5vw, 44px);
-  background: var(--teal-deep);
-  color: var(--white);
+  background: var(--navy);
+  color: var(--surface);
 }
 
 .course-closing p {
@@ -2443,8 +2895,8 @@ textarea:focus {
 .admin-table-wrap {
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .split-section p,
@@ -2452,7 +2904,7 @@ textarea:focus {
 .work-panel p,
 .assessment-panel p {
   margin-top: 12px;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -2466,8 +2918,8 @@ textarea:focus {
 
 .clean-list li {
   padding-right: 18px;
-  border-right: 4px solid var(--lime);
-  color: var(--charcoal);
+  border-right: 4px solid var(--blue);
+  color: var(--text-2);
 }
 
 .outline-placeholder {
@@ -2495,36 +2947,36 @@ textarea:focus {
   min-height: 86px;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--ink);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-1);
   text-align: right;
 }
 
 .item-row:hover,
 .item-row.active {
-  border-color: var(--teal);
-  background: #f7faf4;
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 4%, var(--surface));
 }
 
 .item-row small {
   display: block;
-  color: var(--stone);
+  color: var(--text-3);
 }
 
 .item-row em {
   min-width: 62px;
   padding: 4px 8px;
   border-radius: 999px;
-  background: var(--mist);
-  color: var(--teal-deep);
+  background: var(--surface-2);
+  color: var(--navy);
   font-size: 13px;
   font-style: normal;
   text-align: center;
 }
 
 .item-row em[data-status="soon"] {
-  color: var(--stone);
+  color: var(--text-3);
 }
 
 .answer-form,
@@ -2560,8 +3012,8 @@ textarea:focus {
   margin: 0;
   padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .choice-option input {
@@ -2569,7 +3021,7 @@ textarea:focus {
 }
 
 .admin-hero {
-  background: linear-gradient(135deg, #eef3ee 0%, #f8faf0 100%);
+  background: linear-gradient(135deg, #eef0ec 0%, #f5f5f2 100%);
 }
 
 .admin-layout {
@@ -2583,10 +3035,10 @@ textarea:focus {
   gap: 24px;
   padding: clamp(22px, 4vw, 34px);
   border: 1px solid rgba(13, 38, 48, 0.12);
-  border-radius: 8px;
+  border-radius: 14px;
   background:
-    linear-gradient(135deg, rgba(31, 63, 67, 0.08), rgba(212, 229, 28, 0.12)),
-    var(--white);
+    linear-gradient(135deg, rgba(20, 35, 61, 0.06), rgba(42, 120, 214, 0.06)),
+    var(--surface);
 }
 
 .admin-command-center > div {
@@ -2597,7 +3049,7 @@ textarea:focus {
 
 .admin-command-center h2,
 .admin-panel h2 {
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -2606,7 +3058,7 @@ textarea:focus {
 }
 
 .admin-command-center p {
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -2620,9 +3072,9 @@ textarea:focus {
   display: grid;
   gap: 8px;
   padding: 18px;
-  border-radius: 8px;
-  background: var(--teal-deep);
-  color: var(--white);
+  border-radius: 14px;
+  background: var(--navy);
+  color: var(--surface);
 }
 
 .metrics-row.infographic article {
@@ -2630,18 +3082,18 @@ textarea:focus {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent),
-    var(--teal-deep);
+    var(--navy);
 }
 
 .metrics-row span {
   display: block;
-  color: #dbe9e2;
+  color: #D9E4F5;
   font-size: 14px;
 }
 
 .metrics-row strong {
   display: block;
-  color: var(--lime);
+  color: var(--gold);
   font-size: 34px;
   line-height: 1;
 }
@@ -2668,8 +3120,8 @@ textarea:focus {
   gap: 18px;
   padding: clamp(20px, 3vw, 28px);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 .admin-panel-head {
@@ -2699,8 +3151,8 @@ textarea:focus {
   min-height: 180px;
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .admin-ring-card {
@@ -2714,7 +3166,7 @@ textarea:focus {
   width: 112px;
   height: 112px;
   border-radius: 999px;
-  background: conic-gradient(var(--teal-deep) var(--ring-value), var(--mist) 0);
+  background: conic-gradient(var(--navy) var(--ring-value), var(--surface-2) 0);
   position: relative;
 }
 
@@ -2723,26 +3175,26 @@ textarea:focus {
   position: absolute;
   inset: 13px;
   border-radius: inherit;
-  background: var(--paper);
+  background: var(--bg);
 }
 
 .admin-ring span {
   position: relative;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-size: 24px;
   font-weight: 700;
 }
 
 .admin-ring-card strong,
 .admin-score-grid strong {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .admin-ring-card p {
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 14px;
 }
 
@@ -2756,7 +3208,7 @@ textarea:focus {
 
 .admin-score-grid span,
 .admin-score-grid em {
-  color: var(--stone);
+  color: var(--text-3);
   font-style: normal;
 }
 
@@ -2778,8 +3230,8 @@ textarea:focus {
   align-items: center;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .admin-bar-row strong,
@@ -2788,14 +3240,14 @@ textarea:focus {
 }
 
 .admin-bar-row strong {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .admin-bar-row span,
 .admin-bar-row em {
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 13px;
   font-style: normal;
 }
@@ -2804,20 +3256,20 @@ textarea:focus {
   height: 14px;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--mist);
+  background: var(--surface-2);
 }
 
 .admin-bar-track span {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--teal-deep), var(--lime));
+  background: linear-gradient(90deg, var(--navy), var(--blue));
 }
 
 .admin-bar-row em {
   justify-self: end;
   min-width: 68px;
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
   text-align: left;
 }
@@ -2834,13 +3286,13 @@ textarea:focus {
   min-height: 210px;
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .testimonial-card-grid blockquote {
   margin: 0;
-  color: var(--charcoal);
+  color: var(--text-2);
   font-size: 18px;
 }
 
@@ -2858,14 +3310,14 @@ textarea:focus {
 }
 
 .testimonial-card-grid strong {
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .testimonial-card-grid span,
 .testimonial-card-grid em {
-  color: var(--stone);
+  color: var(--text-3);
   font-size: 14px;
   font-style: normal;
 }
@@ -2885,8 +3337,8 @@ textarea:focus {
   gap: 12px;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .admin-timeline article {
@@ -2897,9 +3349,9 @@ textarea:focus {
   display: inline-grid;
   place-items: center;
   height: 36px;
-  border-radius: 8px;
-  background: var(--teal-deep);
-  color: var(--lime);
+  border-radius: 14px;
+  background: var(--navy);
+  color: var(--gold);
   font-size: 13px;
   font-weight: 700;
 }
@@ -2907,19 +3359,19 @@ textarea:focus {
 .admin-timeline strong,
 .participant-status-list strong {
   display: block;
-  color: var(--teal-deep);
-  font-family: "IBM Plex Sans Arabic", "Lyon Arabic", Arial, sans-serif;
+  color: var(--navy);
+  font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
   font-weight: 700;
 }
 
 .admin-timeline p {
   margin-top: 4px;
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 .admin-timeline small,
 .participant-status-list span {
-  color: var(--stone);
+  color: var(--text-3);
 }
 
 .participant-status-list article {
@@ -2937,25 +3389,25 @@ textarea:focus {
 .participant-status-badges em {
   padding: 5px 8px;
   border-radius: 999px;
-  background: var(--mist);
-  color: var(--stone);
+  background: var(--surface-2);
+  color: var(--text-3);
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
 }
 
 .participant-status-badges em[data-active="true"] {
-  background: var(--teal-deep);
-  color: var(--lime);
+  background: var(--navy);
+  color: var(--gold);
 }
 
 .admin-empty-state {
   margin: 0;
   padding: 18px;
   border: 1px dashed var(--line);
-  border-radius: 8px;
-  background: var(--paper);
-  color: var(--stone);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text-3);
 }
 
 .admin-table-wrap {
@@ -2982,12 +3434,12 @@ td {
 }
 
 th {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 700;
 }
 
 td {
-  color: var(--charcoal);
+  color: var(--text-2);
 }
 
 @media (max-width: 980px) {

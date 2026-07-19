@@ -398,7 +398,6 @@ export const engineeringPromptBank: EngineeringPrompt[] = [
 
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
-  { href: "/about", label: "عن الدورة" },
   { href: "/links", label: "روابط الدورة" },
   { href: "/tools", label: "الأدوات و الأوامر" },
   { href: "/exercises", label: "التمارين و المقاييس" },

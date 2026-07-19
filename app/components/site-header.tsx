@@ -30,12 +30,13 @@ export function SiteHeader() {
     <>
       <header className="site-header">
         <Link href="/" className="brand-link" aria-label="الصفحة الرئيسية">
-          <img
-            src="/brand/dr-mohammad-logo.png"
-            alt=""
-            className="brand-logo"
-          />
-          <span>بوابة الدورة</span>
+          <svg width="48" height="45" viewBox="0 0 96 90" xmlns="http://www.w3.org/2000/svg" aria-label="القيادة التحويلية" className="brand-logo">
+            <rect x="0"  y="56" width="14" height="24" rx="4" fill="#14233D"/>
+            <rect x="24" y="40" width="14" height="40" rx="4" fill="#1F5296"/>
+            <rect x="48" y="24" width="14" height="56" rx="4" fill="#2A78D6"/>
+            <rect x="72" y="8"  width="14" height="72" rx="4" fill="#FAB219"/>
+          </svg>
+          <span>دورة القيادة التحويلية</span>
         </Link>
 
         {/* Desktop nav — hidden on mobile */}
@@ -82,12 +83,13 @@ export function SiteHeader() {
             onClick={close}
             aria-label="الصفحة الرئيسية"
           >
-            <img
-              src="/brand/dr-mohammad-logo.png"
-              alt=""
-              className="brand-logo"
-            />
-            <span>بوابة الدورة</span>
+            <svg width="36" height="34" viewBox="0 0 96 90" xmlns="http://www.w3.org/2000/svg" aria-label="القيادة التحويلية" className="brand-logo">
+              <rect x="0"  y="56" width="14" height="24" rx="4" fill="#14233D"/>
+              <rect x="24" y="40" width="14" height="40" rx="4" fill="#1F5296"/>
+              <rect x="48" y="24" width="14" height="56" rx="4" fill="#2A78D6"/>
+              <rect x="72" y="8"  width="14" height="72" rx="4" fill="#FAB219"/>
+            </svg>
+            <span>دورة القيادة التحويلية</span>
           </Link>
           <button
             className="sidebar-close-btn"

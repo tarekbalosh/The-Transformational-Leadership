@@ -6,13 +6,18 @@ export default function ToolsPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="page-hero compact-hero tools-hero">
-        <div className="section-kicker">الأدوات و الأوامر</div>
-        <h1>أدوات ومواقع وأوامر تساعدك على استخدام الذكاء الاصطناعي بفاعلية</h1>
-        <p>
-          هذه الصفحة تجمع الأدوات والمواقع المهمة التي يمكن الرجوع إليها أثناء
-          الدورة، إضافة إلى مواقع المهارات ومصادر الإضافات والأوامر.
-        </p>
+      <section className="hero-section">
+        <div className="hero-copy">
+          <div className="section-kicker">الأدوات و الأوامر</div>
+          <h1>أدوات ومواقع وأوامر تساعدك على استخدام الذكاء الاصطناعي بفاعلية</h1>
+          <p className="hero-subtitle">
+            هذه الصفحة تجمع الأدوات والمواقع المهمة التي يمكن الرجوع إليها أثناء
+            الدورة، إضافة إلى مواقع المهارات ومصادر الإضافات والأوامر.
+          </p>
+        </div>
+        <div className="hero-media">
+          <img src="/images/tools-hero.png" alt="القيادة التحويلية - أدوات وأوامر الذكاء الاصطناعي" />
+        </div>
       </section>
 
       <section className="content-band">
