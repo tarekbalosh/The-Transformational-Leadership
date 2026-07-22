@@ -466,6 +466,61 @@ async function readRows<T>(query: string) {
   return result.results ?? [];
 }
 
+export async function deleteParticipant(email: string) {
+  const normalized = normalizeEmail(email);
+
+  if (!normalized) {
+    throw new Error("يرجى تحديد البريد الإلكتروني للمشارك.");
+  }
+
+  const database = db();
+
+  if (database) {
+    try {
+      await database
+        .prepare("delete from exercise_answers where participant_email = ?")
+        .bind(normalized)
+        .run();
+      await database
+        .prepare("delete from assessment_answers where participant_email = ?")
+        .bind(normalized)
+        .run();
+      await database
+        .prepare("delete from participant_profiles where participant_email = ?")
+        .bind(normalized)
+        .run();
+      await database
+        .prepare("delete from progress where participant_email = ?")
+        .bind(normalized)
+        .run();
+      await database
+        .prepare("delete from participants where email = ?")
+        .bind(normalized)
+        .run();
+
+      return { ok: true, email: normalized };
+    } catch {
+      // Local preview fallback
+    }
+  }
+
+  const store = memoryStore();
+  store.exerciseAnswers = store.exerciseAnswers.filter(
+    (row) => row.participant_email !== normalized
+  );
+  store.assessmentAnswers = store.assessmentAnswers.filter(
+    (row) => row.participant_email !== normalized
+  );
+  store.participantProfiles = store.participantProfiles.filter(
+    (row) => row.participant_email !== normalized
+  );
+  store.participants = store.participants.filter(
+    (row) => row.email !== normalized
+  );
+
+  return { ok: true, email: normalized };
+}
+
 export async function dashboardData() {
   let participants: ParticipantRow[] = [];
   let exerciseAnswers: ExerciseAnswerRow[] = [];

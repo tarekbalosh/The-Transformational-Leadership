@@ -2,10 +2,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { routeLinks } from "@/app/lib/course-content";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -41,14 +43,14 @@ export function SiteHeader() {
 
         {/* Desktop nav — hidden on mobile */}
         <nav className="main-nav desktop-nav" aria-label="التنقل الرئيسي">
-          {routeLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/admin" className="admin-nav-link">
-            لوحة التحكم
-          </Link>
+          {routeLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link key={link.href} href={link.href} className={isActive ? "active" : ""}>
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Hamburger button — visible on mobile */}
@@ -112,14 +114,14 @@ export function SiteHeader() {
         </div>
 
         <nav className="sidebar-nav" aria-label="التنقل الرئيسي">
-          {routeLinks.map((link) => (
-            <Link key={link.href} href={link.href} onClick={close}>
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/admin" className="sidebar-admin-link" onClick={close}>
-            لوحة التحكم
-          </Link>
+          {routeLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link key={link.href} href={link.href} onClick={close} className={isActive ? "active" : ""}>
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
     </>

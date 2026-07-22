@@ -382,6 +382,8 @@ export function AdminDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [deletingEmail, setDeletingEmail] = useState<string | null>(null);
+  const [deleteMessage, setDeleteMessage] = useState("");
 
   const dashboard = useMemo(() => {
     if (!data) {
@@ -583,6 +585,55 @@ export function AdminDashboard() {
     }
 
     setData(nextData);
+  }
+
+  async function reloadDashboard() {
+    const response = await fetch("/api/admin/dashboard", {
+      headers: { "x-admin-token": token },
+    });
+    const nextData = await response.json();
+
+    if (response.ok) {
+      setData(nextData);
+    }
+  }
+
+  async function handleDeleteParticipant(email: string) {
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف المشارك ${email}؟\n\nسيتم حذف جميع بياناته بما في ذلك:\n- بطاقة التعارف\n- إجابات التمارين\n- نتائج المقاييس\n- بيانات التقدم\n\nهذا الإجراء لا يمكن التراجع عنه.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingEmail(email);
+    setDeleteMessage("");
+
+    try {
+      const response = await fetch("/api/admin/participants", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-token": token,
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setDeleteMessage(result.message ?? "تعذر حذف المشارك.");
+        return;
+      }
+
+      setDeleteMessage(`تم حذف المشارك ${email} وجميع بياناته بنجاح.`);
+      await reloadDashboard();
+    } catch {
+      setDeleteMessage("حدث خطأ أثناء حذف المشارك.");
+    } finally {
+      setDeletingEmail(null);
+    }
   }
 
   function exportCsv() {
@@ -859,6 +910,11 @@ export function AdminDashboard() {
 
           <section className="admin-table-wrap">
             <h2>المشاركون</h2>
+            {deleteMessage ? (
+              <p className={`admin-delete-message ${deleteMessage.includes("بنجاح") ? "success" : "error"}`}>
+                {deleteMessage}
+              </p>
+            ) : null}
             <table>
               <thead>
                 <tr>
@@ -870,6 +926,7 @@ export function AdminDashboard() {
                   <th>المقاييس</th>
                   <th>الاستبيان</th>
                   <th>آخر تحديث</th>
+                  <th>إجراءات</th>
                 </tr>
               </thead>
               <tbody>
@@ -883,6 +940,26 @@ export function AdminDashboard() {
                     <td>{participant.assessmentCount}</td>
                     <td>{participant.hasSurvey ? "مكتمل" : "-"}</td>
                     <td>{formatDate(participant.lastUpdated)}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="admin-delete-btn"
+                        disabled={deletingEmail === participant.email}
+                        onClick={() => handleDeleteParticipant(participant.email)}
+                        title={`حذف ${participant.email}`}
+                      >
+                        {deletingEmail === participant.email ? (
+                          <span className="admin-delete-spinner" />
+                        ) : (
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                          </svg>
+                        )}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

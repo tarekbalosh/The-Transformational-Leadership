@@ -145,14 +145,19 @@ export function AssessmentHub() {
   return (
     <main>
       <SiteHeader />
-      <section className="page-hero compact-hero">
-        <div className="section-kicker">التمارين و المقاييس</div>
-        <h1>أنشطة الدورة الحالية في مساحة واحدة</h1>
-        <p>
-          تضم هذه المساحة اختبار اليوم الأول، وتمارين التطبيق، ومقياس نمط
-          قيادة الذكاء الاصطناعي. أدخل بريدك أولاً حتى تُحفظ إجاباتك ونتائجك
-          باسمك في لوحة المدرب.
-        </p>
+      <section className="hero-section assessments-hero">
+        <div className="hero-copy">
+          <div className="section-kicker">التمارين و المقاييس</div>
+          <h1>أنشطة الدورة الحالية في مساحة واحدة</h1>
+          <p className="hero-subtitle">
+            تضم هذه المساحة اختبار اليوم الأول، وتمارين التطبيق، ومقياس نمط
+            قيادة الذكاء الاصطناعي. أدخل بريدك أولاً حتى تُحفظ إجاباتك ونتائجك
+            باسمك في لوحة المدرب.
+          </p>
+        </div>
+        <div className="hero-media">
+          <img src="/images/assessments-hero.png" alt="أنشطة الدورة - التمارين والمقاييس" />
+        </div>
       </section>
 
       <EmailGate

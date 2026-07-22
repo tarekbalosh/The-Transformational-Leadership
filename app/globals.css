@@ -580,6 +580,12 @@ main {
   outline: none;
 }
 
+.main-nav a.active {
+  background: var(--surface-2);
+  color: var(--navy);
+  font-weight: 600;
+}
+
 .main-nav .admin-nav-link {
   color: var(--navy);
   border: 1px solid var(--line);
@@ -725,6 +731,11 @@ main {
   background: var(--surface-2);
   color: var(--navy);
   outline: none;
+}
+
+.sidebar-nav a.active {
+  background: var(--surface-2);
+  color: var(--navy);
 }
 
 .sidebar-admin-link {
@@ -2899,6 +2910,66 @@ textarea:focus {
   background: var(--surface);
 }
 
+.admin-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-delete-btn:hover:not(:disabled) {
+  border-color: #ef4444;
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+  color: #ef4444;
+}
+
+.admin-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-delete-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: admin-spin 0.6s linear infinite;
+}
+
+@keyframes admin-spin {
+  to { transform: rotate(360deg); }
+}
+
+.admin-delete-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-delete-message.success {
+  border: 1px solid #22c55e;
+  background: color-mix(in srgb, #22c55e 10%, var(--surface));
+  color: #22c55e;
+}
+
+.admin-delete-message.error {
+  border: 1px solid #ef4444;
+  background: color-mix(in srgb, #ef4444 10%, var(--surface));
+  color: #ef4444;
+}
+
 .split-section p,
 .outline-placeholder p,
 .work-panel p,
@@ -3021,7 +3092,15 @@ textarea:focus {
 }
 
 .admin-hero {
-  background: linear-gradient(135deg, #eef0ec 0%, #f5f5f2 100%);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(42, 120, 214, 0.07), transparent 26%),
+    linear-gradient(135deg, var(--bg) 0%, #eef0ec 54%, #eaeae6 100%);
+}
+
+.assessments-hero {
+  background:
+    radial-gradient(circle at 14% 20%, rgba(42, 120, 214, 0.08), transparent 26%),
+    linear-gradient(135deg, var(--bg) 0%, #f0eeea 100%);
 }
 
 .admin-layout {
