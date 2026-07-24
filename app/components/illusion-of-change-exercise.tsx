@@ -42,11 +42,25 @@ export function IllusionOfChangeExercise() {
   // Store user answers for all questions
   const [hasStarted, setHasStarted] = useState(false);
   const [participantName, setParticipantName] = useState("");
+  const [email, setEmail] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.sessionStorage.getItem("participantEmail") || "";
+    }
+    return "";
+  });
+  const [emailError, setEmailError] = useState("");
   const [answers, setAnswers] = useState<Category[]>(Array(questions.length).fill(null));
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  const handleStart = () => setStarted(true);
+  const handleStart = () => {
+    let email = window.sessionStorage.getItem("participantEmail");
+    if (!email) {
+      email = `anon-${Date.now()}@anonymous.local`;
+      window.sessionStorage.setItem("participantEmail", email);
+    }
+    setStarted(true);
+  };
 
   const handleSelect = (category: Category) => {
     // Record the answer
@@ -133,26 +147,55 @@ export function IllusionOfChangeExercise() {
           </ul>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
-            <label htmlFor="participantName" style={{ fontWeight: '600', color: 'var(--navy)' }}>الاسم (اختياري):</label>
-            <input
-              type="text"
-              id="participantName"
-              value={participantName}
-              onChange={(e) => setParticipantName(e.target.value)}
-              placeholder="اكتب اسمك هنا..."
-              style={{
-                padding: '12px 16px',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-                fontSize: '16px',
-                outline: 'none',
-                width: '100%',
-                maxWidth: '300px'
-              }}
-            />
+          <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', justifyContent: 'center' }}>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%', maxWidth: '400px' }}>
+              <label htmlFor="participantEmail" style={{ fontWeight: '600', color: 'var(--navy)', width: '120px', textAlign: 'right' }}>البريد الإلكتروني:</label>
+              <input
+                type="email"
+                id="participantEmail"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                placeholder="example@domain.com"
+                style={{
+                  padding: '12px 16px',
+                  border: emailError ? '1px solid red' : '1px solid var(--border)',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  outline: 'none',
+                  flex: 1
+                }}
+              />
+            </div>
+            {emailError && <p style={{ color: 'red', margin: '-8px 0 8px 0', fontSize: '14px', width: '100%', maxWidth: '400px', textAlign: 'right', paddingRight: '136px' }}>{emailError}</p>}
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%', maxWidth: '400px' }}>
+              <label htmlFor="participantName" style={{ fontWeight: '600', color: 'var(--navy)', width: '120px', textAlign: 'right' }}>الاسم (اختياري):</label>
+              <input
+                type="text"
+                id="participantName"
+                value={participantName}
+                onChange={(e) => setParticipantName(e.target.value)}
+                placeholder="اكتب اسمك هنا..."
+                style={{
+                  padding: '12px 16px',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  outline: 'none',
+                  flex: 1
+                }}
+              />
+            </div>
           </div>
-          <button className="primary-button" onClick={handleStart} style={{ padding: '16px 48px', fontSize: '20px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          <button className="primary-button" onClick={() => {
+            if (!email || !email.includes("@")) {
+              setEmailError("يرجى إدخال بريد إلكتروني صحيح لبدء التمرين.");
+              return;
+            }
+            window.sessionStorage.setItem("participantEmail", email);
+            setStarted(true);
+          }} style={{ padding: '16px 48px', fontSize: '20px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
             ابدأ التمرين &larr;
           </button>
         </div>

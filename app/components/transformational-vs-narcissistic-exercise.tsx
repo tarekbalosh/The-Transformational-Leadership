@@ -6,6 +6,13 @@ import { exerciseData } from "@/app/data/transformational-vs-narcissistic";
 export function TransformationalVsNarcissisticExercise() {
   const [hasStarted, setHasStarted] = useState(false);
   const [participantName, setParticipantName] = useState("");
+  const [email, setEmail] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.sessionStorage.getItem("participantEmail") || "";
+    }
+    return "";
+  });
+  const [emailError, setEmailError] = useState("");
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,21 +102,45 @@ export function TransformationalVsNarcissisticExercise() {
               <p className="exercise-instructions">
                 {exerciseData.instructions}
               </p>
-              <div className="name-input-group">
-                <label htmlFor="participantName">الاسم (اختياري):</label>
-                <input
-                  type="text"
-                  id="participantName"
-                  value={participantName}
-                  onChange={(e) => setParticipantName(e.target.value)}
-                  placeholder="اكتب اسمك هنا..."
-                  className="name-input"
-                />
+              <div className="name-input-group" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <label htmlFor="participantEmail" style={{ width: '120px' }}>البريد الإلكتروني:</label>
+                  <input
+                    type="email"
+                    id="participantEmail"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                    placeholder="example@domain.com"
+                    className="name-input"
+                    style={{ flex: 1, border: emailError ? '1px solid red' : undefined }}
+                  />
+                </div>
+                {emailError && <p style={{ color: 'red', margin: 0, fontSize: '0.9rem' }}>{emailError}</p>}
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <label htmlFor="participantName" style={{ width: '120px' }}>الاسم (اختياري):</label>
+                  <input
+                    type="text"
+                    id="participantName"
+                    value={participantName}
+                    onChange={(e) => setParticipantName(e.target.value)}
+                    placeholder="اكتب اسمك هنا..."
+                    className="name-input"
+                    style={{ flex: 1 }}
+                  />
+                </div>
               </div>
               <div style={{display: 'flex', justifyContent: 'flex-start'}}>
                 <button 
                   className="primary-button start-button"
-                  onClick={() => setHasStarted(true)}
+                  onClick={() => {
+                    if (!email || !email.includes("@")) {
+                      setEmailError("يرجى إدخال بريد إلكتروني صحيح لبدء التمرين.");
+                      return;
+                    }
+                    window.sessionStorage.setItem("participantEmail", email);
+                    setHasStarted(true);
+                  }}
                 >
                   ابدأ التمرين &larr;
                 </button>

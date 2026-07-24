@@ -1067,32 +1067,56 @@ export function AdminDashboard() {
           </section>
 
           <section className="metrics-row infographic" aria-label="مؤشرات عامة">
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => document.getElementById('participants-section')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <span>المشاركون</span>
               <strong>{data.stats.participantCount}</strong>
               <small>بريد مسجل</small>
             </article>
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => document.getElementById('profiles-section')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <span>بطاقات التعارف</span>
               <strong>{data.stats.profileCount}</strong>
               <small>{dashboard.profileCoverage}% من المشاركين</small>
             </article>
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setActiveTab('exercises');
+                document.getElementById('activities-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <span>إجابات التمارين</span>
               <strong>{dashboard.exerciseRows.length}</strong>
               <small>لا تشمل الاستبيان الختامي</small>
             </article>
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setActiveTab('assessments');
+                document.getElementById('activities-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <span>نتائج المقاييس</span>
               <strong>{data.stats.completedAssessmentCount}</strong>
               <small>متوسط {data.stats.averageScore || "-"}</small>
             </article>
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => document.getElementById('survey-section')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <span>الاستبيان الختامي</span>
               <strong>{dashboard.surveyCount}</strong>
               <small>{dashboard.surveyCoverage}% من المشاركين</small>
             </article>
-            <article>
+            <article 
+              style={{ cursor: 'pointer' }}
+              onClick={() => document.getElementById('testimonials-section')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <span>شهادات قابلة للاستخدام</span>
               <strong>{dashboard.consentedTestimonials.length}</strong>
               <small>حسب موافقة المشارك</small>
@@ -1126,7 +1150,7 @@ export function AdminDashboard() {
               </div>
             </div>
 
-            <div className="admin-panel">
+            <div id="survey-section" className="admin-panel">
               <div className="admin-panel-head">
                 <div>
                   <div className="section-kicker">رضا المشاركين</div>
@@ -1216,7 +1240,7 @@ export function AdminDashboard() {
             </div>
           </section>
 
-          <section className="admin-panel">
+          <section id="testimonials-section" className="admin-panel">
             <div className="admin-panel-head">
               <div>
                 <div className="section-kicker">الشهادات</div>
@@ -1295,7 +1319,7 @@ export function AdminDashboard() {
             </div>
           </section>
 
-          <section className="admin-table-wrap">
+          <section id="participants-section" className="admin-table-wrap">
             <h2>المشاركون</h2>
             {deleteMessage ? (
               <p className={`admin-delete-message ${deleteMessage.includes("بنجاح") ? "success" : "error"}`}>
@@ -1353,7 +1377,7 @@ export function AdminDashboard() {
             </table>
           </section>
 
-          <section className="admin-table-wrap">
+          <section id="profiles-section" className="admin-table-wrap">
             <h2>بطاقات تعارف المشاركين</h2>
             <table>
               <thead>
@@ -1385,7 +1409,7 @@ export function AdminDashboard() {
             </table>
           </section>
 
-          <section className="admin-panel" style={{ marginTop: "40px" }}>
+          <section id="activities-section" className="admin-panel" style={{ marginTop: "40px" }}>
             <div className="admin-activity-controls">
               <div className="admin-tabs" role="tablist">
                 <button
