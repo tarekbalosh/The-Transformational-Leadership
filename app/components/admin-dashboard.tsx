@@ -639,7 +639,7 @@ function HorizontalBar({ item }: { item: ActivityBar }) {
         <div className="admin-bar-track" aria-label={`${item.percent}%`}>
           <span style={{ width: `${item.percent}%` }} />
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", justifySelf: "flex-end" }}>
           <em>
             {item.count} / {item.percent}%
           </em>
