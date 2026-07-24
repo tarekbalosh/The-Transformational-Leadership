@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    await saveExerciseAnswer(body.email, body.exerciseId, body.answer);
+    await saveExerciseAnswer(body.email, body.exerciseId, body.answer, body.participantName);
 
     return NextResponse.json({ ok: true });
   } catch (error) {

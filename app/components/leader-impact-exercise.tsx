@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 
 export function LeaderImpactExercise() {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [participantName, setParticipantName] = useState("");
   const [reason, setReason] = useState("");
   const [behavior1, setBehavior1] = useState("");
   const [behavior2, setBehavior2] = useState("");
@@ -37,6 +39,7 @@ export function LeaderImpactExercise() {
           exerciseId: "leader-impact",
           email,
           answer: answerPayload,
+          participantName: participantName.trim() || undefined,
         }),
       });
 
@@ -65,6 +68,47 @@ export function LeaderImpactExercise() {
           تم حفظ إجابتك. هذا القائد الذي استحضرته هو بداية رحلتنا في فهم القيادة
           التحويلية.
         </p>
+      </div>
+    );
+  }
+
+  if (!hasStarted) {
+    return (
+      <div className="start-screen-container" style={{
+          width: '100%', maxWidth: '600px', background: 'white', borderRadius: '16px',
+          padding: '2.5rem', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.08)',
+          border: '1px solid #e2e8f0', textAlign: 'center', margin: '2rem auto'
+      }}>
+        <div className="start-card">
+          <h2 style={{ color: '#0f172a', marginBottom: '1rem', fontSize: '1.8rem', textAlign: 'center' }}>قائد أثّر فيّ</h2>
+          <p className="exercise-instructions" style={{ marginBottom: '2rem', color: '#475569', fontSize: '1.1rem' }}>
+            استحضر — في صمت — قائداً واحداً ترك فيك أثراً حقيقياً.
+          </p>
+          <div className="name-input-group" style={{ margin: '2rem 0', display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center' }}>
+            <label htmlFor="participantName" style={{ fontWeight: '600', color: '#0f172a', whiteSpace: 'nowrap' }}>الاسم (اختياري):</label>
+            <input
+              type="text"
+              id="participantName"
+              value={participantName}
+              onChange={(e) => setParticipantName(e.target.value)}
+              placeholder="اكتب اسمك هنا..."
+              className="name-input"
+              style={{
+                flex: 1, padding: '0.75rem 1rem', border: '1px solid #cbd5e1',
+                borderRadius: '8px', fontSize: '1rem', outline: 'none'
+              }}
+            />
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+            <button 
+              className="primary-button start-button"
+              onClick={() => setHasStarted(true)}
+              style={{ padding: '0.75rem 2rem', background: '#1a5f5f', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', cursor: 'pointer' }}
+            >
+              ابدأ التمرين &larr;
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

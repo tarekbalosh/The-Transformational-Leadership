@@ -40,6 +40,8 @@ export function IllusionOfChangeExercise() {
   const [finished, setFinished] = useState(false);
   
   // Store user answers for all questions
+  const [hasStarted, setHasStarted] = useState(false);
+  const [participantName, setParticipantName] = useState("");
   const [answers, setAnswers] = useState<Category[]>(Array(questions.length).fill(null));
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -75,7 +77,8 @@ export function IllusionOfChangeExercise() {
           body: JSON.stringify({
             email,
             exerciseId: "illusion-of-change",
-            answer: textAnswer.trim()
+            answer: textAnswer.trim(),
+            participantName: participantName.trim() || undefined,
           }),
         }).catch(err => console.error("Failed to save exercise result:", err));
       }
@@ -129,10 +132,28 @@ export function IllusionOfChangeExercise() {
             </li>
           </ul>
         </div>
-        
         <div style={{ textAlign: 'center' }}>
+          <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+            <label htmlFor="participantName" style={{ fontWeight: '600', color: 'var(--navy)' }}>الاسم (اختياري):</label>
+            <input
+              type="text"
+              id="participantName"
+              value={participantName}
+              onChange={(e) => setParticipantName(e.target.value)}
+              placeholder="اكتب اسمك هنا..."
+              style={{
+                padding: '12px 16px',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+                fontSize: '16px',
+                outline: 'none',
+                width: '100%',
+                maxWidth: '300px'
+              }}
+            />
+          </div>
           <button className="primary-button" onClick={handleStart} style={{ padding: '16px 48px', fontSize: '20px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-            ابدأ التمرين
+            ابدأ التمرين &larr;
           </button>
         </div>
       </div>

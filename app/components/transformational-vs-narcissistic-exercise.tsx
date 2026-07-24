@@ -4,6 +4,8 @@ import { useState } from "react";
 import { exerciseData } from "@/app/data/transformational-vs-narcissistic";
 
 export function TransformationalVsNarcissisticExercise() {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [participantName, setParticipantName] = useState("");
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,6 +73,7 @@ export function TransformationalVsNarcissisticExercise() {
           exerciseId: "transformational-vs-narcissistic",
           email,
           answer: answerPayload,
+          participantName: participantName.trim() || undefined,
         }),
       });
     } catch (error) {
@@ -85,7 +88,35 @@ export function TransformationalVsNarcissisticExercise() {
 
   return (
     <div className="exercise-wrapper">
-        {!isSubmitted ? (
+        {!hasStarted ? (
+          <div className="start-screen-container">
+            <div className="start-card">
+              <h2>{exerciseData.title || "التمرين"}</h2>
+              <p className="exercise-instructions">
+                {exerciseData.instructions}
+              </p>
+              <div className="name-input-group">
+                <label htmlFor="participantName">الاسم (اختياري):</label>
+                <input
+                  type="text"
+                  id="participantName"
+                  value={participantName}
+                  onChange={(e) => setParticipantName(e.target.value)}
+                  placeholder="اكتب اسمك هنا..."
+                  className="name-input"
+                />
+              </div>
+              <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                <button 
+                  className="primary-button start-button"
+                  onClick={() => setHasStarted(true)}
+                >
+                  ابدأ التمرين &larr;
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : !isSubmitted ? (
           <>
             <p className="exercise-instructions">
               {exerciseData.instructions}
@@ -218,6 +249,55 @@ export function TransformationalVsNarcissisticExercise() {
           </div>
         )}
       <style dangerouslySetInnerHTML={{ __html: `
+        .start-screen-container {
+          width: 100%;
+          max-width: 600px;
+          background: white;
+          border-radius: 16px;
+          padding: 2.5rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+          border: 1px solid #e2e8f0;
+          text-align: right;
+          margin-top: 2rem;
+        }
+        .start-card h2 {
+          color: #0f172a;
+          margin-bottom: 1rem;
+          font-size: 1.8rem;
+          text-align: center;
+        }
+        .name-input-group {
+          margin: 2rem 0;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .name-input-group label {
+          font-weight: 600;
+          color: #0f172a;
+          white-space: nowrap;
+        }
+        .name-input {
+          flex: 1;
+          padding: 0.75rem 1rem;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          font-size: 1rem;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        .name-input:focus {
+          border-color: #2563eb;
+        }
+        .start-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background-color: #1a5f5f;
+        }
+        .start-button:hover {
+          background-color: #134545;
+        }
         .exercise-wrapper {
           display: flex;
           flex-direction: column;

@@ -160,7 +160,8 @@ export async function upsertParticipant(email: string, name?: string) {
 export async function saveExerciseAnswer(
   participantEmail: string,
   exerciseId: string,
-  answer: string
+  answer: string,
+  participantName?: string
 ) {
   const email = normalizeEmail(participantEmail);
   const exercise = exercises.find((item) => item.id === exerciseId);
@@ -172,7 +173,7 @@ export async function saveExerciseAnswer(
 
   const trimmedAnswer = answer.trim();
 
-  await upsertParticipant(email);
+  await upsertParticipant(email, participantName);
 
   const database = db();
 

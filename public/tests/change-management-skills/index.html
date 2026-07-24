@@ -435,13 +435,17 @@ function calculateResults() {
         textAnswer += q.id + '. ' + q.text + '\nإجابة المشارك: ' + optLabel + '\n\n';
       });
       
+      var urlParams = new URLSearchParams(window.location.search);
+      var participantName = urlParams.get('name') || undefined;
+
       fetch('/api/exercise-answers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email,
           exerciseId: 'change-management-skills',
-          answer: textAnswer.trim()
+          answer: textAnswer.trim(),
+          participantName: participantName
         })
       });
     }
