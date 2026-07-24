@@ -71,6 +71,7 @@ type ActivityBar = {
   type: string;
   count: number;
   percent: number;
+  details?: Array<{ name: string; email: string; date: string }>;
 };
 
 type RecentActivity = {
@@ -621,19 +622,51 @@ function RingMetric({
 }
 
 function HorizontalBar({ item }: { item: ActivityBar }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasDetails = item.details && item.details.length > 0;
+
   return (
-    <article className="admin-bar-row">
-      <div>
-        <strong>{item.label}</strong>
-        <span>{item.type}</span>
-      </div>
-      <div className="admin-bar-track" aria-label={`${item.percent}%`}>
-        <span style={{ width: `${item.percent}%` }} />
-      </div>
-      <em>
-        {item.count} / {item.percent}%
-      </em>
-    </article>
+    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <article 
+        className="admin-bar-row"
+        onClick={() => { if (hasDetails) setIsExpanded(!isExpanded); }}
+        style={{ cursor: hasDetails ? "pointer" : "default" }}
+      >
+        <div>
+          <strong>{item.label}</strong>
+          <span>{item.type}</span>
+        </div>
+        <div className="admin-bar-track" aria-label={`${item.percent}%`}>
+          <span style={{ width: `${item.percent}%` }} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <em>
+            {item.count} / {item.percent}%
+          </em>
+          {hasDetails && (
+            <svg 
+              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+              style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s", color: "var(--navy)" }}
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          )}
+        </div>
+      </article>
+      {isExpanded && item.details && (
+        <div style={{ padding: "16px", background: "var(--surface-2, #f9fafb)", borderRadius: "12px", border: "1px solid var(--line, #e5e7eb)", marginBottom: "8px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          {item.details.map((detail, idx) => (
+            <div key={`${detail.email}-${idx}`} style={{ paddingBottom: idx < item.details!.length - 1 ? "12px" : "0", borderBottom: idx < item.details!.length - 1 ? "1px solid var(--line, #e5e7eb)" : "none" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <strong style={{ fontSize: "14px", color: "var(--navy)" }}>{detail.name !== "-" ? detail.name : "مشارك بدون اسم"}</strong>
+                <span style={{ fontSize: "12px", color: "var(--text-3, #6b7280)" }}>{formatDate(detail.date)}</span>
+              </div>
+              <div style={{ fontSize: "13px", color: "var(--text-2, #4b5563)", marginTop: "4px" }}>{detail.email}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -718,29 +751,50 @@ export function AdminDashboard() {
         type: "تعارف",
         count: data.stats.profileCount,
         percent: percent(data.stats.profileCount, participantTotal),
+        details: data.participantProfiles.map(p => ({
+           name: p.name || "-",
+           email: p.participant_email,
+           date: p.updated_at
+        })).sort((a, b) => b.date.localeCompare(a.date))
       },
       ...exercises.map((exercise) => {
-        const count = data.exerciseAnswers.filter(
+        const answers = data.exerciseAnswers.filter(
           (answer) => answer.exercise_id === exercise.id
-        ).length;
+        );
 
         return {
           label: exercise.title,
           type: "تمرين",
-          count,
-          percent: percent(count, participantTotal),
+          count: answers.length,
+          percent: percent(answers.length, participantTotal),
+          details: answers.map(a => {
+            const pName = profilesByEmail.get(a.participant_email)?.name || surveysByEmail.get(a.participant_email)?.name;
+            return {
+              name: pName || "-",
+              email: a.participant_email,
+              date: a.updated_at
+            };
+          }).sort((a, b) => b.date.localeCompare(a.date))
         };
       }),
       ...assessments.map((assessment) => {
-        const count = data.assessmentAnswers.filter(
+        const answers = data.assessmentAnswers.filter(
           (answer) => answer.assessment_id === assessment.id
-        ).length;
+        );
 
         return {
           label: assessment.title,
           type: "مقياس",
-          count,
-          percent: percent(count, participantTotal),
+          count: answers.length,
+          percent: percent(answers.length, participantTotal),
+          details: answers.map(a => {
+            const pName = profilesByEmail.get(a.participant_email)?.name || surveysByEmail.get(a.participant_email)?.name;
+            return {
+              name: pName || "-",
+              email: a.participant_email,
+              date: a.updated_at
+            };
+          }).sort((a, b) => b.date.localeCompare(a.date))
         };
       }),
     ];
