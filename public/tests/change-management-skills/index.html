@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار تشخيص مهارات التغيير</title>
+<style>
+:root {
+  --brand:   #1a6b6a;
+  --brand2:  #145655;
+  --accent:  #c9a227;
+  --bg:      #f4f6f8;
+  --card:    #ffffff;
+  --text-1:  #1e2a38;
+  --text-2:  #4a5568;
+  --line:    #e2e8f0;
+  --radius:  14px;
+  --shadow:  0 2px 12px rgba(0,0,0,.07);
+  --font:    'Segoe UI', Tahoma, 'Noto Sans Arabic', sans-serif;
+  --transition: .35s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-1);
+  line-height: 1.7;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px;
+  min-height: 500px;
+  position: relative;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.header h1 {
+  color: var(--brand);
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.header p {
+  color: var(--text-2);
+}
+
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn .4s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Slide animation */
+.slide-in { animation: slideIn .4s ease; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.question-text {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--brand);
+  line-height: 1.5;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-btn {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 18px 24px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-family: inherit;
+  color: var(--text-1);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.option-btn:hover {
+  background: #f8fafc;
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.btn {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
+}
+.btn:hover {
+  opacity: 0.9;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.back-btn:hover { color: var(--brand); }
+.back-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* Progress bar */
+.progress-container {
+  margin-bottom: 30px;
+}
+.progress-text {
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-2);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.progress-bar-wrap {
+  height: 8px;
+  background: var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--brand);
+  border-radius: 20px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Results */
+.result-box {
+  text-align: center;
+  padding: 30px;
+  background: #eef6f6;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.score {
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--brand);
+}
+.score-max {
+  font-size: 24px;
+  color: var(--text-2);
+}
+.category-text {
+  font-size: 18px;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.axis-analysis {
+  margin-top: 30px;
+}
+.axis-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.axis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.axis-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--brand);
+}
+.axis-score {
+  font-weight: bold;
+  background: var(--brand);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <div id="introScreen" class="screen active">
+    <div class="header">
+      <h1>اختبار تشخيص مهارات التغيير</h1>
+      <p>أجب عن 16 عبارة قصيرة لتقييم مهاراتك في قيادة التغيير، واحصل على نتيجتك الفورية مع تحليل لنقاط قوتك وفرص تطويرك.</p>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <button class="btn" onclick="startTest()">بدء الاختبار</button>
+    </div>
+  </div>
+
+  <div id="quizScreen" class="screen">
+    
+    <div class="progress-container">
+      <div class="progress-text"><span id="currentQNum">1</span> / 16</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+    </div>
+    
+    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M9 19l-7-7 7-7v14zm4-14v14h7v-14h-7z" style="display:none;"/></svg>
+      &#8594; العودة للسؤال السابق
+    </button>
+    
+    <div id="questionSlide" class="slide-in">
+      <div id="questionText" class="question-text"></div>
+      <div id="optionsContainer" class="options"></div>
+    </div>
+
+  </div>
+
+  <div id="resultScreen" class="screen">
+    <div class="header">
+      <h1>نتيجة الاختبار</h1>
+    </div>
+    
+    <div class="result-box">
+      <div class="score"><span id="finalScore">0</span><span class="score-max"> / 80</span></div>
+      <div id="categoryDesc" class="category-text"></div>
+    </div>
+
+    <div class="axis-analysis">
+      <h2>التحليل حسب المحاور:</h2>
+      
+      <div class="axis-card">
+        <div class="axis-header">
+          <div class="axis-title">المحور الأول: فهم التغيير</div>
+          <div class="axis-score"><span id="axis1Score">0</span> / 20</div>
+        </div>
+        <p>قبل أن تدير مشروعًا يتضمن تغيير طريقة عمل الأشخاص، يجب عليك أولاً أن تفهم كيف يتفاعل الأشخاص مع التغيير. ردود أفعال الأشخاص تجاه التغيير يمكن أن تتراوح من "الصدمة والإنكار" إلى "القبول". يحتاج العديد من الأشخاص إلى الوقت للتكيف، لذا قد تنخفض مستويات الأداء في البداية.</p>
+      </div>
+
+      <div class="axis-card">
+        <div class="axis-header">
+          <div class="axis-title">المحور الثاني: التخطيط للتغيير</div>
+          <div class="axis-score"><span id="axis2Score">0</span> / 20</div>
+        </div>
+        <p>التحضير الشامل هو مفتاح التخطيط الناجح. إجراء تحليل التأثير سيساعدك على فهم العواقب الإيجابية والسلبية المحتملة. تعد قضايا التصميم التنظيمي مهمة بشكل خاص للتأكد من إمكانية دعم التغييرات بالموارد المتاحة.</p>
+      </div>
+
+      <div class="axis-card">
+        <div class="axis-header">
+          <div class="axis-title">المحور الثالث: تطبيق التغيير</div>
+          <div class="axis-score"><span id="axis3Score">0</span> / 20</div>
+        </div>
+        <p>عند تنفيذ التغيير، التواصل الإضافي أمر بالغ الأهمية. قم بإجراء تقييمات احتياجات التدريب للتأكد من أن الموظفين لديهم المهارات اللازمة. سلّط الضوء على النجاحات واعمل على جعل التغيير جزءًا من ثقافة المنظمة للتحسين المستمر.</p>
+      </div>
+      
+      <div style="margin-top:20px; padding:20px; background:#f9f9f9; border-radius:10px;">
+        <h3 style="color:var(--brand); margin-bottom:10px;">نصيحة ختامية</h3>
+        <p>لا تنتهي إدارة التغيير بمجرد التنفيذ. تأكد من استمرارك في التواصل بشأن الإنجازات وتوفير المهارات اللازمة. من خلال النهج الاستباقي الشامل، ستحقق نجاحاً أكبر وتقلل الاضطرابات.</p>
+      </div>
+    </div>
+    
+    <div style="text-align:center; margin-top:30px;">
+      <button class="btn" onclick="location.reload()">إعادة الاختبار</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questionsData = [
+  { id: 1, text: "عادةً ما أتلقى دعمًا جيدًا من كبار المسؤولين التنفيذيين لإجراء التغييرات التي أرغب في تنفيذها.", reverse: false, axis: 1 },
+  { id: 2, text: "أقوم بإنشاء خطة للتغيير لإدارتي وفريقي، وأسمح للأقسام الأخرى بالتعامل مع التأثيرات حسب اختيارهم.", reverse: true, axis: 2 },
+  { id: 3, text: "أقوم بذكر النجاحات في جميع أنحاء المنظمة، حتى يفهم الجميع التأثير الإيجابي لمشروع التغيير.", reverse: false, axis: 3 },
+  { id: 4, text: "إذا كان التغيير منطقيًا من الناحية المالية والتشغيلية، فسوف ينجح.", reverse: true, axis: 2 },
+  { id: 5, text: "إذا كان الفريق غير راضٍ عن كيفية عمل شيء ما في الوقت الحالي، فمن المرجح أن يكون التغيير ناجحًا.", reverse: false, axis: 0 },
+  { id: 6, text: "أحاول أن أفهم ثقافة منظمتي وقيمها كعناصر مهمة لمشروع التغيير.", reverse: false, axis: 2 },
+  { id: 7, text: "عندما يحدث التغيير، أتوقع أن يستمر الأشخاص في الأداء بنسبة 100 بالمائة.", reverse: true, axis: 1 },
+  { id: 8, text: "بمجرد أن أنجح في مشروع التغيير، أعلن النصر وأنتقل إلى المشروع التالي.", reverse: true, axis: 3 },
+  { id: 9, text: "أنا أفكر في أشياء مثل التأثير على الأشخاص والهيكل التنظيمي عند التخطيط لمشروع التغيير.", reverse: false, axis: 2 },
+  { id: 10, text: "إذا اعتقدت أنه يجب تغيير شيء ما، أبدأ على الفور وأحققه.", reverse: true, axis: 1 },
+  { id: 11, text: "للحصول على الدعم والمساندة من فريقي، أتحدث مع أعضاء الفريق حول أسباب الحاجة إلى التغيير.", reverse: false, axis: 0 },
+  { id: 12, text: "أسمح للأشخاص بالارتياح تجاه التغييرات قبل أن أقرر ما إذا كان أي تدريب ضروريًا أم لا.", reverse: true, axis: 3 },
+  { id: 13, text: "إذا كان الأفراد الرئيسيون مقتنعين بأن هناك حاجة إلى التغيير، فإن بقية أصحاب المصلحة عادة ما ينضمون إلى هذا التغيير.", reverse: true, axis: 0 },
+  { id: 14, text: "من الصعب إدارة التغيير بفعالية عندما تكون المنظمة قد أدارت مشاريع التغيير بشكل سيء في السابق.", reverse: false, axis: 1 },
+  { id: 15, text: "عند تنفيذ مشروع التغيير، أضع أهدافًا قصيرة المدى قابلة للتحقيق والتي، بمجرد تحقيقها، ستحفز الأشخاص على المثابرة والاستمرار في المحاولة.", reverse: false, axis: 3 },
+  { id: 16, text: "التغيير جيد مثل الراحة، لذلك على الرغم من أنه قد لا يكون ضروريًا، إلا أنه غالبًا ما يساعد على 'خلط الأمور قليلاً'.", reverse: true, axis: 0 }
+];
+
+const options = [
+  { value: 1, label: "أبداً" },
+  { value: 2, label: "نادراً" },
+  { value: 3, label: "أحياناً" },
+  { value: 4, label: "غالباً" },
+  { value: 5, label: "شبه دائماً" }
+];
+
+let answers = {};
+let currentIdx = 0;
+
+function startTest() {
+  document.getElementById("introScreen").classList.remove("active");
+  document.getElementById("quizScreen").classList.add("active");
+  currentIdx = 0;
+  answers = {};
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questionsData[currentIdx];
+  
+  // Progress bar
+  document.getElementById("currentQNum").innerText = currentIdx + 1;
+  const progressPercent = ((currentIdx) / questionsData.length) * 100;
+  document.getElementById("progressBarFill").style.width = progressPercent + "%";
+  
+  // Back button
+  document.getElementById("backBtn").style.display = currentIdx > 0 ? "inline-flex" : "none";
+  
+  // Slide animation
+  const slide = document.getElementById("questionSlide");
+  slide.classList.remove("slide-in");
+  void slide.offsetWidth; // trigger reflow
+  slide.classList.add("slide-in");
+
+  // Question Text
+  document.getElementById("questionText").innerText = (currentIdx + 1) + ". " + q.text;
+  
+  // Options
+  let optsHtml = "";
+  options.forEach(opt => {
+    optsHtml += `<button class="option-btn" onclick="selectOption(${q.id}, ${opt.value})">${opt.label}</button>`;
+  });
+  document.getElementById("optionsContainer").innerHTML = optsHtml;
+}
+
+function selectOption(qId, val) {
+  answers[qId] = parseInt(val);
+  
+  setTimeout(() => {
+    if (currentIdx < questionsData.length - 1) {
+      currentIdx++;
+      renderQuestion();
+    } else {
+      calculateResults();
+    }
+  }, 150); // slight delay for visual feedback
+}
+
+function goBack() {
+  if (currentIdx > 0) {
+    currentIdx--;
+    renderQuestion();
+  }
+}
+
+function calculateResults() {
+  let totalScore = 0;
+  let axisScores = { 1: 0, 2: 0, 3: 0 };
+  
+  questionsData.forEach(q => {
+    let val = answers[q.id] || 0;
+    let score = q.reverse ? (6 - val) : val;
+    totalScore += score;
+    
+    if (q.axis > 0) {
+      axisScores[q.axis] += score;
+    }
+  });
+  
+  document.getElementById("finalScore").innerText = totalScore;
+  document.getElementById("axis1Score").innerText = axisScores[1];
+  document.getElementById("axis2Score").innerText = axisScores[2];
+  document.getElementById("axis3Score").innerText = axisScores[3];
+  
+  let desc = "";
+  if (totalScore >= 16 && totalScore <= 36) {
+    desc = "أنت تميل إلى النظر إلى النتيجة النهائية وتنسى التركيز على احتياجات التخطيط الفورية. لكي تنجح في التغيير، يجب أن تجد طريقة للتواصل ومشاركة حماسة الهدف النهائي مع فريقك، كطريقة لخلق الدعم اللازم.";
+  } else if (totalScore >= 37 && totalScore <= 58) {
+    desc = "أنت تفهم العديد من العناصر المطلوبة للتغيير، ولكن تطبيقها عمليًا لا يعمل دائمًا بشكل جيد. ركّز على تطوير عملية تسمح لك بالعمل على كل عنصر من عناصر التغيير واحدًا تلو الآخر.";
+  } else if (totalScore >= 59 && totalScore <= 80) {
+    desc = "لديك فهم جيد جدًا لما يجعل التغيير ناجحًا، ولديك معرفة جيدة بإدارة التغيير والتخطيط له وتنفيذه. اقرأ التحليل أدناه لترى ما إذا كانت هناك أفكار لتحسين أدائك أكثر.";
+  }
+  
+  document.getElementById("categoryDesc").innerText = desc;
+  
+  document.getElementById("quizScreen").classList.remove("active");
+  document.getElementById("resultScreen").classList.add("active");
+  
+  window.scrollTo(0,0);
+  
+  // حفظ النتائج في الخادم
+  try {
+    var email = window.sessionStorage.getItem('participantEmail') || 
+                (window.parent && window.parent.sessionStorage.getItem('participantEmail')) || "";
+    
+    if (email) {
+      var textAnswer = 'النتيجة الإجمالية: ' + totalScore + ' من 80\n';
+      textAnswer += 'فهم الحاجة للتغيير (المحور 1): ' + axisScores[1] + ' من 30\n';
+      textAnswer += 'تخطيط التغيير (المحور 2): ' + axisScores[2] + ' من 30\n';
+      textAnswer += 'تطبيق التغيير (المحور 3): ' + axisScores[3] + ' من 20\n\n';
+      textAnswer += 'التشخيص: ' + desc + '\n\n';
+      
+      questionsData.forEach(q => {
+        let val = answers[q.id] || 0;
+        let optLabel = options.find(o => o.value === val)?.label || val;
+        textAnswer += q.id + '. ' + q.text + '\nإجابة المشارك: ' + optLabel + '\n\n';
+      });
+      
+      fetch('/api/exercise-answers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          exerciseId: 'change-management-skills',
+          answer: textAnswer.trim()
+        })
+      });
+    }
+  } catch (err) {
+    console.error('Failed to save change-management-skills results', err);
+  }
+}
+</script>
+</body>
+</html>

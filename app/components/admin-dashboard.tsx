@@ -81,6 +81,18 @@ type RecentActivity = {
   updated_at: string;
 };
 
+type ParsedAnswerItem = {
+  label: string;
+  value: string;
+  status?: "correct" | "incorrect" | "neutral";
+};
+
+type ParsedAnswer = {
+  score?: string;
+  items: ParsedAnswerItem[];
+  rawText?: string;
+};
+
 const exerciseTitleById = new Map(exercises.map((item) => [item.id, item.title]));
 const assessmentTitleById = new Map(
   assessments.map((item) => [item.id, item.title])
@@ -216,6 +228,21 @@ function formatExerciseAnswer(answer: string) {
         .join(" | ");
     }
 
+    if (parsed.exerciseId === "leader-impact") {
+      const leaderAnswers =
+        parsed.answers && !Array.isArray(parsed.answers)
+          ? parsed.answers
+          : undefined;
+
+      return [
+        leaderAnswers?.reason ? `السبب: ${leaderAnswers.reason}` : "",
+        leaderAnswers?.behavior1 ? `السلوك الأول: ${leaderAnswers.behavior1}` : "",
+        leaderAnswers?.behavior2 ? `السلوك الثاني: ${leaderAnswers.behavior2}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+    }
+
     if (!parsed.evaluation) {
       if (parsed.exerciseId === "prompt-anatomy") {
         const anatomyAnswers =
@@ -335,6 +362,239 @@ function formatExerciseAnswer(answer: string) {
   }
 }
 
+function parseAnswerData(answer: string, type: "exercise" | "assessment"): ParsedAnswer {
+  if (type === "assessment") {
+    try {
+      const parsed = JSON.parse(answer) as AssessmentPayload;
+      const items: ParsedAnswerItem[] = [];
+      if (parsed.distribution) {
+        Object.entries(parsed.distribution).forEach(([name, value]) => {
+          items.push({ label: name, value: `${value}%`, status: "neutral" });
+        });
+      }
+      return { score: parsed.result, items };
+    } catch {
+      return { items: [], rawText: answer };
+    }
+  }
+
+  try {
+    const parsed = JSON.parse(answer);
+    const items: ParsedAnswerItem[] = [];
+    
+    if (parsed.exerciseId === "course-completion-survey") {
+      const survey = parsed as CompletionSurveyPayload;
+      if (survey.experienceRating) items.push({ label: "تقييم التجربة", value: `${survey.experienceRating} / 5` });
+      if (survey.usefulnessRating) items.push({ label: "فائدة المحتوى", value: `${survey.usefulnessRating} / 5` });
+      if (typeof survey.recommendationScore === "number") items.push({ label: "الترشيح", value: `${survey.recommendationScore} / 10` });
+      if (survey.mostUseful) items.push({ label: "الأكثر فائدة", value: survey.mostUseful });
+      if (survey.application) items.push({ label: "سيطبق", value: survey.application });
+      if (survey.improvement) items.push({ label: "تحسين مقترح", value: survey.improvement });
+      return { items };
+    }
+
+    if (parsed.exerciseId === "leader-impact") {
+      const leaderAnswers = parsed.answers && !Array.isArray(parsed.answers) ? parsed.answers : undefined;
+      if (leaderAnswers?.reason) items.push({ label: "السبب", value: leaderAnswers.reason });
+      if (leaderAnswers?.behavior1) items.push({ label: "السلوك الأول", value: leaderAnswers.behavior1 });
+      if (leaderAnswers?.behavior2) items.push({ label: "السلوك الثاني", value: leaderAnswers.behavior2 });
+      return { items };
+    }
+
+    if (!parsed.evaluation) {
+      if (parsed.exerciseId === "prompt-anatomy") {
+        const anatomyAnswers = parsed.answers && !Array.isArray(parsed.answers) ? parsed.answers : undefined;
+        if (anatomyAnswers?.tone) items.push({ label: "النبرة", value: anatomyAnswers.tone });
+        if (anatomyAnswers?.task) items.push({ label: "المهمة", value: anatomyAnswers.task });
+        if (anatomyAnswers?.context) items.push({ label: "السياق", value: anatomyAnswers.context });
+        if (anatomyAnswers?.role) items.push({ label: "الدور", value: anatomyAnswers.role });
+        return { items };
+      }
+      if (parsed.exerciseId === "thinking-partner-crisis") {
+        if (parsed.summary?.verifiedFact) items.push({ label: "المعلومة المتحقق منها", value: parsed.summary.verifiedFact });
+        if (parsed.summary?.firstDecision) items.push({ label: "أول قرار", value: parsed.summary.firstDecision });
+        if (parsed.summary?.revisedDecision) items.push({ label: "القرار المعدل", value: parsed.summary.revisedDecision });
+        if (parsed.summary?.hallucination) items.push({ label: "الهلوسة المرصودة", value: parsed.summary.hallucination });
+        return { items };
+      }
+      if (parsed.exerciseId === "token-count") {
+        if (Array.isArray(parsed.answers)) {
+          parsed.answers.forEach((item: any) => {
+            const val = [item.tokens ? `الرموز: ${item.tokens}` : "", item.characters ? `المحارف: ${item.characters}` : ""].filter(Boolean).join(" | ");
+            if (val) items.push({ label: item.label ?? "جملة", value: val });
+          });
+        }
+        if (parsed.reflection) items.push({ label: "الملاحظة", value: parsed.reflection });
+        return { items };
+      }
+    }
+
+    let score = undefined;
+    if (parsed.evaluation) {
+      if (parsed.evaluation.score !== undefined) score = `${parsed.evaluation.score} / 100`;
+      if (parsed.evaluation.level) items.push({ label: "المستوى", value: parsed.evaluation.level });
+      if (parsed.evaluation.summary) items.push({ label: "الملخص", value: parsed.evaluation.summary });
+      if (parsed.evaluation.missingComponents?.length) items.push({ label: "مكونات تحتاج تحسيناً", value: parsed.evaluation.missingComponents.join("، ") });
+      if (parsed.evaluation.nextAction) items.push({ label: "الخطوة التالية", value: parsed.evaluation.nextAction });
+    }
+    
+    if (parsed.exerciseId === "thinking-partner-crisis") {
+      if (parsed.summary?.firstDecision) items.push({ label: "أول قرار", value: parsed.summary.firstDecision });
+      if (parsed.summary?.revisedDecision) items.push({ label: "القرار المعدل", value: parsed.summary.revisedDecision });
+      if (parsed.summary?.hallucination) items.push({ label: "الهلوسة المرصودة", value: parsed.summary.hallucination });
+    } else if (parsed.exerciseId === "prompt-anatomy") {
+      const anatomyAnswers = parsed.answers && !Array.isArray(parsed.answers) ? parsed.answers : undefined;
+      if (anatomyAnswers?.tone) items.push({ label: "النبرة", value: anatomyAnswers.tone });
+      if (anatomyAnswers?.task) items.push({ label: "المهمة", value: anatomyAnswers.task });
+    } else if (parsed.combinedPrompt) {
+      items.push({ label: "الأمر الأصلي", value: parsed.combinedPrompt });
+    }
+
+    return { score, items };
+
+  } catch {
+    if (answer.includes("إجابة المشارك:") || answer.includes("النتيجة:")) {
+      const result: ParsedAnswer = { items: [] };
+      const lines = answer.split('\n');
+      let currentItem: ParsedAnswerItem | null = null;
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        
+        if (line.startsWith("النتيجة:")) {
+          result.score = line.replace("النتيجة:", "").trim();
+        } else if (line.match(/^\d+\./)) { 
+          if (currentItem) result.items.push(currentItem);
+          currentItem = { label: line.replace(/^\d+\./, '').trim(), value: '', status: 'neutral' };
+        } else if (line.startsWith("إجابة المشارك:")) {
+          if (currentItem) {
+            let val = line.replace("إجابة المشارك:", "").trim();
+            if (val.includes("(صحيحة)")) {
+              currentItem.status = "correct";
+              val = val.replace("(صحيحة)", "").trim();
+            } else if (val.includes("(خاطئة)")) {
+              currentItem.status = "incorrect";
+              val = val.replace("(خاطئة)", "").trim();
+            }
+            currentItem.value = val;
+          }
+        }
+      }
+      if (currentItem) result.items.push(currentItem);
+      
+      return result;
+    }
+
+    return { items: [], rawText: answer };
+  }
+}
+
+function ParticipantDetailCard({
+  name,
+  email,
+  date,
+  parsedData
+}: {
+  name: string;
+  email: string;
+  date: string;
+  parsedData: ParsedAnswer;
+}) {
+  return (
+    <div className="admin-detail-card" style={{
+      background: 'var(--surface-1, #fff)',
+      borderRadius: '16px',
+      border: '1px solid var(--line, #e5e7eb)',
+      overflow: 'hidden',
+      marginTop: '16px'
+    }}>
+      <div style={{
+        padding: '20px',
+        borderBottom: '1px solid var(--line, #e5e7eb)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: 'var(--surface-2, #f9fafb)',
+        flexWrap: 'wrap',
+        gap: '16px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            width: '40px', height: '40px', borderRadius: '50%', background: 'var(--navy)',
+            color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontWeight: 'bold', fontSize: '16px', flexShrink: 0
+          }}>
+            {name !== "مشارك بدون اسم" ? name.charAt(0).toUpperCase() : email.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div style={{ fontWeight: 'bold', color: 'var(--navy)', fontSize: '16px' }}>{name}</div>
+            <div style={{ fontSize: '13px', color: 'var(--text-3)' }}>{email} • {formatDate(date)}</div>
+          </div>
+        </div>
+        {parsedData.score && (
+          <div style={{
+            background: 'var(--primary-light, #fff5eb)',
+            color: 'var(--primary-dark, #b35900)',
+            padding: '8px 16px',
+            borderRadius: '20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            border: '1px solid rgba(var(--primary-rgb), 0.2)'
+          }}>
+            النتيجة: {parsedData.score}
+          </div>
+        )}
+      </div>
+
+      <div style={{ padding: '20px' }}>
+        {parsedData.items.length > 0 ? (
+          <div style={{ display: 'grid', gap: '16px' }}>
+            {parsedData.items.map((item, idx) => (
+              <div key={idx} style={{
+                background: 'var(--bg-2, #f3f4f6)',
+                padding: '16px',
+                borderRadius: '12px',
+                borderRight: item.status === 'correct' ? '4px solid var(--green)' : 
+                             item.status === 'incorrect' ? '4px solid var(--red)' : 
+                             '4px solid var(--line, #e5e7eb)'
+              }}>
+                <div style={{ fontWeight: 'bold', color: 'var(--navy)', marginBottom: '8px', fontSize: '15px' }}>
+                  {item.label}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ fontSize: '14px', color: 'var(--text-1)', lineHeight: '1.6', flex: 1 }}>
+                    {item.value}
+                  </div>
+                  {item.status && item.status !== 'neutral' && (
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '4px 10px',
+                      borderRadius: '12px',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      background: item.status === 'correct' ? 'var(--green-light)' : 'var(--red-light)',
+                      color: item.status === 'correct' ? 'var(--green-dark)' : 'var(--red-dark)',
+                    }}>
+                      {item.status === 'correct' ? '✔ صحيحة' : '✘ خاطئة'}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', color: 'var(--text-1)', fontSize: '14px' }}>
+            {parsedData.rawText || "لا توجد تفاصيل."}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function RingMetric({
   label,
   value,
@@ -384,6 +644,10 @@ export function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [deletingEmail, setDeletingEmail] = useState<string | null>(null);
   const [deleteMessage, setDeleteMessage] = useState("");
+  const [activeTab, setActiveTab] = useState<"exercises" | "assessments">("exercises");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<{name: string, email: string, date: string, parsedData: ParsedAnswer} | null>(null);
 
   const dashboard = useMemo(() => {
     if (!data) {
@@ -547,6 +811,27 @@ export function AdminDashboard() {
       .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
       .slice(0, 8);
 
+    const leaderImpactRows = data.exerciseAnswers
+      .filter((answer) => answer.exercise_id === "leader-impact")
+      .map((answer) => {
+        try {
+          const parsed = JSON.parse(answer.answer) as {
+            exerciseId?: string;
+            answers?: { reason?: string; behavior1?: string; behavior2?: string };
+          };
+          return {
+            email: answer.participant_email,
+            reason: parsed.answers?.reason ?? "",
+            behavior1: parsed.answers?.behavior1 ?? "",
+            behavior2: parsed.answers?.behavior2 ?? "",
+            updated_at: answer.updated_at,
+          };
+        } catch {
+          return null;
+        }
+      })
+      .filter((row): row is NonNullable<typeof row> => row !== null);
+
     return {
       activityBars,
       averageExperience,
@@ -556,6 +841,7 @@ export function AdminDashboard() {
       consentBreakdown,
       consentedTestimonials,
       exerciseRows,
+      leaderImpactRows,
       leaderStyleCounts,
       nps,
       participantRows,
@@ -566,6 +852,72 @@ export function AdminDashboard() {
       testimonialRows,
     };
   }, [data]);
+
+  const filteredActivities = useMemo(() => {
+    if (!data || !dashboard) return [];
+
+    let items = [];
+    if (activeTab === "exercises") {
+      items = exercises.map(ex => {
+        const answers = dashboard.exerciseRows.filter(a => a.exercise_id === ex.id);
+        return {
+          id: ex.id,
+          title: ex.title,
+          type: "exercise",
+          count: answers.length,
+          percent: percent(answers.length, data.stats.participantCount),
+          answers: answers.map(a => {
+            const pName = dashboard.participantRows.find(p => p.email === a.participant_email)?.name;
+            const finalName = (!pName || pName === "-") ? "مشارك بدون اسم" : pName;
+            return {
+              email: a.participant_email,
+              name: finalName,
+              date: a.updated_at,
+              content: formatExerciseAnswer(a.answer),
+              parsedData: parseAnswerData(a.answer, "exercise")
+            };
+          })
+        };
+      });
+    } else {
+      items = assessments.map(ass => {
+        const answers = data.assessmentAnswers.filter(a => a.assessment_id === ass.id);
+        return {
+          id: ass.id,
+          title: ass.title,
+          type: "assessment",
+          count: answers.length,
+          percent: percent(answers.length, data.stats.participantCount),
+          answers: answers.map(a => {
+            const pName = dashboard.participantRows.find(p => p.email === a.participant_email)?.name;
+            const finalName = (!pName || pName === "-") ? "مشارك بدون اسم" : pName;
+            return {
+              email: a.participant_email,
+              name: finalName,
+              date: a.updated_at,
+              content: formatAssessmentPayload(a.payload),
+              parsedData: parseAnswerData(a.payload, "assessment"),
+              score: a.score
+            };
+          })
+        };
+      });
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      items = items.filter(item => 
+        item.title.toLowerCase().includes(q) || 
+        item.answers.some(a => a.name.toLowerCase().includes(q) || a.email.toLowerCase().includes(q))
+      );
+    }
+
+    return items.sort((a, b) => {
+      if (a.count === 0 && b.count > 0) return 1;
+      if (b.count === 0 && a.count > 0) return -1;
+      return b.count - a.count;
+    });
+  }, [data, dashboard, activeTab, searchQuery]);
 
   async function load(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -998,27 +1350,302 @@ export function AdminDashboard() {
             </table>
           </section>
 
-          <section className="admin-table-wrap">
-            <h2>إجابات التمارين</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>المشارك</th>
-                  <th>التمرين</th>
-                  <th>الإجابة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dashboard.exerciseRows.map((answer) => (
-                  <tr key={`${answer.participant_email}-${answer.exercise_id}`}>
-                    <td>{answer.participant_email}</td>
-                    <td>{exerciseTitleById.get(answer.exercise_id) ?? answer.exercise_id}</td>
-                    <td>{formatExerciseAnswer(answer.answer)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <section className="admin-panel" style={{ marginTop: "40px" }}>
+            <div className="admin-activity-controls">
+              <div className="admin-tabs" role="tablist">
+                <button
+                  role="tab"
+                  className="admin-tab-btn"
+                  aria-selected={activeTab === "exercises"}
+                  onClick={() => { setActiveTab("exercises"); setExpandedCardId(null); }}
+                >
+                  التمارين
+                </button>
+                <button
+                  role="tab"
+                  className="admin-tab-btn"
+                  aria-selected={activeTab === "assessments"}
+                  onClick={() => { setActiveTab("assessments"); setExpandedCardId(null); }}
+                >
+                  المقاييس والاختبارات
+                </button>
+              </div>
+              <input
+                type="search"
+                className="admin-search-input"
+                placeholder="ابحث باسم النشاط أو المشارك..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="admin-activity-grid">
+              {filteredActivities.map(activity => (
+                <article
+                  key={activity.id}
+                  className="admin-activity-card"
+                  data-empty={activity.count === 0}
+                >
+                  <div className="admin-activity-header">
+                    <h3 className="admin-activity-title">{activity.title}</h3>
+                  </div>
+
+                  <div className="admin-activity-stats">
+                    <div className="admin-stat-item">
+                      <span>إجمالي المشاركين</span>
+                      <strong className="admin-stat-value">{activity.count}</strong>
+                    </div>
+                  </div>
+
+                  <div className="admin-progress-wrap">
+                    <div className="admin-progress-header">
+                      <span>نسبة الإكمال</span>
+                      <span>{activity.percent}%</span>
+                    </div>
+                    <div className="admin-progress-track">
+                      <div
+                        className="admin-progress-bar"
+                        style={{ width: `${activity.percent}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    className="admin-details-btn"
+                    aria-expanded={expandedCardId === activity.id}
+                    onClick={() => setExpandedCardId(
+                      expandedCardId === activity.id ? null : activity.id
+                    )}
+                    disabled={activity.count === 0}
+                  >
+                    {expandedCardId === activity.id ? "إخفاء التفاصيل" : "عرض التفاصيل"}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: expandedCardId === activity.id ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+
+                  {expandedCardId === activity.id && (
+                    <div className="admin-accordion-content">
+                      {activity.answers.map((answer, i) => (
+                        <div
+                          key={`${answer.email}-${i}`}
+                          className="admin-participant-row"
+                          onClick={() => setSelectedAnswer(answer)}
+                        >
+                          <div className="admin-participant-header">
+                            <div>
+                              <div className="admin-participant-name">{answer.name}</div>
+                              <div className="admin-participant-date">{formatDate(answer.date)}</div>
+                            </div>
+                            {answer.score !== undefined && (
+                              <div className="admin-participant-score">النتيجة: {answer.score}</div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              ))}
+              
+              {filteredActivities.length === 0 && (
+                <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "var(--text-3)" }}>
+                  لا توجد نتائج مطابقة للبحث.
+                </div>
+              )}
+            </div>
           </section>
+
+          {dashboard.leaderImpactRows.length > 0 && (
+            <section className="admin-panel" style={{ marginTop: "32px" }}>
+              <div className="admin-panel-head">
+                <div>
+                  <div className="section-kicker">تمرين التفكير القيادي</div>
+                  <h2>قائد أثّر فيّ — إجابات المشاركين</h2>
+                </div>
+                <span
+                  style={{
+                    background: "var(--gold)",
+                    color: "var(--navy)",
+                    borderRadius: "20px",
+                    padding: "4px 14px",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                  }}
+                >
+                  {dashboard.leaderImpactRows.length} مشارك
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+                  gap: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                {dashboard.leaderImpactRows.map((row) => (
+                  <article
+                    key={row.email}
+                    style={{
+                      background: "var(--surface-2, #f8f9fb)",
+                      border: "1px solid var(--line, #e5e7eb)",
+                      borderRadius: "16px",
+                      padding: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "14px",
+                      position: "relative",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Decorative accent */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: "4px",
+                        height: "100%",
+                        background: "var(--gold)",
+                        borderRadius: "0 16px 16px 0",
+                      }}
+                    />
+
+                    {/* Participant email */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        paddingBottom: "10px",
+                        borderBottom: "1px solid var(--line, #e5e7eb)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "36px",
+                          height: "36px",
+                          borderRadius: "50%",
+                          background: "var(--navy)",
+                          color: "#fff",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 700,
+                          fontSize: "16px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {row.email.charAt(0).toUpperCase()}
+                      </div>
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          color: "var(--text-3, #6b7280)",
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        {row.email}
+                      </span>
+                    </div>
+
+                    {/* Reason */}
+                    {row.reason && (
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            color: "var(--gold)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.05em",
+                            marginBottom: "6px",
+                          }}
+                        >
+                          💡 لماذا اختار هذا القائد؟
+                        </div>
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: "14px",
+                            lineHeight: 1.6,
+                            color: "var(--text-1, #111)",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {row.reason}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Behavior 1 */}
+                    {row.behavior1 && (
+                      <div
+                        style={{
+                          background: "var(--blue-track, #eef2ff)",
+                          borderRadius: "10px",
+                          padding: "12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            color: "var(--navy)",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          🔹 السلوك الأول
+                        </div>
+                        <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.5 }}>
+                          {row.behavior1}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Behavior 2 */}
+                    {row.behavior2 && (
+                      <div
+                        style={{
+                          background: "var(--blue-track, #eef2ff)",
+                          borderRadius: "10px",
+                          padding: "12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            color: "var(--navy)",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          🔸 السلوك الثاني
+                        </div>
+                        <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.5 }}>
+                          {row.behavior2}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Date */}
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "var(--text-3, #9ca3af)",
+                        marginTop: "auto",
+                        paddingTop: "8px",
+                        borderTop: "1px solid var(--line, #e5e7eb)",
+                      }}
+                    >
+                      {formatDate(row.updated_at)}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="admin-table-wrap">
             <h2>استبيان ما بعد الدورة التدريبية</h2>
@@ -1060,32 +1687,27 @@ export function AdminDashboard() {
             </table>
           </section>
 
-          <section className="admin-table-wrap">
-            <h2>نتائج الاختبارات والمقاييس</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>المشارك</th>
-                  <th>المقياس</th>
-                  <th>الإجابة</th>
-                  <th>الدرجة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.assessmentAnswers.map((answer) => (
-                  <tr key={`${answer.participant_email}-${answer.assessment_id}`}>
-                    <td>{answer.participant_email}</td>
-                    <td>
-                      {assessmentTitleById.get(answer.assessment_id) ??
-                        answer.assessment_id}
-                    </td>
-                    <td>{formatAssessmentPayload(answer.payload)}</td>
-                    <td>{answer.score ?? "-"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
+          {selectedAnswer && (
+            <div className="admin-modal-overlay" onClick={() => setSelectedAnswer(null)}>
+              <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="admin-modal-header">
+                  <h3>تفاصيل إجابة المشارك</h3>
+                  <button className="admin-modal-close" onClick={() => setSelectedAnswer(null)}>
+                    &times;
+                  </button>
+                </div>
+                <div style={{ maxHeight: '70vh', overflowY: 'auto', padding: '4px' }}>
+                  <ParticipantDetailCard
+                    name={selectedAnswer.name}
+                    email={selectedAnswer.email}
+                    date={selectedAnswer.date}
+                    parsedData={selectedAnswer.parsedData}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
         </>
       ) : null}
     </div>

@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تمرين نظريات القيادة — دورة القيادة التحويلية</title>
+  <meta name="description"
+    content="تمرين تفاعلي يعرض 15 نظرية قيادية ملخّصة من كتاب العادة الثامنة لستيفن كوفي، ضمن دورة القيادة التحويلية.">
+  <style>
+    /* ───────── Design Tokens ───────── */
+    :root {
+      --brand: #1a6b6a;
+      --brand2: #145655;
+      --accent: #c9a227;
+      --ok: #1a6b6a;
+      --no: #c0392b;
+      --mid: #7f8c8d;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text-1: #1e2a38;
+      --text-2: #4a5568;
+      --text-3: #8896a6;
+      --line: #e2e8f0;
+      --radius: 14px;
+      --shadow: 0 2px 12px rgba(0, 0, 0, .07);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, .10);
+      --font: 'Segoe UI', Tahoma, 'Noto Sans Arabic', sans-serif;
+      --transition: .35s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* ───────── Reset & Base ───────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text-1);
+      line-height: 1.75;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ───────── Brand Bar ───────── */
+    .brandbar {
+      width: 100%;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand2) 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 18px 24px;
+    }
+
+    .brandbar .logo-circle {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, .18);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 22px;
+    }
+
+    .brandbar .brand-text {
+      text-align: center;
+    }
+
+    .brandbar .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .brandbar .brand-sub {
+      font-size: 13px;
+      opacity: .85;
+    }
+
+    /* ───────── Container ───────── */
+    .container {
+      width: 100%;
+      max-width: 780px;
+      padding: 28px 20px 48px;
+      flex: 1;
+    }
+
+    /* ───────── Screens (show/hide) ───────── */
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeUp .4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ───────── Card shared ───────── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      margin-bottom: 24px;
+    }
+
+    /* ───────── Intro Screen ───────── */
+    .intro-heading {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 18px;
+    }
+
+    .intro-text {
+      color: var(--text-2);
+      margin-bottom: 12px;
+      font-size: 15.5px;
+    }
+
+    .steps-list {
+      list-style: none;
+      counter-reset: step;
+      margin: 16px 0 8px;
+    }
+
+    .steps-list li {
+      counter-increment: step;
+      padding: 10px 0;
+      padding-right: 38px;
+      position: relative;
+      color: var(--text-2);
+      font-size: 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .steps-list li:last-child {
+      border-bottom: none;
+    }
+
+    .steps-list li::before {
+      content: counter(step);
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: 26px;
+      height: 26px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .intro-note {
+      background: #eef6f6;
+      border-right: 4px solid var(--brand);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 18px 0;
+      font-size: 14.5px;
+      color: var(--text-2);
+    }
+
+    .name-field {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .name-field label {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-1);
+      white-space: nowrap;
+    }
+
+    .name-field input {
+      flex: 1;
+      min-width: 180px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      font-family: var(--font);
+      font-size: 15px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .name-field input:focus {
+      border-color: var(--brand);
+    }
+
+    /* ───────── Buttons ───────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 36px;
+      font-family: var(--font);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      margin-top: 18px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:active {
+      transform: scale(.97);
+    }
+
+    /* ───────── Quiz Screen ───────── */
+    .progress-bar-wrap {
+      height: 7px;
+      background: var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand), var(--accent));
+      border-radius: 20px;
+      transition: width .4s ease;
+    }
+
+    .counter-text {
+      text-align: left;
+      font-size: 14px;
+      color: var(--text-3);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .stmt-prompt {
+      font-size: 14px;
+      color: var(--text-3);
+      margin-bottom: 8px;
+    }
+
+    .stmt-text {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      min-height: 80px;
+    }
+
+    .choices {
+      display: flex;
+      gap: 14px;
+    }
+
+    .choice-btn {
+      flex: 1;
+      border: 2px solid var(--line);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+      font-family: var(--font);
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .choice-btn .label {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .choice-btn .hint {
+      display: block;
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    .choice-btn.ok {
+      border-color: var(--ok);
+    }
+
+    .choice-btn.ok .label {
+      color: var(--ok);
+    }
+
+    .choice-btn.ok:hover {
+      background: #eef6f6;
+    }
+
+    .choice-btn.no {
+      border-color: var(--no);
+    }
+
+    .choice-btn.no .label {
+      color: var(--no);
+    }
+
+    .choice-btn.no:hover {
+      background: #fdf0ee;
+    }
+
+    .choice-btn.mid {
+      border-color: var(--mid);
+    }
+
+    .choice-btn.mid .label {
+      color: var(--mid);
+    }
+
+    .choice-btn.mid:hover {
+      background: #f5f6f7;
+    }
+
+    .quiz-footer-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-3);
+      margin-top: 20px;
+    }
+
+    /* ───────── Best Pick Screen ───────── */
+    .pick-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 6px;
+    }
+
+    .pick-sub {
+      color: var(--text-3);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .pick-list {
+      list-style: none;
+    }
+
+    .pick-list li {
+      padding: 14px 18px;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 15px;
+      color: var(--text-2);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .pick-list li .pick-num {
+      width: 28px;
+      height: 28px;
+      background: var(--bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-3);
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+
+    .pick-list li:hover {
+      border-color: var(--brand);
+      background: #f0f9f9;
+    }
+
+    .pick-list li.selected {
+      border-color: var(--brand);
+      background: #e8f5f5;
+    }
+
+    .pick-list li.selected .pick-num {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* ───────── Report ───────── */
+    .report-header {
+      text-align: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .report-header h2 {
+      font-size: 22px;
+      color: var(--brand);
+      margin-bottom: 14px;
+    }
+
+    .report-meta {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    .report-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .report-meta strong {
+      color: var(--text-1);
+    }
+
+    /* Insight panel */
+    .insight-panel {
+      background: linear-gradient(135deg, #eef6f6, #e1eeee);
+      border-right: 5px solid var(--brand);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 28px;
+    }
+
+    .insight-panel h3 {
+      font-size: 17px;
+      color: var(--brand);
+      margin-bottom: 10px;
+    }
+
+    .insight-panel p {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.8;
+    }
+
+    /* Result items */
+    .result-item {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      transition: transform var(--transition);
+    }
+
+    .result-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .result-item.fav {
+      border: 2px solid var(--accent);
+      position: relative;
+    }
+
+    .fav-badge {
+      position: absolute;
+      top: -11px;
+      left: 18px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+
+    .result-theory {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 2px;
+    }
+
+    .result-ref {
+      font-size: 12.5px;
+      color: var(--text-3);
+      margin-bottom: 8px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .result-stmt {
+      font-size: 14.5px;
+      color: var(--text-2);
+      margin-bottom: 10px;
+      line-height: 1.75;
+    }
+
+    .answer-tag {
+      display: inline-block;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .answer-tag.sah {
+      background: #e8f5f5;
+      color: var(--ok);
+    }
+
+    .answer-tag.khata {
+      background: #fdf0ee;
+      color: var(--no);
+    }
+
+    .answer-tag.muhayid {
+      background: #f2f3f5;
+      color: var(--mid);
+    }
+
+    /* Closing section */
+    .closing-section {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid var(--line);
+    }
+
+    .closing-section h3 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 14px;
+    }
+
+    .closing-body {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .tips-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: 10px;
+    }
+
+    .tips-list {
+      list-style: none;
+      counter-reset: tip;
+    }
+
+    .tips-list li {
+      counter-increment: tip;
+      padding: 10px 0;
+      padding-right: 36px;
+      position: relative;
+      font-size: 14.5px;
+      color: var(--text-2);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .tips-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tips-list li::before {
+      content: counter(tip);
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer note */
+    .footer-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-3);
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      line-height: 1.7;
+    }
+
+    /* Print button */
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      color: var(--brand);
+      border: 2px solid var(--brand);
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-top: 24px;
+    }
+
+    .btn-print:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* ───────── Mobile ───────── */
+    @media (max-width: 600px) {
+      .choices {
+        flex-direction: column;
+      }
+
+      .choice-btn {
+        padding: 14px 8px;
+      }
+
+      .stmt-text {
+        font-size: 18px;
+      }
+
+      .container {
+        padding: 20px 14px 36px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      .report-meta {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .name-field {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    /* ───────── Print ───────── */
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .brandbar,
+      .btn-primary,
+      .btn-print,
+      .no-print {
+        display: none !important;
+      }
+
+      .screen {
+        display: none !important;
+      }
+
+      .screen#reportScreen {
+        display: block !important;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+      }
+
+      .result-item {
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
+        break-inside: avoid;
+      }
+
+      .result-item:hover {
+        transform: none;
+      }
+
+      .insight-panel {
+        break-inside: avoid;
+      }
+
+      .closing-section {
+        break-before: page;
+      }
+
+      @page {
+        size: A4;
+        margin: 18mm 14mm;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ Brand Bar ═══ -->
+  <div class="brandbar">
+    <div class="logo-circle">ق</div>
+    <div class="brand-text">
+      <div class="brand-title">تمرين نظريات القيادة</div>
+      <div class="brand-sub">دورة القيادة التحويلية — المحور الأول</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ═══════ SCREEN 1: Intro ═══════ -->
+    <div class="screen active" id="introScreen">
+      <div class="card">
+        <h1 class="intro-heading">تمرين نظريات القيادة</h1>
+
+        <p class="intro-text">لخّص العالم الشهير ستيفن كوفي أهمّ نظريات القيادة في نهاية كتابه «العادة الثامنة»، ويُعدّ
+          تلخيصه من أفضل ما لُخِّصت به هذه النظريات.</p>
+        <p class="intro-text">ولأن هذه النظريات متعارضةٌ أحياناً، ومتوافقةٌ أو متكاملةٌ في أحيانٍ أخرى، فالمطلوب منك في
+          هذا التمرين:</p>
+
+        <ol class="steps-list">
+          <li>تُعرض عليك عبارةٌ واحدة دون اسم نظريتها.</li>
+          <li>تحكم عليها: صح (أؤيّدها) أو خطأ (لا أؤيّدها) أو محايد (لا أحسم)، فتنتقل مباشرةً إلى العبارة التالية.</li>
+          <li>بعد إتمام العبارات كلها، تختار أفضلها في رأيك.</li>
+          <li>عندها يظهر تقريرٌ كامل يكشف نظرية كل عبارة، ورأيك فيها، وقراءةً في أحكامك.</li>
+        </ol>
+
+        <div class="intro-note">
+          التمرين خمس عشرة عبارة. لا وقت محدّد، ولا إجابة نموذجية — المطلوب حكمك أنت ومبرّره الداخلي.
+        </div>
+
+        <div class="name-field">
+          <label for="uname">الاسم (اختياري):</label>
+          <input type="text" id="uname" placeholder="اكتب اسمك هنا..." autocomplete="name">
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="startQuiz()">
+        ابدأ التمرين
+        <span style="font-size:20px">←</span>
+      </button>
+    </div>
+
+    <!-- ═══════ SCREEN 2: Quiz ═══════ -->
+    <div class="screen" id="quizScreen">
+      <div class="card">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+        </div>
+        <div class="counter-text" id="counterText">العبارة 1 من 15</div>
+
+        <p class="stmt-prompt">اقرأ العبارة، ثم أصدر حكمك:</p>
+        <p class="stmt-text" id="stmtText"></p>
+
+        <div class="choices">
+          <button class="choice-btn ok" onclick="answer('صح')">
+            <span class="label">صح</span>
+            <span class="hint">أؤيّدها</span>
+          </button>
+          <button class="choice-btn no" onclick="answer('خطأ')">
+            <span class="label">خطأ</span>
+            <span class="hint">لا أؤيّدها</span>
+          </button>
+          <button class="choice-btn mid" onclick="answer('محايد')">
+            <span class="label">محايد</span>
+            <span class="hint">لا أحسم</span>
+          </button>
+        </div>
+
+        <p class="quiz-footer-note">اختيارك ينقلك مباشرةً إلى العبارة التالية — تظهر النتائج كاملةً في نهاية التمرين.
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══════ SCREEN 3: Best Pick ═══════ -->
+    <div class="screen" id="pickScreen">
+      <div class="card">
+        <h2 class="pick-heading">أيّ عبارة أقنعتك أكثر؟</h2>
+        <p class="pick-sub">اختر العبارة التي تراها الأفضل في وصف القيادة — دون معرفة نظريتها بعد.</p>
+        <ul class="pick-list" id="pickList"></ul>
+      </div>
+      <button class="btn-primary" id="showReportBtn" onclick="showReport()" disabled>
+        اعرض تقريري
+        <span style="font-size:20px">←</span>
+      </button>
+    </div>
+
+    <!-- ═══════ SCREEN 4: Report ═══════ -->
+    <div class="screen" id="reportScreen">
+
+      <div class="card report-header">
+        <h2>تقرير نتائج تمرين نظريات القيادة</h2>
+        <div class="report-meta">
+          <span>الاسم: <strong id="rpName">—</strong></span>
+          <span>تاريخ الإنجاز: <strong id="rpDate">—</strong></span>
+          <span>رمز التقرير: <strong id="rpCode" dir="ltr">—</strong></span>
+        </div>
+      </div>
+
+      <div class="insight-panel">
+        <h3>قراءة في أحكامك</h3>
+        <p id="insightMsg"></p>
+      </div>
+
+      <div id="resultsContainer"></div>
+
+      <div class="closing-section">
+        <h3 id="closingTitle"></h3>
+        <div class="closing-body" id="closingBody"></div>
+        <p class="tips-title" id="tipsTitle"></p>
+        <ol class="tips-list" id="tipsList"></ol>
+      </div>
+
+
+
+      <div style="text-align:center">
+        <button class="btn-print no-print" onclick="window.print()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9V2h12v7" />
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+            <rect x="6" y="14" width="12" height="8" />
+          </svg>
+          طباعة / حفظ PDF
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <script>
+    /* ════════════════════════════════════════════
+       البيانات المضمّنة (مطابقة لـ theories.json)
+       ════════════════════════════════════════════ */
+    var THEORIES = [
+      { s: "قلّة من العظماء الأفذاذ هم من يقودون الآخرين ويشكّلون التاريخ والمجتمعات.", t: "نظرية الرجل العظيم", r: "Dowd 1936", n: "تلتقط أثر الأفراد الاستثنائيين في التاريخ، لكنها تُغفل أن الظروف والأتباع يصنعون القائد أيضاً." },
+      { s: "للقائد صفاتٌ تميّزه عن الأتباع، والأهمّ معرفة ماهية هذه الصفات ومدى انطباقها عليه.", t: "نظرية الصفات", r: "Kirkpatrick + Locke 1991", n: "تلتقط أن لبعض القادة سماتٍ فارقة، لكنها لم تُثبت قائمة سماتٍ تضمن القيادة في كل موقف." },
+      { s: "الظروف هي التي تولّد القائد، وهي تتغيّر بالمكان والزمان والأحوال.", t: "القيادة الظرفية", r: "Hersey + Blanchard 1972", n: "تلتقط أن الموقف يصنع فرص القيادة ويُبرز أثر الزمان والمكان والجاهزية." },
+      { s: "القيادة يحدّدها الموقف، والموقف يتأثّر بالصفات الشخصية للقائد وطبيعة المجموعة والظروف المحيطة.", t: "القيادة الموقفية الشخصية", r: "J. F. Brown 1960", n: "تجمع بين الموقف وصفات القائد وطبيعة المجموعة في تفسيرٍ واحد." },
+      { s: "دور القائد كالأب: مصدرٌ للحبّ والخوف، ومحلّ القدوة وتصريف المشاعر الإيجابية والسلبية.", t: "النظرية النفسية", r: "Wolman / Levinson 1970", n: "تلتقط البُعد العاطفي في علاقة القائد بأتباعه: القدوة والأمان وتصريف المشاعر." },
+      { s: "القائد للأتباع رمزٌ ومرشدٌ وحلقة وصلٍ وموجّهٌ ومتحدّثٌ باسمهم وموزّع أدوارٍ وحلّال مشاكلَ ومسؤول تفاوض.", t: "نظرية الأدوار القيادية", r: "Mintzberg 1973", n: "تلتقط تعدُّد أدوار القائد العملية داخل المنظمة، وتنقل النظر من الصفات إلى الأفعال." },
+      { s: "القائد يوضّح للأفراد الطريق والهدف والمكافآت، والظرف هو ما يحدّد مدى النجاح.", t: "نظرية الطريق والهدف", r: "House + Dessler 1974", n: "تلتقط دور القائد في تمهيد المسار وربط الجهد بالمكافأة بحسب الظرف." },
+      { s: "القائد يؤثّر في سلوك أتباعه وقناعاتهم ومشاعرهم، والأكثر فاعليةً هو من يجمع التواضع إلى الجرأة.", t: "القائد العظيم للقرن العشرين", r: "J. Collins 2001", n: "تلتقط أن أعلى القادة فاعليةً يمزجون التواضع الشخصي بالإرادة المهنية الصلبة." },
+      { s: "القيادة إقناعٌ أو قدوةٌ يحرّك بها القائد المجموعة نحو الأهداف المشتركة، ولا تتحقّق دون قائدٍ ذي قوةٍ ونفوذ.", t: "نظرية القوة والنفوذ", r: "J. Gardner 1990", n: "تلتقط أن القيادة تحريكٌ للجماعة عبر الإقناع والقدوة والنفوذ نحو هدفٍ مشترك." },
+      { s: "عمليةٌ يحوّل بها القائد أفراده إلى مستوى أخلاقيٍّ أعلى وحافزٍ أفضل، فيقدّمون المصلحة العامة على مصالحهم الخاصة.", t: "القيادة التحويلية", r: "Burns 1978 / Bennis 1993 / O'Toole 1995", n: "تلتقط ارتقاء القائد وأتباعه معاً في الدافع والأخلاق — وهي الإطار الحاكم الذي تعتمده هذه الدورة." },
+      { s: "القائد الفعّال هو من يتعلّم المهارات والمعلومات والقناعات اللازمة للعطاء والإنتاج بكفاءةٍ عالية.", t: "نظرية الكفاءة", r: "Bennis 1993", n: "تلتقط أن القيادة مهاراتٌ ومعارفُ تُكتسب بالتعلّم، لا موهبةٌ فطريةٌ فقط." },
+      { s: "دور القائد إشعال الحماس الداخلي وتوجيه البوصلة نحو الرؤية المشتركة، والتركيز على القيم والمبادئ وإيجاد مناخٍ مشجّع.", t: "القائد بالرؤية والتحفيز", r: "Kouzes + Posner 1995", n: "تلتقط دور القائد في إشعال الدافع الداخلي وتوجيهه نحو رؤيةٍ وقيمٍ مشتركة." },
+      { s: "القيادة تدير تفاعلاً وتكاملاً لشراكاتٍ داخليةٍ وخارجيةٍ لتحسين الأداء والمال والرضى، بإقناع الأتباع بالرؤية وبناء فريقٍ فعّال.", t: "القيادة الإدارية والاستراتيجية", r: "Drucker 1991 / Kotter 1999", n: "تلتقط تكامل الإدارة والاستراتيجية والشراكات في خدمة الأداء المؤسسي." },
+      { s: "دراسةٌ لأكثر من 200 مؤسسةٍ عبر 10 سنوات وجدت أربعة أمورٍ هي الأهمّ للنتائج (الاستراتيجية، التنفيذ، البيئة والنظام) وأربعةً مكمّلةً (الموهبة، الإبداع، القيادة، إدارة الشراكات).", t: "القيادة بالنتائج", r: "Nohria / Joyce + Robertson 2003", n: "تلتقط أن فاعلية القيادة تُقاس بالنتائج المؤسسية المستدامة، بسندٍ ميداني." },
+      { s: "القائد يحفّز أتباعه بأن يعلّمهم عبر رواية القصص، وكلما زادت قدرته على التعليم زادت فاعليته القيادية.", t: "القائد المعلّم", r: "Tichy 1998", n: "تلتقط أن القائد يصنع قادةً بالتعليم ورواية القصص، لا بالتوجيه وحده." }
+    ];
+
+    /* نصوص التقرير */
+    var INSIGHT_RULES = [
+      { when: "muhayid >= 6", message: "حيادك المتكرّر ليس ترددًا، بل وعيٌ بأن هذه النظريات عدساتٌ لا أحكامٌ مطلقة. وهذا بالضبط مدخل الدورة: السؤال الناضج ليس «أيّها صحيح؟» بل «أيّها أنسب لأي موقف؟»." },
+      { when: "khata >= 8", message: "رفضت أغلب النظريات، وهذا موقفٌ نقديٌّ قوي. لكن تأمّل: هل رفضتها لأنها «خاطئة»، أم لأن كلاًّ منها يصف زاويةً واحدة فقط؟ الدورة ترى أن أكثرها يلتقط جزءاً من الحقيقة." },
+      { when: "default", message: "وزّعت أحكامك بين التأييد والرفض والحياد. لاحظ أن أغلب هذه النظريات لا تتناقض، بل تنظر من زوايا مختلفة — وهذا يمهّد لموضعة القيادة التحويلية بوصفها إطاراً يتكامل مع غيره." }
+    ];
+
+    var CLOSING = {
+      title: "خلاصة: لا نظريةَ «صحيحة» وأخرى «خاطئة»",
+      body: [
+        "في القيادة لا توجد نظريةٌ صائبةٌ تماماً وأخرى خاطئةٌ تماماً؛ بل لكلِّ نظريةٍ وجهة نظرٍ تلتقط زاويةً من الحقيقة. فمنها ما ينظر إلى صفات القائد، ومنها إلى سلوكه، ومنها إلى الموقف المحيط، ومنها إلى القيم والأثر. وحين تُجمَع هذه الزوايا لا تتناقض غالباً، بل يكمّل بعضها بعضاً.",
+        "ولذلك، فالنضج القيادي ليس في اختيار نظريةٍ واحدةٍ «تنتصر» على البقية، بل في معرفة أيّها أنسب لأيّ موقف. هذه هي القاعدة التي تعتمدها الدورة: «ليس أيّها أفضل، بل كيف تتكامل»."
+      ],
+      tipsTitle: "نصائح لك كقائد:",
+      tips: [
+        "لا تبحث عن «النظرية الصحيحة»، بل عن العدسة الأنسب لموقفك الحالي.",
+        "اقرأ الموقف أولاً — نضج فريقك، وطبيعة المهمة، ودرجة الاستقرار — ثم اختر أسلوبك.",
+        "اجمع ولا تفاضل: القائد الفعّال يمزج بين الأساليب بنسبٍ تتغيّر بتغيّر السياق.",
+        "راجِع قناعاتك دورياً: ما رجّحته اليوم قد يتغيّر بتغيّر دورك وتحدّياتك.",
+        "اجعل القيادة التحويلية إطارك الحاكم، وابنِ فوقها بقية الأدوات حين يقتضي الموقف ذلك."
+      ]
+    };
+
+    var FOOTER_NOTE = ""
+    /* ════════════════════════════════════════════
+       حالة التطبيق (في الذاكرة فقط — بلا تخزين)
+       ════════════════════════════════════════════ */
+    var currentIndex = 0;
+    var answers = [];       // مصفوفة من 15 قيمة: "صح" | "خطأ" | "محايد"
+    var bestPick = null;    // فهرس النظرية المفضّلة (0..14) أو null
+
+    /* ════════════════════════════════════════════
+       مساعدات
+       ════════════════════════════════════════════ */
+    function switchScreen(id) {
+      document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function genCode() {
+      var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      var code = '';
+      for (var i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
+      return code.substring(0, 4) + '-' + code.substring(4);
+    }
+
+    function formatDate(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      var h = String(d.getHours()).padStart(2, '0');
+      var min = String(d.getMinutes()).padStart(2, '0');
+      return y + '/' + m + '/' + day + '  ' + h + ':' + min;
+    }
+
+    /* ════════════════════════════════════════════
+       بدء التمرين
+       ════════════════════════════════════════════ */
+    function startQuiz() {
+      currentIndex = 0;
+      answers = [];
+      bestPick = null;
+      showStatement();
+      switchScreen('quizScreen');
+    }
+
+    /* ════════════════════════════════════════════
+       عرض العبارة الحالية
+       ════════════════════════════════════════════ */
+    function showStatement() {
+      var total = THEORIES.length;
+      var num = currentIndex + 1;
+      document.getElementById('counterText').textContent = 'العبارة ' + num + ' من ' + total;
+      document.getElementById('progressBar').style.width = ((num / total) * 100) + '%';
+      document.getElementById('stmtText').textContent = THEORIES[currentIndex].s;
+    }
+
+    /* ════════════════════════════════════════════
+       تسجيل الإجابة والانتقال
+       ════════════════════════════════════════════ */
+    function answer(choice) {
+      answers.push(choice);
+      currentIndex++;
+      if (currentIndex < THEORIES.length) {
+        /* تحريك خفيف */
+        var stmtEl = document.getElementById('stmtText');
+        stmtEl.style.opacity = '0';
+        stmtEl.style.transform = 'translateY(10px)';
+        setTimeout(function () {
+          showStatement();
+          stmtEl.style.transition = 'opacity .3s ease, transform .3s ease';
+          stmtEl.style.opacity = '1';
+          stmtEl.style.transform = 'translateY(0)';
+        }, 150);
+      } else {
+        buildPickList();
+        switchScreen('pickScreen');
+      }
+    }
+
+    /* ════════════════════════════════════════════
+       بناء قائمة الاختيار (أفضل عبارة)
+       ════════════════════════════════════════════ */
+    function buildPickList() {
+      var ul = document.getElementById('pickList');
+      ul.innerHTML = '';
+      THEORIES.forEach(function (th, i) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span class="pick-num">' + (i + 1) + '</span><span>' + th.s + '</span>';
+        li.onclick = function () { selectPick(i, li); };
+        ul.appendChild(li);
+      });
+    }
+
+    function selectPick(index, el) {
+      bestPick = index;
+      document.querySelectorAll('.pick-list li').forEach(function (li) { li.classList.remove('selected'); });
+      el.classList.add('selected');
+      document.getElementById('showReportBtn').disabled = false;
+    }
+
+    /* ════════════════════════════════════════════
+       عرض التقرير
+       ════════════════════════════════════════════ */
+    function showReport() {
+      /* ── ترويسة ── */
+      var nameVal = document.getElementById('uname').value.trim();
+      document.getElementById('rpName').textContent = nameVal || 'مشارك';
+      document.getElementById('rpDate').textContent = formatDate(new Date());
+      document.getElementById('rpCode').textContent = genCode();
+
+      /* ── لوحة القراءة ── */
+      var counts = { sah: 0, khata: 0, muhayid: 0 };
+      answers.forEach(function (a) {
+        if (a === 'صح') counts.sah++;
+        if (a === 'خطأ') counts.khata++;
+        if (a === 'محايد') counts.muhayid++;
+      });
+
+      var insightText = '';
+      if (counts.muhayid >= 6) {
+        insightText = INSIGHT_RULES[0].message;
+      } else if (counts.khata >= 8) {
+        insightText = INSIGHT_RULES[1].message;
+      } else {
+        insightText = INSIGHT_RULES[2].message;
+      }
+      document.getElementById('insightMsg').textContent = insightText;
+
+      /* ── بنود النتائج ── */
+      var container = document.getElementById('resultsContainer');
+      container.innerHTML = '';
+      THEORIES.forEach(function (th, i) {
+        var isFav = (i === bestPick);
+        var div = document.createElement('div');
+        div.className = 'result-item' + (isFav ? ' fav' : '');
+
+        var answerVal = answers[i];
+        var tagClass = answerVal === 'صح' ? 'sah' : answerVal === 'خطأ' ? 'khata' : 'muhayid';
+
+        var html = '';
+        if (isFav) html += '<span class="fav-badge">★ اختيارك المفضّل</span>';
+        html += '<div class="result-theory">' + (i + 1) + '. ' + th.t + '</div>';
+        html += '<div class="result-ref">' + th.r + '</div>';
+        html += '<p class="result-stmt">' + th.s + '</p>';
+        html += '<span class="answer-tag ' + tagClass + '">إجابتك: ' + answerVal + '</span>';
+        div.innerHTML = html;
+        container.appendChild(div);
+      });
+
+      /* ── الخلاصة والنصائح ── */
+      document.getElementById('closingTitle').textContent = CLOSING.title;
+      document.getElementById('closingBody').innerHTML = CLOSING.body.map(function (p) { return '<p>' + p + '</p>'; }).join('');
+      document.getElementById('tipsTitle').textContent = CLOSING.tipsTitle;
+      var tipsList = document.getElementById('tipsList');
+      tipsList.innerHTML = '';
+      CLOSING.tips.forEach(function (tip) {
+        var li = document.createElement('li');
+        li.textContent = tip;
+        tipsList.appendChild(li);
+      });
+
+      /* ── تنويه المصدر ── */
+      document.getElementById('footerNote').textContent = FOOTER_NOTE;
+
+      switchScreen('reportScreen');
+
+      // ──────────────────────────────────────────────────────────────
+      // حفظ النتائج في الخادم
+      try {
+        var email = window.sessionStorage.getItem('participantEmail') || 
+                    (window.parent && window.parent.sessionStorage.getItem('participantEmail')) || "";
+        
+        if (email) {
+          var textAnswer = 'النتيجة: ' + counts.sah + ' من 15\n\n';
+          textAnswer += 'النظرية الأفضل التي اختارها المشارك:\n' + THEORIES[bestPick].t + '\n' + THEORIES[bestPick].s + '\n\n';
+          
+          THEORIES.forEach(function (th, i) {
+            textAnswer += (i + 1) + '. ' + th.s + '\nإجابة المشارك: ' + answers[i] + '\n\n';
+          });
+          
+          fetch('/api/exercise-answers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: email,
+              exerciseId: 'leadership-theories',
+              answer: textAnswer.trim()
+            })
+          });
+        }
+      } catch (err) {
+        console.error('Failed to save leadership-theories results', err);
+      }
+      // ──────────────────────────────────────────────────────────────
+    }
+  </script>
+</body>
+
+</html>

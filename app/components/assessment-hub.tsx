@@ -2,12 +2,20 @@ import { SiteHeader } from "@/app/components/site-header";
 import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 
-const kahootUrl =
-  "https://kahoot.it/challenge/06310431?challenge-id=bf0843d2-b155-49ee-b62d-b059a605e472_1781253303544";
-
 const activityCards = [
   {
     number: "01",
+    type: "تمرين",
+    title: "قائد أثّر فيّ",
+    description:
+      "نشاط افتتاحي: قبل أن نُعرّف القيادة… لنستدعِها من ذاكرتنا. استحضر قائداً واحداً ترك فيك أثراً حقيقياً، واكتب سلوكين جعلاك تثق به.",
+    activityId: "leader-impact",
+    activityTitle: "قائد أثّر فيّ",
+    href: "/exercises/leader-impact",
+    linkLabel: "فتح التمرين",
+  },
+  {
+    number: "02",
     type: "تمرين",
     title: "عرّف بنفسك للمجموعة",
     description:
@@ -18,126 +26,45 @@ const activityCards = [
     linkLabel: "فتح التعارف",
   },
   {
-    number: "02",
-    type: "تمرين",
-    title: "تمرين المفاهيم الأساسية",
-    description:
-      "تمرين سريع عبر Kahoot لمراجعة مفاهيم اليوم الأول والتأكد من وضوح الأساسيات قبل الانتقال للأنشطة التالية.",
-    activityId: "day-one-concepts-test",
-    activityTitle: "تمرين المفاهيم الأساسية",
-    href: kahootUrl,
-    linkLabel: "فتح التمرين",
-    external: true,
-  },
-  {
     number: "03",
-    type: "مقياس",
-    title: "ما نمط قيادتك للذكاء الاصطناعي؟",
+    type: "تمرين",
+    title: "نظريات القيادة",
     description:
-      "اختبار تفاعلي من 12 سؤالاً يساعدك على معرفة نمطك القيادي في تبني الذكاء الاصطناعي، مع نتيجة تفصيلية وتوصية عملية.",
-    activityId: "ai-leader-style",
-    activityTitle: "مقياس نمط قيادة الذكاء الاصطناعي",
-    href: "/ai-leader-style.html",
-    linkLabel: "بدء المقياس",
+      "لخّص العالم الشهير ستيفن كوفي أهمّ نظريات القيادة في نهاية كتابه «العادة الثامنة». احكم على العبارات وتعرف على أقرب النظريات لوجهة نظرك.",
+    activityId: "leadership-theories",
+    activityTitle: "نظريات القيادة",
+    href: "/exercises/leadership-theories",
+    linkLabel: "فتح التمرين",
   },
   {
     number: "04",
     type: "تمرين",
-    title: "تمرين حساب الرموز Tokens",
-    description:
-      "استخدم أداة OpenAI Tokenizer لمقارنة عدد الرموز والمحارف بين جملتين، ثم سجّل ملاحظتك حول الفرق بين النص الواضح والنص غير المألوف.",
-    activityId: "token-count",
-    activityTitle: "تمرين حساب الرموز Tokens",
-    href: "/exercises/token-count",
+    title: "اختبار تشخيص مهارات التغيير",
+    description: "أجب عن 16 عبارة قصيرة لتقييم مهاراتك في قيادة التغيير، واحصل على نتيجتك الفورية مع تحليل لنقاط قوتك وفرص تطويرك في فهم التغيير والتخطيط له وتطبيقه.",
+    activityId: "change-management-skills",
+    activityTitle: "اختبار تشخيص مهارات التغيير",
+    href: "/exercises/change-management-skills",
     linkLabel: "فتح التمرين",
   },
   {
     number: "05",
     type: "تمرين",
-    title: "تمرين تشريح الأمر الهندسي",
-    description:
-      "اقرأ برومبتًا كاملًا ثم صنّف أجزاءه داخل مكونات الأمر السبعة: الدور، السياق، المهمة، القيود، النبرة، المثال، والتنسيق.",
-    activityId: "prompt-anatomy",
-    activityTitle: "تمرين تشريح الأمر الهندسي",
-    href: "/exercises/prompt-anatomy",
+    title: "اختبار التغيير الواهم",
+    description: "تمرين تشخيصي جديد لتقييم مهارات التغيير ومعرفة مدى الجاهزية للقيادة التحويلية.",
+    activityId: "illusion-of-change",
+    activityTitle: "اختبار التغيير الواهم",
+    href: "/exercises/illusion-of-change",
     linkLabel: "فتح التمرين",
   },
   {
     number: "06",
     type: "تمرين",
-    title: "هندسة الأوامر الاحترافية",
-    description:
-      "أنشئ مشروع هندسة أوامر احترافية وفق الأطر الحديثة التي تم شرحها في الدورة، مع أمر موسع وآخر مبسط قابلين للنسخ مباشرة.",
-    activityId: "professional-prompt-engineering",
-    activityTitle: "هندسة الأوامر الاحترافية",
-    href: "/exercises/professional-prompt-engineering",
+    title: "قائد تحويلي أم نمط نرجسي؟",
+    description: "تمرين للتفريق بين القيادة التحويلية الحقيقية والنمط النرجسي في القيادة.",
+    activityId: "transformational-vs-narcissistic",
+    activityTitle: "قائد تحويلي أم نمط نرجسي؟",
+    href: "/exercises/transformational-vs-narcissistic",
     linkLabel: "فتح التمرين",
-  },
-  {
-    number: "07",
-    type: "تمرين",
-    title: "إنشاء مشروع تحليل SWOT",
-    description:
-      "حمّل ملف swot-core المرفق، ثم استخدمه لبناء مشروع ذكاء اصطناعي يجري التحليل الرباعي للشركات بطريقة منهجية.",
-    activityId: "swot-project",
-    activityTitle: "إنشاء مشروع تحليل SWOT",
-    href: "/exercises/swot-project",
-    linkLabel: "فتح التمرين",
-  },
-  {
-    number: "08",
-    type: "تمرين",
-    title: "تمرين شريك التفكير - أزمة منصة مهيمنة",
-    description:
-      "تمرين سريع يستخدم الذكاء الاصطناعي كشريك تفكير لفهم أزمة Unity، كتابة 3 قرارات أولية، ومهاجمتها بتحليل ما قبل الوفاة.",
-    activityId: "thinking-partner-crisis",
-    activityTitle: "تمرين شريك التفكير - أزمة منصة مهيمنة",
-    href: "/exercises/thinking-partner-crisis",
-    linkLabel: "فتح التمرين",
-  },
-  {
-    number: "09",
-    type: "تمرين",
-    title: "تمرين صياغة أمر",
-    description:
-      "تمرين تفاعلي لصياغة أمر متكامل من سبعة مكونات، مع تقييم فوري بالذكاء الاصطناعي وتوصيات لتحسين الصياغة.",
-    activityId: "prompt-writing",
-    activityTitle: "تمرين صياغة أمر",
-    href: "/exercises/prompt-writing",
-    linkLabel: "فتح التمرين",
-  },
-  {
-    number: "10",
-    type: "تمرين",
-    title: "تمرين مقارنة أمر بصيغتين",
-    description:
-      "قارن بين صياغة عامة وأخرى محددة، وانسخ كل أمر مباشرة لتجربته وملاحظة أثر جودة الصياغة على استجابة الذكاء الاصطناعي.",
-    activityId: "prompt-comparison",
-    activityTitle: "تمرين مقارنة أمر بصيغتين",
-    href: "/exercises/prompt-comparison",
-    linkLabel: "فتح التمرين",
-  },
-  {
-    number: "11",
-    type: "تمرين",
-    title: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
-    description:
-      "اكتب برومبتاً يساعد الذكاء الاصطناعي على بناء استبيان عملاء لشركة أزياء قبل اتخاذ قرار الاستثمار في TikTok Shop.",
-    activityId: "survey-builder",
-    activityTitle: "تمرين بناء استبيان باستخدام الذكاء الاصطناعي",
-    href: "/exercises/survey-builder",
-    linkLabel: "فتح التمرين",
-  },
-  {
-    number: "12",
-    type: "تمرين",
-    title: "استبيان ما بعد الدورة التدريبية",
-    description:
-      "استبيان ختامي قصير لقياس تجربتك، فائدة المحتوى، وما الذي ستطبقه بعد الدورة، مع خيار الموافقة على استخدام شهادتك.",
-    activityId: "course-completion-survey",
-    activityTitle: "استبيان ما بعد الدورة التدريبية",
-    href: "/exercises/course-completion-survey",
-    linkLabel: "فتح الاستبيان",
   },
 ];
 

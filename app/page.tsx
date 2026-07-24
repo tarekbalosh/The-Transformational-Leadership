@@ -17,7 +17,7 @@ export default function Home() {
                </p>
                <div className="hero-actions" style={{ marginTop: '32px' }}>
                   <a href="#register" className="primary-link" style={{ padding: '14px 28px', fontSize: '18px' }}>
-                     سجل في الدورة
+                     الدخول في الدورة
                   </a>
                   <a href="#curriculum" className="secondary-link" style={{ padding: '14px 28px', fontSize: '18px' }}>
                      استعرض المحاور

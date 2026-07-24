@@ -1,31 +1,30 @@
 import { SiteHeader } from "@/app/components/site-header";
 import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
-import { TokenCountExercise } from "@/app/components/token-count-exercise";
+import { IllusionOfChangeExercise } from "@/app/components/illusion-of-change-exercise";
 
-export default function TokenCountExercisePage() {
+export default function IllusionOfChangePage() {
   return (
     <main>
       <SiteHeader />
       <section className="page-hero compact-hero prompt-hero">
-        <div className="section-kicker">تمرين تطبيقي</div>
-        <h1>تمرين حساب الرموز Tokens</h1>
+        <div className="section-kicker">تمرين | اختبار تشخيصي</div>
+        <h1>اختبار التغيير الواهم</h1>
         <p>
-          تمرين سريع لفهم الفرق بين عدد الرموز وعدد المحارف عند استخدام النصوص
-          العربية داخل أدوات الذكاء الاصطناعي.
+          اختبار لتشخيص مهارات التغيير ومعرفة مدى الجاهزية للقيادة التحويلية.
         </p>
       </section>
 
       <EmailGate
-        title="أدخل بريدك لفتح تمرين حساب الرموز"
+        title="أدخل بريدك لفتح التمرين"
         description="سنستخدم البريد لحفظ إجابتك وربطها باسمك في لوحة المدرب، دون تسجيل دخول أو كلمة مرور."
       >
         <section className="content-band">
           <ActivityCodeGate
-            activityId="token-count"
-            activityTitle="تمرين حساب الرموز Tokens"
+            activityId="illusion-of-change"
+            activityTitle="اختبار التغيير الواهم"
           >
-            <TokenCountExercise />
+            <IllusionOfChangeExercise />
           </ActivityCodeGate>
         </section>
       </EmailGate>
