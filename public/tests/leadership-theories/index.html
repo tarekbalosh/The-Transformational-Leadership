@@ -782,11 +782,6 @@
         <div class="intro-note">
           التمرين خمس عشرة عبارة. لا وقت محدّد، ولا إجابة نموذجية — المطلوب حكمك أنت ومبرّره الداخلي.
         </div>
-
-        <div class="name-field">
-          <label for="uname">الاسم (اختياري):</label>
-          <input type="text" id="uname" placeholder="اكتب اسمك هنا..." autocomplete="name">
-        </div>
       </div>
 
       <button class="btn-primary" onclick="startQuiz()">
@@ -1033,8 +1028,9 @@
        ════════════════════════════════════════════ */
     function showReport() {
       /* ── ترويسة ── */
-      var nameVal = document.getElementById('uname').value.trim();
-      document.getElementById('rpName').textContent = nameVal || 'مشارك';
+      var urlParams = new URLSearchParams(window.location.search);
+      var nameVal = urlParams.get('name') || '';
+      document.getElementById('rpName').textContent = nameVal.trim() || 'مشارك';
       document.getElementById('rpDate').textContent = formatDate(new Date());
       document.getElementById('rpCode').textContent = genCode();
 
