@@ -143,46 +143,46 @@ export const assessments: Assessment[] = [
 
 export const activityAccessCodes: ActivityAccessCode[] = [
   {
-    id: "transformational-vs-narcissistic",
-    title: "قائد تحويلي أم نمط نرجسي؟",
+    id: "leader-impact",
+    title: "قائد أثّر فيّ",
     category: "تمرين",
-    code: "1111",
+    code: "101",
   },
   {
-    id: "illusion-of-change",
-    title: "اختبار التغيير الواهم",
+    id: "introductions",
+    title: "تعارف المشاركين",
     category: "تمرين",
-    code: "1111",
+    code: "102",
   },
   {
     id: "leadership-theories",
     title: "نظريات القيادة",
     category: "تمرين",
-    code: "1111",
+    code: "103",
   },
   {
     id: "change-management-skills",
     title: "اختبار تشخيص مهارات التغيير",
     category: "تمرين",
-    code: "1111",
+    code: "104",
   },
   {
-    id: "leader-impact",
-    title: "قائد أثّر فيّ",
+    id: "illusion-of-change",
+    title: "اختبار التغيير الواهم",
     category: "تمرين",
-    code: "1111",
+    code: "105",
+  },
+  {
+    id: "transformational-vs-narcissistic",
+    title: "قائد تحويلي أم نمط نرجسي؟",
+    category: "تمرين",
+    code: "106",
   },
   {
     id: "day-one-concepts-test",
     title: "اختبار اليوم الأول - المفاهيم الأساسية",
     category: "اختبار",
     code: "631041",
-  },
-  {
-    id: "introductions",
-    title: "تعارف المشاركين",
-    category: "تمرين",
-    code: "482913",
   },
   {
     id: "ai-leader-style",
