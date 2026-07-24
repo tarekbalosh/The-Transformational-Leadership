@@ -629,8 +629,8 @@ function HorizontalBar({ item }: { item: ActivityBar }) {
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <article 
         className="admin-bar-row"
-        onClick={() => { if (hasDetails) setIsExpanded(!isExpanded); }}
-        style={{ cursor: hasDetails ? "pointer" : "default" }}
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{ cursor: "pointer" }}
       >
         <div>
           <strong>{item.label}</strong>
@@ -643,27 +643,31 @@ function HorizontalBar({ item }: { item: ActivityBar }) {
           <em>
             {item.count} / {item.percent}%
           </em>
-          {hasDetails && (
-            <svg 
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
-              style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s", color: "var(--navy)" }}
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          )}
+          <svg 
+            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+            style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s", color: "var(--navy)" }}
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
       </article>
-      {isExpanded && item.details && (
+      {isExpanded && (
         <div style={{ padding: "16px", background: "var(--surface-2, #f9fafb)", borderRadius: "12px", border: "1px solid var(--line, #e5e7eb)", marginBottom: "8px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          {item.details.map((detail, idx) => (
-            <div key={`${detail.email}-${idx}`} style={{ paddingBottom: idx < item.details!.length - 1 ? "12px" : "0", borderBottom: idx < item.details!.length - 1 ? "1px solid var(--line, #e5e7eb)" : "none" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <strong style={{ fontSize: "14px", color: "var(--navy)" }}>{detail.name !== "-" ? detail.name : "مشارك بدون اسم"}</strong>
-                <span style={{ fontSize: "12px", color: "var(--text-3, #6b7280)" }}>{formatDate(detail.date)}</span>
+          {hasDetails ? (
+            item.details!.map((detail, idx) => (
+              <div key={`${detail.email}-${idx}`} style={{ paddingBottom: idx < item.details!.length - 1 ? "12px" : "0", borderBottom: idx < item.details!.length - 1 ? "1px solid var(--line, #e5e7eb)" : "none" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <strong style={{ fontSize: "14px", color: "var(--navy)" }}>{detail.name !== "-" ? detail.name : "مشارك بدون اسم"}</strong>
+                  <span style={{ fontSize: "12px", color: "var(--text-3, #6b7280)" }}>{formatDate(detail.date)}</span>
+                </div>
+                <div style={{ fontSize: "13px", color: "var(--text-2, #4b5563)", marginTop: "4px" }}>{detail.email}</div>
               </div>
-              <div style={{ fontSize: "13px", color: "var(--text-2, #4b5563)", marginTop: "4px" }}>{detail.email}</div>
+            ))
+          ) : (
+            <div style={{ textAlign: "center", color: "var(--text-3, #6b7280)", fontSize: "14px", padding: "8px 0" }}>
+              لا توجد مشاركات حتى الآن
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
