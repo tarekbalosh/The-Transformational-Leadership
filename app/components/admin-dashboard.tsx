@@ -3,8 +3,9 @@
 import { CSSProperties, FormEvent, useMemo, useState } from "react";
 
 import { assessments, exercises } from "@/app/lib/course-content";
+import { useDashboardSubscription } from "@/app/hooks/use-dashboard-subscription";
 
-type DashboardData = {
+export type DashboardData = {
   participants: Array<{ email: string; name?: string | null; updated_at: string }>;
   participantProfiles: Array<{
     participant_email: string;
@@ -676,9 +677,11 @@ function HorizontalBar({ item }: { item: ActivityBar }) {
 
 export function AdminDashboard() {
   const [token, setToken] = useState("");
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [activeToken, setActiveToken] = useState("");
+  
+  const { data, isLoading, error, isReconnecting, reload: reloadDashboard } = useDashboardSubscription(activeToken);
+  const message = error || "";
+  
   const [deletingEmail, setDeletingEmail] = useState<string | null>(null);
   const [deleteMessage, setDeleteMessage] = useState("");
   const [activeTab, setActiveTab] = useState<"exercises" | "assessments">("exercises");
@@ -979,33 +982,7 @@ export function AdminDashboard() {
 
   async function load(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
-    setMessage("");
-
-    const response = await fetch("/api/admin/dashboard", {
-      headers: { "x-admin-token": token },
-    });
-    const nextData = await response.json();
-
-    setIsLoading(false);
-
-    if (!response.ok) {
-      setMessage(nextData.message ?? "تعذر فتح لوحة التحكم.");
-      return;
-    }
-
-    setData(nextData);
-  }
-
-  async function reloadDashboard() {
-    const response = await fetch("/api/admin/dashboard", {
-      headers: { "x-admin-token": token },
-    });
-    const nextData = await response.json();
-
-    if (response.ok) {
-      setData(nextData);
-    }
+    setActiveToken(token);
   }
 
   async function handleDeleteParticipant(email: string) {
