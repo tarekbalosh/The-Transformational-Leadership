@@ -718,6 +718,7 @@ export function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<{name: string, email: string, date: string, parsedData: ParsedAnswer} | null>(null);
+  const [isActivitiesExpanded, setIsActivitiesExpanded] = useState(true);
 
   const dashboard = useMemo(() => {
     if (!data) {
@@ -1215,17 +1216,29 @@ export function AdminDashboard() {
           </section>
 
           <section className="admin-panel">
-            <div className="admin-panel-head">
+            <div 
+              className="admin-panel-head" 
+              onClick={() => setIsActivitiesExpanded(!isActivitiesExpanded)}
+              style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+            >
               <div>
                 <div className="section-kicker">خريطة المشاركة</div>
                 <h2>اكتمال كل نشاط</h2>
               </div>
+              <svg 
+                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+                style={{ transform: isActivitiesExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s", color: "var(--navy)" }}
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </div>
-            <div className="admin-bar-list">
-              {dashboard.activityBars.map((item) => (
-                <HorizontalBar item={item} key={`${item.type}-${item.label}`} />
-              ))}
-            </div>
+            {isActivitiesExpanded && (
+              <div className="admin-bar-list">
+                {dashboard.activityBars.map((item) => (
+                  <HorizontalBar item={item} key={`${item.type}-${item.label}`} />
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="admin-visual-grid">
