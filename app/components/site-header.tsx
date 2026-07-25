@@ -46,7 +46,7 @@ export function SiteHeader() {
           {routeLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
-              <Link key={link.href} href={link.href} className={isActive ? "active" : ""}>
+              <Link key={link.href} href={link.href} className={isActive ? "active" : ""} prefetch={false}>
                 {link.label}
               </Link>
             );
@@ -117,7 +117,7 @@ export function SiteHeader() {
           {routeLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
-              <Link key={link.href} href={link.href} onClick={close} className={isActive ? "active" : ""}>
+              <Link key={link.href} href={link.href} onClick={close} className={isActive ? "active" : ""} prefetch={false}>
                 {link.label}
               </Link>
             );
