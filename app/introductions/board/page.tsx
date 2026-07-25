@@ -8,6 +8,8 @@ import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
 import { participantProfilesData } from "@/app/lib/course-store";
 
+export const dynamic = "force-dynamic";
+
 export default async function IntroductionsBoardPage() {
   const profiles = (await participantProfilesData()) as ProfileCard[];
 

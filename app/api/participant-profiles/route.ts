@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import {
   participantProfilesData,
   saveParticipantProfile,
@@ -19,6 +20,8 @@ export async function POST(request: Request) {
       courseGoals: body.courseGoals,
       funFact: body.funFact,
     });
+
+    revalidatePath("/introductions/board");
 
     return NextResponse.json(result);
   } catch (error) {
