@@ -41,7 +41,12 @@ export function IllusionOfChangeExercise() {
   
   // Store user answers for all questions
   const [hasStarted, setHasStarted] = useState(false);
-  const [participantName, setParticipantName] = useState("");
+  const [participantName, setParticipantName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.sessionStorage.getItem("participantName") || "";
+    }
+    return "";
+  });
   const [email, setEmail] = useState(() => {
     if (typeof window !== "undefined") {
       return window.sessionStorage.getItem("participantEmail") || "";
@@ -111,7 +116,7 @@ export function IllusionOfChangeExercise() {
 
   if (!started) {
     return (
-      <div className="exercise-card" style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 32px', backgroundColor: 'var(--bg-1)', borderRadius: '24px', boxShadow: '0 8px 32px rgba(0,0,0,0.06)' }}>
+      <div className="exercise-card" style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 32px', backgroundColor: 'var(--surface)', borderRadius: '24px', boxShadow: '0 8px 32px rgba(20, 35, 61, 0.06)' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h2 style={{ fontSize: '32px', color: 'var(--navy)', marginBottom: '16px', fontWeight: '800' }}>تمرين التغيير الواهم</h2>
           <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto' }}>
@@ -119,26 +124,26 @@ export function IllusionOfChangeExercise() {
           </p>
         </div>
         
-        <div style={{ backgroundColor: 'var(--bg-2)', padding: '32px', borderRadius: '16px', marginBottom: '40px', borderRight: '4px solid var(--primary)' }}>
+        <div style={{ backgroundColor: 'var(--surface-2)', padding: '32px', borderRadius: '16px', marginBottom: '40px', borderRight: '4px solid var(--blue)' }}>
           <h3 style={{ fontSize: '20px', marginBottom: '20px', color: 'var(--navy)', fontWeight: 'bold' }}>المطلوب منك:</h3>
           <p style={{ color: 'var(--text-1)', marginBottom: '16px', fontSize: '16px' }}>سنعرض عليك 20 علامة، وعليك تصنيفها إلى واحدة من ثلاث فئات:</p>
           <ul style={{ listStyleType: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-              <span style={{ color: 'var(--green)', fontSize: '20px', marginTop: '-2px' }}>✓</span>
+              <span style={{ color: 'var(--success-text)', fontSize: '20px', marginTop: '-2px', fontWeight: 'bold' }}>✓</span>
               <div>
                 <strong style={{ color: 'var(--navy)', display: 'block' }}>علامة حقيقية للتغيير:</strong>
                 <span style={{ color: 'var(--text-2)', fontSize: '15px' }}>تدل فعلًا على التغيير الجذري.</span>
               </div>
             </li>
             <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-              <span style={{ color: 'var(--red)', fontSize: '20px', marginTop: '-2px' }}>✗</span>
+              <span style={{ color: 'var(--error-text)', fontSize: '20px', marginTop: '-2px', fontWeight: 'bold' }}>✗</span>
               <div>
                 <strong style={{ color: 'var(--navy)', display: 'block' }}>علامة موهمة بالتغيير:</strong>
                 <span style={{ color: 'var(--text-2)', fontSize: '15px' }}>لا قيمة لها ولن تصنع التغيير.</span>
               </div>
             </li>
             <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-              <span style={{ color: 'var(--primary)', fontSize: '20px', marginTop: '-2px' }}>-</span>
+              <span style={{ color: 'var(--blue)', fontSize: '20px', marginTop: '-2px', fontWeight: 'bold' }}>-</span>
               <div>
                 <strong style={{ color: 'var(--navy)', display: 'block' }}>علامة مساعدة:</strong>
                 <span style={{ color: 'var(--text-2)', fontSize: '15px' }}>لا تصنع التغيير وحدها، لكنها تساعد إذا صاحبت العلامات الحقيقية.</span>
@@ -159,7 +164,7 @@ export function IllusionOfChangeExercise() {
                 placeholder="example@domain.com"
                 style={{
                   padding: '12px 16px',
-                  border: emailError ? '1px solid red' : '1px solid var(--border)',
+                  border: emailError ? '1px solid var(--error-text)' : '1px solid var(--line)',
                   borderRadius: '8px',
                   fontSize: '16px',
                   outline: 'none',
@@ -167,7 +172,7 @@ export function IllusionOfChangeExercise() {
                 }}
               />
             </div>
-            {emailError && <p style={{ color: 'red', margin: '-8px 0 8px 0', fontSize: '14px', width: '100%', maxWidth: '400px', textAlign: 'right', paddingRight: '136px' }}>{emailError}</p>}
+            {emailError && <p style={{ color: 'var(--error-text)', margin: '-8px 0 8px 0', fontSize: '14px', width: '100%', maxWidth: '400px', textAlign: 'right', paddingRight: '136px' }}>{emailError}</p>}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%', maxWidth: '400px' }}>
               <label htmlFor="participantName" style={{ fontWeight: '600', color: 'var(--navy)', width: '120px', textAlign: 'right' }}>الاسم (اختياري):</label>
@@ -179,7 +184,7 @@ export function IllusionOfChangeExercise() {
                 placeholder="اكتب اسمك هنا..."
                 style={{
                   padding: '12px 16px',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--line)',
                   borderRadius: '8px',
                   fontSize: '16px',
                   outline: 'none',
@@ -188,14 +193,16 @@ export function IllusionOfChangeExercise() {
               />
             </div>
           </div>
-          <button className="primary-button" onClick={() => {
+          <button className="cta-button" onClick={() => {
             if (!email || !email.includes("@")) {
               setEmailError("يرجى إدخال بريد إلكتروني صحيح لبدء التمرين.");
               return;
             }
             window.sessionStorage.setItem("participantEmail", email);
+            window.sessionStorage.setItem("participantName", participantName);
+            setHasStarted(true);
             setStarted(true);
-          }} style={{ padding: '16px 48px', fontSize: '20px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          }} style={{ marginTop: '24px' }}>
             ابدأ التمرين &larr;
           </button>
         </div>
@@ -207,23 +214,23 @@ export function IllusionOfChangeExercise() {
     return (
       <div style={{ maxWidth: '900px', margin: '0 auto', animation: 'fadeIn 0.5s ease' }}>
         {/* Header Section */}
-        <div style={{ textAlign: 'center', marginBottom: '48px', backgroundColor: 'var(--bg-1)', padding: '48px 32px', borderRadius: '24px', boxShadow: '0 8px 32px rgba(0,0,0,0.06)' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px', backgroundColor: 'var(--surface)', padding: '48px 32px', borderRadius: '24px', boxShadow: '0 8px 32px rgba(20, 35, 61, 0.06)', border: '1px solid var(--line)' }}>
           <div style={{ marginBottom: '24px', fontSize: '72px', animation: 'bounce 1s ease' }}>
             🎯
           </div>
           <h2 style={{ fontSize: '32px', color: 'var(--navy)', marginBottom: '16px', fontWeight: 'bold' }}>اكتمل التمرين!</h2>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
             <span style={{ fontSize: '20px', color: 'var(--text-2)' }}>نتيجتك النهائية:</span>
-            <div style={{ fontSize: '56px', fontWeight: '800', color: 'var(--primary)' }}>
+            <div style={{ fontSize: '56px', fontWeight: '800', color: 'var(--blue)' }}>
               {score} <span style={{ fontSize: '24px', color: 'var(--text-3)' }}>/ 20</span>
             </div>
           </div>
           
-          <div style={{ backgroundColor: 'var(--primary-light)', padding: '24px', borderRadius: '16px', textAlign: 'right', border: '1px solid rgba(var(--primary-rgb), 0.2)' }}>
-            <h3 style={{ fontSize: '20px', color: 'var(--primary-dark)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ backgroundColor: 'var(--blue-track)', padding: '24px', borderRadius: '16px', textAlign: 'right' }}>
+            <h3 style={{ fontSize: '20px', color: 'var(--navy-mid)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>💡</span> خلاصة الدرس
             </h3>
-            <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--text-1)', margin: 0 }}>
+            <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--navy)', margin: 0 }}>
               العلامة الحقيقية الوحيدة للتغيير الجذري هي <strong>تغيير طريقة التفكير لدى القيادة</strong>، وأن أغلب ما نظنه تغييرًا هو إما علامات موهمة أو علامات مساعدة لا تصنع التغيير وحدها.
             </p>
           </div>
@@ -231,60 +238,80 @@ export function IllusionOfChangeExercise() {
 
         {/* Review Section */}
         <div style={{ marginBottom: '40px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '24px', color: 'var(--navy)', margin: 0 }}>مراجعة الإجابات</h3>
-            <button className="secondary-button" onClick={handleRestart} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '15px' }}>
-              <span>🔄</span> إعادة التمرين
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', paddingBottom: '16px', borderBottom: '2px solid var(--line)' }}>
+            <h3 style={{ fontSize: '24px', color: 'var(--navy)', margin: 0, fontWeight: '800' }}>مراجعة الإجابات</h3>
+            <button className="cta-button" onClick={handleRestart} style={{ padding: '10px 24px', fontSize: '15px' }}>
+              إعادة التمرين 🔄
             </button>
           </div>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             {questions.map((q, idx) => {
               const isCorrect = answers[idx] === q.correctCategory;
               return (
                 <div key={q.id} style={{ 
-                  padding: '24px', 
-                  borderRadius: '16px', 
-                  backgroundColor: 'var(--bg-1)',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
-                  borderRight: `6px solid ${isCorrect ? 'var(--green)' : 'var(--red)'}`,
-                  transition: 'transform 0.2s',
+                  padding: '32px', 
+                  borderRadius: '20px', 
+                  backgroundColor: 'var(--surface)',
+                  boxShadow: '0 8px 32px rgba(20, 35, 61, 0.04)',
+                  border: '1px solid var(--line)',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                    <h4 style={{ fontSize: '20px', color: 'var(--navy)', margin: 0, lineHeight: '1.5', flex: 1 }}>
-                      <span style={{ color: 'var(--text-3)', marginRight: '8px', fontSize: '16px' }}>{idx + 1}.</span>
+                  {/* Top color bar depending on correctness */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', backgroundColor: isCorrect ? 'var(--success-text)' : 'var(--error-text)' }} />
+                  
+                  {/* Header: Question and Status */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <h4 style={{ fontSize: '20px', color: 'var(--navy)', margin: 0, fontWeight: '700', lineHeight: '1.5' }}>
+                      <span style={{ color: 'var(--blue)', marginLeft: '12px' }}>{idx + 1}.</span>
                       {q.statement}
                     </h4>
-                    <div style={{ padding: '8px 16px', borderRadius: '30px', backgroundColor: isCorrect ? 'var(--green-light)' : 'var(--red-light)', color: isCorrect ? 'var(--green-dark)' : 'var(--red-dark)', fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      {isCorrect ? '✅ إجابة صحيحة' : '❌ إجابة خاطئة'}
+                    <div style={{ 
+                      padding: '8px 16px', 
+                      borderRadius: '10px', 
+                      backgroundColor: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
+                      color: isCorrect ? 'var(--success-text)' : 'var(--error-text)',
+                      fontWeight: '700', 
+                      fontSize: '14px', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '8px' 
+                    }}>
+                      {isCorrect ? 'إجابة صحيحة ✓' : 'إجابة خاطئة ✗'}
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
-                    <div style={{ backgroundColor: 'var(--bg-2)', padding: '12px 16px', borderRadius: '12px', flex: '1 1 200px' }}>
-                      <div style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '4px' }}>إجابتك</div>
-                      <div style={{ fontSize: '16px', fontWeight: 'bold', color: isCorrect ? 'var(--green-dark)' : 'var(--red-dark)' }}>{answers[idx]}</div>
+                  {/* Answers Comparison */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '24px', backgroundColor: 'var(--bg)', borderRadius: '16px', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '14px', color: 'var(--text-3)', fontWeight: '700' }}>إجابتك:</span>
+                      <span style={{ fontSize: '20px', fontWeight: '800', color: isCorrect ? 'var(--success-text)' : '#E53935' }}>{answers[idx]}</span>
                     </div>
-                    <div style={{ backgroundColor: 'var(--bg-2)', padding: '12px 16px', borderRadius: '12px', flex: '1 1 200px' }}>
-                      <div style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '4px' }}>الإجابة الصحيحة</div>
-                      <div style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--navy)' }}>{q.correctCategory}</div>
-                    </div>
+                    
+                    {!isCorrect && (
+                      <>
+                        <div style={{ height: '1px', backgroundColor: 'var(--line)', width: '100%' }} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '14px', color: 'var(--text-3)', fontWeight: '700' }}>الإجابة الصحيحة:</span>
+                          <span style={{ fontSize: '20px', fontWeight: '800', color: 'var(--navy)' }}>{q.correctCategory}</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                   
-                  <div style={{ backgroundColor: 'var(--bg-2)', padding: '16px 20px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                    <p style={{ fontSize: '15px', color: 'var(--text-1)', lineHeight: '1.8', margin: 0 }}>
-                      <span style={{ fontWeight: 'bold', color: 'var(--navy)', marginLeft: '8px' }}>التوضيح:</span>
-                      {q.explanation}
-                    </p>
+                  {/* Explanation */}
+                  <div style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: '1.8' }}>
+                    <strong style={{ color: 'var(--navy)', marginLeft: '8px' }}>التوضيح:</strong>
+                    {q.explanation}
                   </div>
                 </div>
               )
             })}
           </div>
         </div>
-        
         <div style={{ textAlign: 'center', marginTop: '48px', paddingBottom: '48px' }}>
-          <button className="primary-button" onClick={handleRestart} style={{ padding: '16px 48px', fontSize: '18px', borderRadius: '12px' }}>
+          <button className="cta-button" onClick={handleRestart} style={{ padding: '16px 48px', fontSize: '18px' }}>
             <span>🔄</span> التدرب مرة أخرى
           </button>
         </div>
@@ -299,57 +326,90 @@ export function IllusionOfChangeExercise() {
       {/* Progress Bar */}
       <div style={{ marginBottom: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <span style={{ fontSize: '15px', fontWeight: 'bold', color: 'var(--navy)' }}>
+          <span style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--navy)' }}>
             العلامة {currentQuestionIndex + 1} <span style={{ color: 'var(--text-3)', fontWeight: 'normal' }}>من {questions.length}</span>
           </span>
-          <span style={{ fontSize: '14px', color: 'var(--text-2)' }}>
+          <span style={{ fontSize: '14px', color: 'var(--text-2)', fontWeight: 'bold' }}>
             {Math.round(progressPercentage)}%
           </span>
         </div>
-        <div style={{ height: '8px', backgroundColor: 'var(--border-color)', borderRadius: '4px', overflow: 'hidden' }}>
-          <div style={{ height: '100%', backgroundColor: 'var(--primary)', width: `${progressPercentage}%`, transition: 'width 0.4s ease' }} />
+        <div style={{ height: '10px', backgroundColor: 'var(--line)', borderRadius: '5px', overflow: 'hidden', marginBottom: '16px' }}>
+          <div style={{ height: '100%', backgroundColor: 'var(--blue)', width: `${progressPercentage}%`, transition: 'width 0.4s ease' }} />
         </div>
+        {currentQuestionIndex > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <button 
+              onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
+              style={{
+                background: 'var(--surface)',
+                border: '1.5px solid var(--line)',
+                borderRadius: '8px',
+                color: 'var(--text-2)',
+                fontSize: '15px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'var(--surface-2)';
+                e.currentTarget.style.color = 'var(--navy)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'var(--surface)';
+                e.currentTarget.style.color = 'var(--text-2)';
+              }}
+            >
+              <span style={{ fontSize: '18px', display: 'inline-block', lineHeight: 1 }}>&rarr;</span> العودة للسؤال السابق
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Question Card */}
-      <div style={{ backgroundColor: 'var(--bg-1)', padding: '48px 32px', borderRadius: '24px', boxShadow: '0 8px 32px rgba(0,0,0,0.06)', marginBottom: '32px', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '28px', color: 'var(--navy)', lineHeight: '1.6', margin: 0, fontWeight: 'bold' }}>
+      <div style={{ backgroundColor: 'var(--surface)', padding: '56px 40px', borderRadius: '24px', boxShadow: '0 12px 40px rgba(20, 35, 61, 0.08)', border: '1px solid var(--line)', marginBottom: '32px', textAlign: 'center' }}>
+        <h3 style={{ fontSize: '32px', color: 'var(--navy)', lineHeight: '1.6', margin: 0, fontWeight: '800' }}>
           {currentQuestion.statement}
         </h3>
       </div>
 
       {/* Choices */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
         <button 
           onClick={() => handleSelect("حقيقية")}
           style={{ 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '24px', 
-            borderRadius: '16px', 
-            border: '2px solid transparent',
-            backgroundColor: 'var(--bg-1)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+            padding: '24px 32px', 
+            borderRadius: '20px', 
+            border: '2px solid var(--line)',
+            backgroundColor: 'var(--surface)',
+            boxShadow: '0 4px 12px rgba(20, 35, 61, 0.04)',
             color: 'var(--navy)',
             cursor: 'pointer',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            transition: 'all 0.2s',
+            fontSize: '22px',
+            fontWeight: '700',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.borderColor = 'var(--green)';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.08)';
+            e.currentTarget.style.borderColor = 'var(--success-text)';
+            e.currentTarget.style.backgroundColor = 'var(--success-bg)';
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(28, 107, 45, 0.12)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.borderColor = 'var(--line)';
+            e.currentTarget.style.backgroundColor = 'var(--surface)';
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.04)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(20, 35, 61, 0.04)';
           }}
         >
           <span>علامة حقيقية للتغيير</span>
-          <span style={{ fontSize: '24px', color: 'var(--green)' }}>✓</span>
+          <span style={{ fontSize: '28px', color: 'var(--success-text)' }}>✓</span>
         </button>
         
         <button 
@@ -358,30 +418,32 @@ export function IllusionOfChangeExercise() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '24px', 
-            borderRadius: '16px', 
-            border: '2px solid transparent',
-            backgroundColor: 'var(--bg-1)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+            padding: '24px 32px', 
+            borderRadius: '20px', 
+            border: '2px solid var(--line)',
+            backgroundColor: 'var(--surface)',
+            boxShadow: '0 4px 12px rgba(20, 35, 61, 0.04)',
             color: 'var(--navy)',
             cursor: 'pointer',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            transition: 'all 0.2s',
+            fontSize: '22px',
+            fontWeight: '700',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.borderColor = 'var(--red)';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.08)';
+            e.currentTarget.style.borderColor = 'var(--error-text)';
+            e.currentTarget.style.backgroundColor = 'var(--error-bg)';
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(165, 64, 31, 0.12)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.borderColor = 'var(--line)';
+            e.currentTarget.style.backgroundColor = 'var(--surface)';
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.04)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(20, 35, 61, 0.04)';
           }}
         >
           <span>علامة موهمة بالتغيير</span>
-          <span style={{ fontSize: '24px', color: 'var(--red)' }}>✗</span>
+          <span style={{ fontSize: '28px', color: 'var(--error-text)' }}>✗</span>
         </button>
 
         <button 
@@ -390,30 +452,32 @@ export function IllusionOfChangeExercise() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '24px', 
-            borderRadius: '16px', 
-            border: '2px solid transparent',
-            backgroundColor: 'var(--bg-1)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+            padding: '24px 32px', 
+            borderRadius: '20px', 
+            border: '2px solid var(--line)',
+            backgroundColor: 'var(--surface)',
+            boxShadow: '0 4px 12px rgba(20, 35, 61, 0.04)',
             color: 'var(--navy)',
             cursor: 'pointer',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            transition: 'all 0.2s',
+            fontSize: '22px',
+            fontWeight: '700',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.borderColor = 'var(--primary)';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.08)';
+            e.currentTarget.style.borderColor = 'var(--blue)';
+            e.currentTarget.style.backgroundColor = 'var(--blue-track)';
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(42, 120, 214, 0.12)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.borderColor = 'var(--line)';
+            e.currentTarget.style.backgroundColor = 'var(--surface)';
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.04)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(20, 35, 61, 0.04)';
           }}
         >
           <span>علامة مساعدة</span>
-          <span style={{ fontSize: '24px', color: 'var(--primary)' }}>-</span>
+          <span style={{ fontSize: '28px', color: 'var(--blue)' }}>-</span>
         </button>
       </div>
     </div>

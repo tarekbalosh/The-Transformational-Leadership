@@ -4,7 +4,12 @@ import { FormEvent, useState } from "react";
 
 export function LeaderImpactExercise() {
   const [hasStarted, setHasStarted] = useState(false);
-  const [participantName, setParticipantName] = useState("");
+  const [participantName, setParticipantName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.sessionStorage.getItem("participantName") || "";
+    }
+    return "";
+  });
   const [email, setEmail] = useState(() => {
     if (typeof window !== "undefined") {
       return window.sessionStorage.getItem("participantEmail") || "";
@@ -134,6 +139,7 @@ export function LeaderImpactExercise() {
                   return;
                 }
                 window.sessionStorage.setItem("participantEmail", email);
+                window.sessionStorage.setItem("participantName", participantName);
                 setHasStarted(true);
               }}
               style={{ padding: '0.75rem 2rem', background: '#1a5f5f', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', cursor: 'pointer' }}

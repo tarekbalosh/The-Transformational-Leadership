@@ -129,6 +129,16 @@ export const exercises: Exercise[] = [
     outcome:
       "تحليل لنمط القيادة ومدى التركيز على الفريق مقابل التركيز على الذات.",
   },
+  {
+    id: "discover-strengths",
+    title: "اكتشاف نقاط القوة",
+    status: "available",
+    duration: "15 دقيقة",
+    prompt:
+      "اكتشف نقاط قوتك الفريدة وكيفية توظيفها في القيادة التحويلية عبر مقياس VIA العالمي.",
+    outcome:
+      "تحديد نقاط القوة الشخصية وكيفية استخدامها في القيادة.",
+  },
 ];
 
 export const assessments: Assessment[] = [
@@ -177,6 +187,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "قائد تحويلي أم نمط نرجسي؟",
     category: "تمرين",
     code: "106",
+  },
+  {
+    id: "discover-strengths",
+    title: "اكتشاف نقاط القوة",
+    category: "تمرين",
+    code: "107",
   },
   {
     id: "day-one-concepts-test",
@@ -335,6 +351,5 @@ export const engineeringPromptBank: EngineeringPrompt[] = [
 export const routeLinks = [
   { href: "/", label: "الرئيسية" },
   { href: "/links", label: "روابط الدورة" },
-  { href: "/tools", label: "الأدوات و الأوامر" },
   { href: "/exercises", label: "التمارين و المقاييس" },
 ];

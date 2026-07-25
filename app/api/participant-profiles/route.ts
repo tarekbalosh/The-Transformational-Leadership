@@ -16,8 +16,6 @@ export async function POST(request: Request) {
       name: body.name,
       country: body.country,
       professionalBackground: body.professionalBackground,
-      aiInterests: body.aiInterests,
-      aiModel: body.aiModel,
       courseGoals: body.courseGoals,
       funFact: body.funFact,
     });

@@ -66,6 +66,16 @@ const activityCards = [
     href: "/exercises/transformational-vs-narcissistic",
     linkLabel: "فتح التمرين",
   },
+  {
+    number: "07",
+    type: "تمرين",
+    title: "اكتشاف نقاط القوة",
+    description: "اكتشف نقاط قوتك الفريدة وكيفية توظيفها في القيادة التحويلية عبر مقياس VIA العالمي.",
+    activityId: "discover-strengths",
+    activityTitle: "اكتشاف نقاط القوة",
+    href: "https://www.viacharacter.org/",
+    linkLabel: "فتح التمرين",
+  },
 ];
 
 export function AssessmentHub() {

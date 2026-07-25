@@ -260,8 +260,6 @@ export async function saveParticipantProfile(input: {
   name: string;
   country?: string;
   professionalBackground: string;
-  aiInterests: string;
-  aiModel?: string;
   courseGoals: string;
   funFact: string;
 }) {
@@ -269,8 +267,8 @@ export async function saveParticipantProfile(input: {
   const name = requiredText(input.name, "الاسم");
   const country = optionalText(input.country);
   const professionalBackground = optionalText(input.professionalBackground);
-  const aiInterests = optionalText(input.aiInterests);
-  const aiModel = optionalText(input.aiModel);
+  const aiInterests = "";
+  const aiModel = "";
   const courseGoals = optionalText(input.courseGoals);
   const funFact = optionalText(input.funFact);
   const timestamp = now();

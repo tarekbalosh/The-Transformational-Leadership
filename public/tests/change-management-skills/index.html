@@ -116,22 +116,26 @@ body {
 }
 
 .back-btn {
-  background: transparent;
-  border: none;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
   color: var(--text-2);
   font-family: inherit;
   font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  padding: 8px 0;
+  padding: 8px 16px;
   margin-bottom: 20px;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   text-decoration: none;
   transition: var(--transition);
 }
-.back-btn:hover { color: var(--brand); }
-.back-btn svg { width: 16px; height: 16px; fill: currentColor; }
+.back-btn:hover { 
+  background: #f8fafc;
+  color: var(--text-1); 
+}
 
 /* Progress bar */
 .progress-container {
@@ -208,6 +212,122 @@ body {
   padding: 4px 12px;
   border-radius: 20px;
 }
+
+/* Detailed Analysis Section */
+.detailed-analysis {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px dashed var(--line);
+}
+.detailed-title {
+  font-size: 22px;
+  color: var(--brand);
+  margin-bottom: 25px;
+  text-align: center;
+}
+.detailed-section {
+  margin-bottom: 30px;
+}
+.detailed-section h3 {
+  font-size: 18px;
+  color: var(--text-1);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+}
+.score-range {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: var(--transition);
+}
+.score-range:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--brand);
+}
+.range-badge {
+  background: var(--brand);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.score-range p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.axis-detail-card {
+  background: #f8fafc;
+  border-right: 4px solid var(--accent);
+  padding: 20px;
+  border-radius: 8px 0 0 8px;
+  margin-bottom: 20px;
+}
+.axis-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.axis-detail-header h4 {
+  font-size: 16px;
+  color: var(--brand);
+}
+.questions-badge {
+  font-size: 13px;
+  background: var(--line);
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: var(--text-2);
+  font-weight: 600;
+}
+.axis-detail-card p {
+  margin-bottom: 10px;
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+.axis-detail-card p:last-child {
+  margin-bottom: 0;
+}
+
+.advice-section {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.advice-section h3 {
+  color: var(--accent);
+  border-color: rgba(255,255,255,0.2);
+}
+.advice-section p {
+  color: rgba(255,255,255,0.95);
+  font-size: 14.5px;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+.advice-section p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .score-range {
+    flex-direction: column;
+  }
+}
 </style>
 </head>
 <body>
@@ -234,8 +354,7 @@ body {
     </div>
     
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none;">
-      <svg viewBox="0 0 24 24"><path d="M9 19l-7-7 7-7v14zm4-14v14h7v-14h-7z" style="display:none;"/></svg>
-      &#8594; العودة للسؤال السابق
+      <span style="font-size: 18px; display: inline-block; line-height: 1;">&rarr;</span> العودة للسؤال السابق
     </button>
     
     <div id="questionSlide" class="slide-in">
@@ -282,9 +401,66 @@ body {
         <p>عند تنفيذ التغيير، التواصل الإضافي أمر بالغ الأهمية. قم بإجراء تقييمات احتياجات التدريب للتأكد من أن الموظفين لديهم المهارات اللازمة. سلّط الضوء على النجاحات واعمل على جعل التغيير جزءًا من ثقافة المنظمة للتحسين المستمر.</p>
       </div>
       
-      <div style="margin-top:20px; padding:20px; background:#f9f9f9; border-radius:10px;">
-        <h3 style="color:var(--brand); margin-bottom:10px;">نصيحة ختامية</h3>
-        <p>لا تنتهي إدارة التغيير بمجرد التنفيذ. تأكد من استمرارك في التواصل بشأن الإنجازات وتوفير المهارات اللازمة. من خلال النهج الاستباقي الشامل، ستحقق نجاحاً أكبر وتقلل الاضطرابات.</p>
+      <div class="detailed-analysis">
+        <h2 class="detailed-title">دليل قراءة النتائج والتفاصيل</h2>
+        
+        <div class="detailed-section">
+          <h3>ماذا تعني نتيجتك؟</h3>
+          <div class="score-range">
+            <div class="range-badge">16 - 36</div>
+            <p>أنت تميل إلى النظر إلى النتيجة النهائية وتنسى التركيز على احتياجات التخطيط الفورية. لكي تنجح في التغيير، يجب أن تجد طريقة للتواصل ومشاركة حماسة الهدف النهائي مع فريقك، كطريقة لخلق الدعم اللازم.</p>
+          </div>
+          <div class="score-range">
+            <div class="range-badge">37 - 58</div>
+            <p>أنت تفهم العديد من العناصر المطلوبة للتغيير، ولكن تطبيقها عمليًا لا يعمل دائمًا بشكل جيد. ركز على تطوير عملية تسمح لك بالعمل على كل عنصر من عناصر التغيير واحدًا تلو الآخر. ستساعدك الأفكار والموارد التالية في القيام بذلك.</p>
+          </div>
+          <div class="score-range">
+            <div class="range-badge">59 - 80</div>
+            <p>لديك فهم جيد جدًا لما يجعل التغيير ناجحًا، ولديك معرفة جيدة بإدارة التغيير والتخطيط له وتنفيذه. قم بقراءة الأقسام التالية لترى ما إذا كانت هناك أي أفكار يمكنك استخدامها لتحسين أدائك.</p>
+          </div>
+        </div>
+
+        <div class="detailed-section">
+          <h3>تفاصيل المحاور</h3>
+          
+          <div class="axis-detail-card">
+            <div class="axis-detail-header">
+              <h4>فهم التغيير</h4>
+              <span class="questions-badge">الأسئلة (1، 7، 10، 14)</span>
+            </div>
+            <p>قبل أن تدير مشروعًا يتضمن تغيير طريقة عمل الأشخاص، يجب عليك أولاً أن تفهم كيف يتفاعل الأشخاص مع التغيير. عندها ستكون في وضع أفضل للتخطيط بشكل استباقي لمراحل التغيير، وللتأثير الذي يخلفه هذا التغيير على شركتك.</p>
+            <p>ردود أفعال الأشخاص تجاه كل مرحلة من مراحل التغيير يمكن أن تتراوح هذه من "الصدمة والإنكار"، عندما يتم تعطيل العمل المعتاد لأول مرة، إلى "القبول" و"الالتزام"، مع تنفيذ التغيير.</p>
+            <p>يحتاج العديد من الأشخاص إلى الوقت للتكيف وقبول التغيير. لذا قد تنخفض مستويات الأداء مع تعلمهم كيفية استخدام الأنظمة والعمليات الجديدة.</p>
+          </div>
+
+          <div class="axis-detail-card">
+            <div class="axis-detail-header">
+              <h4>التخطيط للتغيير</h4>
+              <span class="questions-badge">الأسئلة (2، 4، 6، 9)</span>
+            </div>
+            <p>إن المقولة القائلة "إذا فشلت في التخطيط، فأنت تخطط للفشل" تنطبق على إدارة التغيير كما تنطبق على أي شيء آخر. وكما هو الحال دائمًا، فإن التحضير الشامل هو مفتاح التخطيط الناجح.</p>
+            <p>وكجزء من هذا، فإن إجراء تحليل التأثير سيساعدك على فهم العواقب الإيجابية والسلبية المحتملة للتغيير، حتى تتمكن من وضع خطط طوارئ للتعامل مع أي مشكلات قد تنشأ.</p>
+            <p>يمكنك أيضًا استخدام إطار عمل McKinsey's 7S لمساعدتك في النظر في كل منطقة متأثرة، والتأكد من الحفاظ على توافق القضايا وتوافقها في جميع أنحاء الشركة. تعد قضايا التصميم التنظيمي مهمة بشكل خاص، لأنه يجب عليك التأكد من إمكانية دعم التغييرات التي تجريها من قبل فريقك ومنظمتك، باستخدام الموارد المتاحة.</p>
+          </div>
+
+          <div class="axis-detail-card">
+            <div class="axis-detail-header">
+              <h4>تطبيق التغيير</h4>
+              <span class="questions-badge">الأسئلة (3، 8، 12، 15)</span>
+            </div>
+            <p>عند تنفيذ التغيير، فإن التواصل الإضافي أمر بالغ الأهمية - فمن المؤكد أنك ستواجه مشاكل في مرحلة ما، وإذا لم تتحدث بانتظام عن الخطة وتواصل نجاحاتك، فقد يعود الناس إلى الطرق القديمة في القيام بالأشياء.</p>
+            <p>قم بإجراء تقييمات احتياجات التدريب في مراحل مختلفة من المشروع للتأكد من أن الموظفين لديهم المهارات التي يحتاجون إليها ليكونوا ناجحين أثناء تنفيذ التغيير. يجب أن يكون الناس واثقين من قدرتهم على القيام بما يُطلب منهم القيام به - لذا فإن وقت التدريب هو قبل وأثناء وبعد التغيير.</p>
+            <p>يمكن أن يساعد هذا في الحفاظ على الدافع والحماس للتغيير مرتفعًا.</p>
+            <p>ثم سلط الضوء على التغيير الذي بدأته، واعمل على جعله جزءًا من ثقافة المنظمة. يمكن أن يفصل هذا بين إدارة التغيير "الجيدة" وإدارة التغيير "العظيمة". إدارة التغيير الجيدة هي عندما تشعر بالرضا عند تحقيق هدفك الأولي. إدارة التغيير الرائعة هي عندما تستمر في تعديل هدفك للتحسين المستمر - فأنت لست خائفًا من الاستمرار في تغيير الأشياء، لأنك واثق من قدرتك على الاستمرار في إحراز التقدم.</p>
+          </div>
+        </div>
+
+        <div class="detailed-section advice-section">
+          <h3>نصيحة</h3>
+          <p>إن إدارة التغيير مهمة صعبة. فإذا طبقت عملية واستخدمت مجموعة متنوعة من الأدوات، فيمكنك تصميم خطة تغيير يقبلها الناس ويعملون بجد لتنفيذها، مما يؤدي إلى تقليل الاضطراب الذي قد يصيب فريقك ومنظمتك. ولأن التغيير لا يحدث في عزلة، فيجب أن تفهم كيف يعمل التغيير، ثم توسع تفكيرك، وتتبادل الأفكار حول التأثيرات المحتملة، وتحافظ على التواصل المفتوح مع الناس.</p>
+          <p>لا تنتهي إدارة التغيير بمجرد تنفيذ التغيير. تأكد من استمرارك في التواصل بشأن الإنجازات، وتأكد من أن الناس لديهم المهارات اللازمة للقيام بما يُطلب منهم القيام به.</p>
+          <p>ومن خلال اتباع نهج شامل واستباقي في مشاريع التغيير الخاصة بك، ستتمتع بنجاح أكبر، وستتمكن من البناء على هذا النجاح في العديد من مشاريع التغيير الأخرى في المستقبل.</p>
+        </div>
       </div>
     </div>
     

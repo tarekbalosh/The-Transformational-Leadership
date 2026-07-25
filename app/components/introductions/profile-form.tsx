@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const fields = [
   {
@@ -15,18 +16,6 @@ const fields = [
     label: "الخلفية المهنية",
     placeholder: "مثال: مدير عمليات في قطاع التعليم، أعمل على تحسين تجربة العملاء...",
     multiline: true,
-  },
-  {
-    id: "aiInterests",
-    label: "اهتماماتك في الذكاء الاصطناعي",
-    placeholder: "ما المجالات أو التطبيقات التي تثير اهتمامك؟",
-    multiline: true,
-  },
-  {
-    id: "aiModel",
-    label: "ما هو نموذج الذكاء الاصطناعي الذي تستخدمه؟",
-    placeholder: "مثال: ChatGPT، Claude، Gemini، Copilot...",
-    multiline: false,
   },
   {
     id: "courseGoals",
@@ -54,13 +43,12 @@ const initialState: FormState = {
   name: "",
   country: "",
   professionalBackground: "",
-  aiInterests: "",
-  aiModel: "",
   courseGoals: "",
   funFact: "",
 };
 
 export function ProfileForm() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(() => {
     const email =
       typeof window === "undefined"
@@ -99,7 +87,11 @@ export function ProfileForm() {
     window.sessionStorage.setItem("participantEmail", data.email);
     setForm((current) => ({ ...current, email: data.email }));
     setSaved(true);
-    setMessage("تم حفظ بطاقة التعارف. يستطيع المشاركون الآن استعراضها.");
+    setMessage("شكرا لك");
+    
+    setTimeout(() => {
+      router.push('/introductions/board');
+    }, 1500);
   }
 
   return (
