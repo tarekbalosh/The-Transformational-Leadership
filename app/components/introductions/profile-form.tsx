@@ -86,12 +86,8 @@ export function ProfileForm() {
 
     window.sessionStorage.setItem("participantEmail", data.email);
     setForm((current) => ({ ...current, email: data.email }));
-    setSaved(true);
-    setMessage("شكرا لك");
     
-    setTimeout(() => {
-      router.push('/introductions/board');
-    }, 1500);
+    router.push('/introductions/board');
   }
 
   return (

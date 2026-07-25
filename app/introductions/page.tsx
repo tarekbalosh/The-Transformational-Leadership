@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ActivityCodeGate } from "@/app/components/shared/activity-code-gate";
 import { EmailGate } from "@/app/components/shared/email-gate";
 import { SiteHeader } from "@/app/components/site-header";
+import { ProfileForm } from "@/app/components/introductions/profile-form";
 
 export default function IntroductionsWelcomePage() {
   return (
@@ -21,14 +22,7 @@ export default function IntroductionsWelcomePage() {
               activityId="introductions"
               activityTitle="تعارف المشاركين"
             >
-              <div className="hero-actions">
-                <Link href="/introductions/form" className="primary-link">
-                  تعبئة نموذج التعارف
-                </Link>
-                <Link href="/introductions/board" className="secondary-link">
-                  استعراض بطاقات المشاركين
-                </Link>
-              </div>
+              <ProfileForm />
             </ActivityCodeGate>
           </EmailGate>
         </div>
