@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, FormEvent, useMemo, useState } from "react";
+import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 
 import { assessments, exercises } from "@/app/lib/course-content";
 import { useDashboardSubscription } from "@/app/hooks/use-dashboard-subscription";
@@ -675,12 +675,42 @@ function HorizontalBar({ item }: { item: ActivityBar }) {
   );
 }
 
+function getCookie(name: string) {
+  if (typeof document === "undefined") return "";
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || "";
+  return "";
+}
+
+function setCookie(name: string, value: string, days: number = 30) {
+  if (typeof document === "undefined") return;
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = `expires=${date.toUTCString()}`;
+  document.cookie = `${name}=${value};${expires};path=/`;
+}
+
 export function AdminDashboard() {
   const [token, setToken] = useState("");
   const [activeToken, setActiveToken] = useState("");
   
   const { data, isLoading, error, isReconnecting, reload: reloadDashboard } = useDashboardSubscription(activeToken);
   const message = error || "";
+
+  useEffect(() => {
+    const savedToken = getCookie("adminToken");
+    if (savedToken) {
+      setToken(savedToken);
+      setActiveToken(savedToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data && activeToken) {
+      setCookie("adminToken", activeToken);
+    }
+  }, [data, activeToken]);
   
   const [deletingEmail, setDeletingEmail] = useState<string | null>(null);
   const [deleteMessage, setDeleteMessage] = useState("");
@@ -1030,24 +1060,26 @@ export function AdminDashboard() {
 
   return (
     <div className="admin-layout">
-      <form className="admin-access" onSubmit={load}>
-        <label htmlFor="admin-token">رمز دخول المسؤول</label>
-        <div className="entry-row">
-          <input
-            id="admin-token"
-            type="password"
-            value={token}
-            onChange={(event) => setToken(event.target.value)}
-            placeholder="أدخل الرمز"
-            required
-          />
-          <button type="submit">{isLoading ? "جار الفتح" : "فتح اللوحة"}</button>
-        </div>
-        <p className="form-note">
-          استخدم رمز المسؤول الذي تم تزويدك به لعرض بيانات المشاركين.
-        </p>
-        {message ? <p className="form-message">{message}</p> : null}
-      </form>
+      {(!data || error) && (
+        <form className="admin-access" onSubmit={load}>
+          <label htmlFor="admin-token">رمز دخول المسؤول</label>
+          <div className="entry-row">
+            <input
+              id="admin-token"
+              type="password"
+              value={token}
+              onChange={(event) => setToken(event.target.value)}
+              placeholder="أدخل الرمز"
+              required
+            />
+            <button type="submit">{isLoading ? "جار الفتح" : "فتح اللوحة"}</button>
+          </div>
+          <p className="form-note">
+            استخدم رمز المسؤول الذي تم تزويدك به لعرض بيانات المشاركين.
+          </p>
+          {message ? <p className="form-message">{message}</p> : null}
+        </form>
+      )}
 
       {data && dashboard ? (
         <>
@@ -1319,62 +1351,79 @@ export function AdminDashboard() {
             </div>
           </section>
 
-          <section id="participants-section" className="admin-table-wrap">
-            <h2>المشاركون</h2>
+          <section id="participants-section" className="admin-panel" style={{ marginTop: '40px' }}>
+            <div className="admin-panel-head">
+              <div>
+                <div className="section-kicker">إدارة المستخدمين</div>
+                <h2>المشاركون</h2>
+              </div>
+            </div>
             {deleteMessage ? (
               <p className={`admin-delete-message ${deleteMessage.includes("بنجاح") ? "success" : "error"}`}>
                 {deleteMessage}
               </p>
             ) : null}
-            <table>
-              <thead>
-                <tr>
-                  <th>الاسم</th>
-                  <th>البريد</th>
-                  <th>الجهة أو المسمى</th>
-                  <th>التعارف</th>
-                  <th>التمارين</th>
-                  <th>المقاييس</th>
-                  <th>الاستبيان</th>
-                  <th>آخر تحديث</th>
-                  <th>إجراءات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dashboard.participantRows.map((participant) => (
-                  <tr key={participant.email}>
-                    <td>{participant.name}</td>
-                    <td>{participant.email}</td>
-                    <td>{participant.affiliation}</td>
-                    <td>{participant.hasProfile ? "مكتمل" : "-"}</td>
-                    <td>{participant.exerciseCount}</td>
-                    <td>{participant.assessmentCount}</td>
-                    <td>{participant.hasSurvey ? "مكتمل" : "-"}</td>
-                    <td>{formatDate(participant.lastUpdated)}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="admin-delete-btn"
-                        disabled={deletingEmail === participant.email}
-                        onClick={() => handleDeleteParticipant(participant.email)}
-                        title={`حذف ${participant.email}`}
-                      >
-                        {deletingEmail === participant.email ? (
-                          <span className="admin-delete-spinner" />
-                        ) : (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                            <line x1="10" y1="11" x2="10" y2="17" />
-                            <line x1="14" y1="11" x2="14" y2="17" />
-                          </svg>
-                        )}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="admin-activity-grid" style={{ padding: '20px' }}>
+              {dashboard.participantRows.map((participant) => (
+                <article key={participant.email} className="admin-activity-card" style={{ display: 'flex', flexDirection: 'column', padding: '0' }}>
+                  <div className="admin-activity-header" style={{ justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: 'none', padding: '20px 20px 0', marginBottom: '0' }}>
+                    <div>
+                      <h3 className="admin-activity-title" style={{ marginBottom: '4px' }}>{participant.name}</h3>
+                      <div style={{ color: 'var(--text-3)', fontSize: '14px' }}>{participant.email}</div>
+                      {participant.affiliation !== "-" && (
+                        <div style={{ color: 'var(--text-2)', fontSize: '13px', marginTop: '4px' }}>{participant.affiliation}</div>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className="admin-delete-btn"
+                      disabled={deletingEmail === participant.email}
+                      onClick={() => handleDeleteParticipant(participant.email)}
+                      title={`حذف ${participant.email}`}
+                      style={{ padding: '8px' }}
+                    >
+                      {deletingEmail === participant.email ? (
+                        <span className="admin-delete-spinner" />
+                      ) : (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          <line x1="10" y1="11" x2="10" y2="17" />
+                          <line x1="14" y1="11" x2="14" y2="17" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+
+                  <div style={{ padding: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                     <div style={{ display: 'flex', flexDirection: 'column' }}>
+                       <span style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px' }}>التعارف</span>
+                       <strong style={{ fontSize: '14px', color: participant.hasProfile ? 'var(--success-text, #1C6B2D)' : 'var(--text-2)' }}>
+                         {participant.hasProfile ? "مكتمل" : "-"}
+                       </strong>
+                     </div>
+                     <div style={{ display: 'flex', flexDirection: 'column' }}>
+                       <span style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px' }}>الاستبيان</span>
+                       <strong style={{ fontSize: '14px', color: participant.hasSurvey ? 'var(--success-text, #1C6B2D)' : 'var(--text-2)' }}>
+                         {participant.hasSurvey ? "مكتمل" : "-"}
+                       </strong>
+                     </div>
+                     <div style={{ display: 'flex', flexDirection: 'column' }}>
+                       <span style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px' }}>التمارين</span>
+                       <strong style={{ fontSize: '14px', color: 'var(--navy)' }}>{participant.exerciseCount}</strong>
+                     </div>
+                     <div style={{ display: 'flex', flexDirection: 'column' }}>
+                       <span style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px' }}>المقاييس</span>
+                       <strong style={{ fontSize: '14px', color: 'var(--navy)' }}>{participant.assessmentCount}</strong>
+                     </div>
+                  </div>
+                  
+                  <div style={{ padding: '12px 20px', background: 'var(--surface-2, #f9fafb)', borderTop: '1px solid var(--line)', fontSize: '12px', color: 'var(--text-3)', textAlign: 'center', marginTop: 'auto' }}>
+                    آخر تحديث: {formatDate(participant.lastUpdated)}
+                  </div>
+                </article>
+              ))}
+            </div>
           </section>
 
           <section id="profiles-section" className="admin-table-wrap">
