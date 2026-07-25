@@ -554,6 +554,10 @@ main {
   font-weight: 700;
 }
 
+.brand-link span {
+  transform: translateY(18px);
+}
+
 .brand-logo {
   width: 92px;
   height: auto;

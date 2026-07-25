@@ -110,11 +110,6 @@ export function TransformationalVsNarcissisticExercise() {
               <span className="tvn-stat-num">{exerciseData.meta.optionsPerCase}</span>
               <span className="tvn-stat-label">بدائل لكل حالة</span>
             </div>
-            <div className="tvn-stat-sep" />
-            <div className="tvn-stat">
-              <span className="tvn-stat-num">~{exerciseData.meta.estimatedMinutes}</span>
-              <span className="tvn-stat-label">دقيقة</span>
-            </div>
           </div>
 
           {/* Concept */}
