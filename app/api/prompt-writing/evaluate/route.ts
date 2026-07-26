@@ -1,9 +1,7 @@
-let _cfEnv: Record<string, unknown> = {};
-try { _cfEnv = (await import("cloudflare:workers")).env as Record<string, unknown>; } catch {}
 import { NextResponse } from "next/server";
 import { saveExerciseAnswer } from "@/app/lib/course-store";
 
-type D1RuntimeEnv = {
+type RuntimeEnv = {
   OPENAI_API_KEY?: string;
   OPENAI_MODEL?: string;
 };
@@ -44,7 +42,10 @@ type OpenAIResponse = {
   };
 };
 
-const runtime = _cfEnv as unknown as D1RuntimeEnv;
+const runtime: RuntimeEnv = {
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  OPENAI_MODEL: process.env.OPENAI_MODEL,
+};
 
 const fieldLabels: Record<PromptFieldKey, string> = {
   role: "الدور",
