@@ -231,9 +231,20 @@ export function TransformationalVsNarcissisticExercise() {
                   <div
                     key={opt.id}
                     className={`tvn-option${isSelected ? " tvn-option-selected" : ""}`}
-                    onClick={() =>
-                      setAnswers((prev) => ({ ...prev, [currentIndex]: opt.id }))
-                    }
+                    onClick={() => {
+                      if (selected === opt.id) {
+                        if (!isLast) {
+                          setCurrentIndex((p) => p + 1);
+                        }
+                        return;
+                      }
+                      setAnswers((prev) => ({ ...prev, [currentIndex]: opt.id }));
+                      if (!isLast) {
+                        setTimeout(() => {
+                          setCurrentIndex((p) => (p === currentIndex ? p + 1 : p));
+                        }, 350);
+                      }
+                    }}
                   >
                     <span className="tvn-option-label">{opt.label}</span>
                     <span className="tvn-option-text">{opt.text}</span>
@@ -257,18 +268,7 @@ export function TransformationalVsNarcissisticExercise() {
               <span style={{ fontSize: '18px', display: 'inline-block', lineHeight: 1 }}>&rarr;</span> العودة للسؤال السابق
             </button>
 
-            {!isLast ? (
-              <button
-                className="tvn-nav-next"
-                onClick={() => {
-                  setCurrentIndex((p) => p + 1);
-                  window.scrollTo(0, 0);
-                }}
-                disabled={!selected}
-              >
-                التالي
-              </button>
-            ) : (
+            {isLast && (
               <button
                 className="tvn-nav-finish"
                 onClick={submitResults}

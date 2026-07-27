@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/app/components/site-header";
 import { courseLinks } from "@/app/lib/course-content";
+import { CourseMaterials } from "@/app/components/course-materials";
 
 export default function CourseLinksPage() {
   return (
@@ -21,6 +22,7 @@ export default function CourseLinksPage() {
 
       <section className="content-band">
         <div className="course-links-grid">
+          <CourseMaterials />
           {courseLinks.map((link, index) => (
             <article className="course-link-card" key={link.href}>
               <div>

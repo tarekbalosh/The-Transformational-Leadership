@@ -208,15 +208,7 @@ export const activityAccessCodes: ActivityAccessCode[] = [
   },
 ];
 
-export const courseLinks: CourseLink[] = [
-  {
-    title: "وكلاء الذكاء الاصطناعي",
-    description:
-      "رابط مرئي مساعد لفهم فكرة وكلاء الذكاء الاصطناعي ودورهم في تنفيذ المهام ودعم العمل المؤسسي.",
-    href: "https://youtu.be/WVzNoXBqNSY?si=uwgvWnQoMtYuBo4G",
-    label: "فتح الرابط",
-  },
-];
+export const courseLinks: CourseLink[] = [];
 
 export const toolGroups: ToolGroup[] = [
   {

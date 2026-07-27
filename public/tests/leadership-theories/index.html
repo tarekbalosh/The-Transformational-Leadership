@@ -223,6 +223,26 @@
     }
 
     /* ───────── Buttons ───────── */
+    .btn-prev {
+      background: #fff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+    .btn-prev:hover { 
+      background: #f1f5f9;
+      color: #0f172a; 
+    }
+
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -816,6 +836,12 @@
           </button>
         </div>
 
+        <div style="display: flex; justify-content: flex-start; width: 100%;">
+          <button id="prevBtn" class="btn-prev" onclick="goBack()" style="display: none;">
+            <span style="font-size:18px; line-height: 1;">&rarr;</span> العودة للسؤال السابق
+          </button>
+        </div>
+
         <p class="quiz-footer-note">اختيارك ينقلك مباشرةً إلى العبارة التالية — تظهر النتائج كاملةً في نهاية التمرين.
         </p>
       </div>
@@ -977,6 +1003,28 @@
       document.getElementById('counterText').textContent = 'العبارة ' + num + ' من ' + total;
       document.getElementById('progressBar').style.width = ((num / total) * 100) + '%';
       document.getElementById('stmtText').textContent = THEORIES[currentIndex].s;
+      
+      var prevBtn = document.getElementById('prevBtn');
+      if (prevBtn) {
+        prevBtn.style.display = currentIndex > 0 ? 'inline-flex' : 'none';
+      }
+    }
+
+    function goBack() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        answers.pop(); // Remove the last answer
+        
+        var stmtEl = document.getElementById('stmtText');
+        stmtEl.style.opacity = '0';
+        stmtEl.style.transform = 'translateY(-10px)';
+        setTimeout(function () {
+          showStatement();
+          stmtEl.style.transition = 'opacity .3s ease, transform .3s ease';
+          stmtEl.style.opacity = '1';
+          stmtEl.style.transform = 'translateY(0)';
+        }, 150);
+      }
     }
 
     /* ════════════════════════════════════════════
