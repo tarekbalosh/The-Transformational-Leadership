@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { SiteHeader } from "@/app/components/site-header";
 import { RegistrationForm } from "@/app/components/registration-form";
+import { ImageSlider } from "@/app/components/image-slider";
 
 export default function Home() {
    return (
@@ -24,10 +25,26 @@ export default function Home() {
                   </a>
                </div>
 
-               <div style={{ marginTop: '40px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+               <div style={{ marginTop: '40px', display: 'flex', gap: '48px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                     <span style={{ fontSize: '14px', color: 'var(--text-3)' }}>الجهة المنظمة</span>
+                     <img 
+                        src="/brand/ministry-logo-cropped.jpg" 
+                        alt="وزارة التنمية الإدارية" 
+                        style={{ 
+                           display: 'block',
+                           width: '220px',
+                           height: 'auto',
+                           mixBlendMode: 'multiply',
+                           objectFit: 'contain'
+                        }} 
+                     />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                      <span style={{ fontSize: '14px', color: 'var(--text-3)' }}>التاريخ</span>
-                     <strong style={{ color: 'var(--navy)' }}>24 محرم 1448 هـ / 9 يوليو 2026 م</strong>
+                     <strong style={{ color: 'var(--navy)', fontSize: '18px' }}>
+                        2 - 5 اغسطس 2026
+                     </strong>
                   </div>
                </div>
             </div>
@@ -41,6 +58,9 @@ export default function Home() {
                </div>
             </div>
          </section>
+
+         {/* Image Slider */}
+         <ImageSlider />
 
          {/* The Leadership Gap */}
          <section className="landing-section landing-section-alt" id="gap">

@@ -206,6 +206,54 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     category: "مقياس",
     code: "739204",
   },
+  {
+    id: "personality-patterns-scale",
+    title: "مقياس أنماط الشخصية",
+    category: "مقياس",
+    code: "2271",
+  },
+  {
+    id: "leadership-characters",
+    title: "تمرين الصفات القيادية",
+    category: "تمرين",
+    code: "2273",
+  },
+  {
+    id: "leadership-definitions",
+    title: "اختبار تعاريف القيادة والإدارة",
+    category: "اختبار",
+    code: "2274",
+  },
+  {
+    id: "leadership-management-diff",
+    title: "تمرين الفرق بين الإدارة والقيادة",
+    category: "تمرين",
+    code: "2274",
+  },
+  {
+    id: "leadership-signs",
+    title: "تمرين علامات القيادة",
+    category: "تمرين",
+    code: "2275",
+  },
+  {
+    id: "leadership-rules",
+    title: "تمرين قوانين القيادة",
+    category: "تمرين",
+    code: "2276",
+  },
+  {
+    id: "leadership-motive",
+    title: "تمرين هل أنت متحفز للقيادة",
+    category: "تمرين",
+    code: "2277",
+  },
+  {
+    id: "pre-evaluation-transformational",
+    title: "التقييم القبلي — المحور الأول: القيادة التحويلية",
+    category: "تمرين",
+    code: "2278",
+  },
 ];
 
 export const courseLinks: CourseLink[] = [];

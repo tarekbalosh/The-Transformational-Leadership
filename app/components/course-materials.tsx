@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 
+
 const courseMaterialsData = [
   {
     id: 1,
@@ -30,20 +31,7 @@ const courseMaterialsData = [
 ];
 
 export function CourseMaterials() {
-  const [mainCode, setMainCode] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const [mainError, setMainError] = useState("");
-
-  const handleMainCodeSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (mainCode === "100") {
-      setIsUnlocked(true);
-      setMainError("");
-    } else {
-      setIsUnlocked(false);
-      setMainError("الكود غير صحيح.");
-    }
-  };
 
   return (
     <div style={{ gridColumn: "1 / -1" }}>
@@ -54,23 +42,9 @@ export function CourseMaterials() {
             <h2>مواد الدورة</h2>
             <p>الرجاء إدخال الكود للوصول إلى مواد الدورة الخاصة بك.</p>
           </div>
-          <form onSubmit={handleMainCodeSubmit} style={{ display: "flex", alignItems: "center", gap: "10px", position: "relative" }}>
-            <input
-              type="text"
-              style={{ width: "150px", height: "46px", border: "1px solid var(--line)", background: "var(--surface)", borderRadius: "14px", padding: "10px 14px", color: "var(--navy)", outline: "none" }}
-              value={mainCode}
-              onChange={(e) => setMainCode(e.target.value)}
-              required
-            />
-            <button type="submit" className="primary-link">
-              فتح المواد
-            </button>
-            {mainError ? (
-              <span style={{ position: "absolute", bottom: "-24px", right: "0", color: "#ef4444", fontSize: "14px", fontWeight: "bold" }}>
-                {mainError}
-              </span>
-            ) : null}
-          </form>
+          <button className="primary-link" onClick={() => setIsUnlocked(true)}>
+            فتح المواد
+          </button>
         </article>
       ) : (
         <div style={{ display: "grid", gap: "14px" }}>
