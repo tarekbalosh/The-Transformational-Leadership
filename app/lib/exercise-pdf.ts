@@ -56,6 +56,48 @@ async function ensureHtml2Pdf() {
   await scriptPromise;
 }
 
+export async function downloadHtmlAsPdf(htmlString: string, fileName: string) {
+  await ensureHtml2Pdf();
+  if (typeof window === "undefined" || !window.html2pdf) {
+    throw new Error("تعذر تجهيز PDF في هذا المتصفح.");
+  }
+
+  const exportRoot = document.createElement("div");
+  exportRoot.innerHTML = htmlString;
+  // Apply a base width to ensure layout looks like a page before capturing
+  exportRoot.style.width = "794px";
+  exportRoot.style.padding = "0";
+  exportRoot.style.margin = "0";
+  exportRoot.style.position = "absolute";
+  exportRoot.style.top = "-9999px";
+  
+  document.body.appendChild(exportRoot);
+
+  try {
+    await waitForPdfAssets(exportRoot);
+
+    await window
+      .html2pdf()
+      .set({
+        margin: 0,
+        filename: fileName,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          width: 794,
+          windowWidth: 794,
+        },
+        jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+      })
+      .from(exportRoot)
+      .save();
+  } finally {
+    exportRoot.remove();
+  }
+}
+
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }

@@ -314,6 +314,63 @@
   border-radius: 8px;
 }
 
+/* ── Curriculum two-column layout ─────────────────────────────── */
+.curriculum-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.curriculum-col-text {
+  /* nothing special – natural flow */
+}
+
+.curriculum-col-slider {
+  position: sticky;
+  top: 100px; /* offset below the site header */
+  align-self: start;
+}
+
+/* Strip the outer section padding/background that ImageSlider adds
+   when it lives inside a column instead of full-width */
+.curriculum-col-slider .slider-section {
+  padding: 0 !important;
+  background: transparent !important;
+  width: 100% !important;
+}
+
+.curriculum-col-slider .slider-container {
+  max-width: 100% !important;
+  aspect-ratio: 4/3 !important;
+  min-height: 0 !important;
+  border-radius: 20px !important;
+}
+
+/* Responsive – stack on smaller screens */
+@media (max-width: 900px) {
+  .curriculum-two-col {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .curriculum-col-slider {
+    position: static;
+    order: -1; /* slider above timeline on mobile */
+  }
+
+  .curriculum-col-slider .slider-container {
+    aspect-ratio: 16/9 !important;
+  }
+}
+
+/* Inside the timeline column, remove the default max-width centering */
+.curriculum-col-text .timeline {
+  max-width: 100%;
+  margin-top: 0;
+}
+
+/* ── Registration CTA Section */
 /* Registration CTA Section */
 .cta-section {
   background: linear-gradient(135deg, var(--navy) 0%, #0d172a 100%);

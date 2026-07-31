@@ -59,8 +59,6 @@ export default function Home() {
             </div>
          </section>
 
-         {/* Image Slider */}
-         <ImageSlider />
 
          {/* The Leadership Gap */}
          <section className="landing-section landing-section-alt" id="gap">
@@ -200,67 +198,77 @@ export default function Home() {
 
          {/* Curriculum */}
          <section className="landing-section" id="curriculum">
-            <div className="section-heading">
-               <div className="landing-kicker">البرنامج العلمي</div>
-               <h2 className="landing-title">محاور الدورة</h2>
-               <p className="landing-subtitle">
-                  محاور متتابعة تأخذ المشارك من الأساسيات النظرية إلى القدرة على قياس الأثر المؤسسي.
-               </p>
-            </div>
+            <div className="curriculum-two-col">
+               {/* Left col – heading + timeline */}
+               <div className="curriculum-col-text">
+                  <div className="section-heading" style={{ marginBottom: '40px' }}>
+                     <div className="landing-kicker">البرنامج العلمي</div>
+                     <h2 className="landing-title">محاور الدورة</h2>
+                     <p className="landing-subtitle">
+                        محاور متتابعة تأخذ المشارك من الأساسيات النظرية إلى القدرة على قياس الأثر المؤسسي.
+                     </p>
+                  </div>
 
-            <div className="timeline">
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 00</span>
-                     <h3 className="timeline-title">مفاهيم القيادة</h3>
-                     <p className="timeline-desc">المبادئ الأساسية للقيادة، تعريفات القيادة، أساليب القيادة، النظريات والقوانين الحاكمة.</p>
+                  <div className="timeline">
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 00</span>
+                           <h3 className="timeline-title">مفاهيم القيادة</h3>
+                           <p className="timeline-desc">المبادئ الأساسية للقيادة، تعريفات القيادة، أساليب القيادة، النظريات والقوانين الحاكمة.</p>
+                        </div>
+                     </div>
+
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 01</span>
+                           <h3 className="timeline-title">أساسيات القيادة التحويلية ونموذج الأركان الأربعة</h3>
+                           <p className="timeline-desc">مفهوم القيادة التحويلية، الفرق بينها وبين الكلاسيكية، لماذا نحتاجها اليوم، وتطبيق نموذج 4I&apos;s في بيئة العمل.</p>
+                        </div>
+                     </div>
+
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 02</span>
+                           <h3 className="timeline-title">الرؤية والإلهام وصناعة المعنى</h3>
+                           <p className="timeline-desc">بناء رؤية مؤسسية ملهمة، مواءمة الغايات الفردية والمؤسسية، فن سرد القصة القيادية الملهمة لتحفيز الالتزام.</p>
+                        </div>
+                     </div>
+
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 03</span>
+                           <h3 className="timeline-title">قيادة التغيير والابتكار المؤسسي</h3>
+                           <p className="timeline-desc">تمكين القائد في بيئات معقدة (VUCA). مهارات التغيير، إدارة المقاومة، وتصميم مبادرات قابلة للتنفيذ.</p>
+                        </div>
+                     </div>
+
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 04</span>
+                           <h3 className="timeline-title">الذكاء العاطفي وبناء فرق عالية الأداء</h3>
+                           <p className="timeline-desc">أبعاد الذكاء العاطفي الأربعة للقائد، القائد كمدرب (Leader as Coach)، التمكين، وبناء الثقة المؤسسية.</p>
+                        </div>
+                     </div>
+
+                     <div className="timeline-item">
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                           <span className="timeline-module">المحور 05</span>
+                           <h3 className="timeline-title">القيادة المتقدمة والأثر المؤسسي المستدام</h3>
+                           <p className="timeline-desc">تثبيت التغيير، توزيع القدرة القيادية باستخدام إطار +CAPS من MIT، قياس أثر القيادة، وخطة العمل لـ 90 يوماً.</p>
+                        </div>
+                     </div>
                   </div>
                </div>
 
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 01</span>
-                     <h3 className="timeline-title">أساسيات القيادة التحويلية ونموذج الأركان الأربعة</h3>
-                     <p className="timeline-desc">مفهوم القيادة التحويلية، الفرق بينها وبين الكلاسيكية، لماذا نحتاجها اليوم، وتطبيق نموذج 4I&apos;s في بيئة العمل.</p>
-                  </div>
-               </div>
-
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 02</span>
-                     <h3 className="timeline-title">الرؤية والإلهام وصناعة المعنى</h3>
-                     <p className="timeline-desc">بناء رؤية مؤسسية ملهمة، مواءمة الغايات الفردية والمؤسسية، فن سرد القصة القيادية الملهمة لتحفيز الالتزام.</p>
-                  </div>
-               </div>
-
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 03</span>
-                     <h3 className="timeline-title">قيادة التغيير والابتكار المؤسسي</h3>
-                     <p className="timeline-desc">تمكين القائد في بيئات معقدة (VUCA). مهارات التغيير، إدارة المقاومة، وتصميم مبادرات قابلة للتنفيذ.</p>
-                  </div>
-               </div>
-
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 04</span>
-                     <h3 className="timeline-title">الذكاء العاطفي وبناء فرق عالية الأداء</h3>
-                     <p className="timeline-desc">أبعاد الذكاء العاطفي الأربعة للقائد، القائد كمدرب (Leader as Coach)، التمكين، وبناء الثقة المؤسسية.</p>
-                  </div>
-               </div>
-
-               <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-content">
-                     <span className="timeline-module">المحور 05</span>
-                     <h3 className="timeline-title">القيادة المتقدمة والأثر المؤسسي المستدام</h3>
-                     <p className="timeline-desc">تثبيت التغيير، توزيع القدرة القيادية باستخدام إطار +CAPS من MIT، قياس أثر القيادة، وخطة العمل لـ 90 يوماً.</p>
-                  </div>
+               {/* Right col – image slider */}
+               <div className="curriculum-col-slider">
+                  <ImageSlider />
                </div>
             </div>
          </section>

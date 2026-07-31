@@ -433,8 +433,8 @@ export function TransformationalVsNarcissisticExercise() {
               <tr>
                 <th>الحالة</th>
                 <th>اختيارك</th>
-                <th>درجتك</th>
-                <th>الأدق</th>
+                <th style={{textAlign: 'center'}}>درجتك</th>
+                <th>الإجابة الأصح</th>
               </tr>
             </thead>
             <tbody>
@@ -456,11 +456,14 @@ export function TransformationalVsNarcissisticExercise() {
                         {userOpt?.score} / 5
                       </span>
                     </td>
-                    <td className="tvn-td-center">
+                    <td className="tvn-td-best">
                       {isCorrect ? (
                         <span className="tvn-check">✓</span>
                       ) : (
-                        <span className="tvn-opt-badge tvn-badge-best">{bestOpt.label}</span>
+                        <div className="tvn-best-answer">
+                          <span className="tvn-opt-badge tvn-badge-best">{bestOpt.label}</span>
+                          <span className="tvn-best-text">{bestOpt.text}</span>
+                        </div>
                       )}
                     </td>
                   </tr>
@@ -491,7 +494,193 @@ export function TransformationalVsNarcissisticExercise() {
           <button className="tvn-action-restart" onClick={restartExercise}>
             إعادة التمرين
           </button>
-          <button className="tvn-action-print" onClick={() => window.print()}>
+          <button
+            className="tvn-action-print"
+            onClick={() => {
+              const score = finalScore;
+              const total = exerciseData.meta.totalScore;
+              const pct = percent;
+              const name = participantName || sessionStorage.getItem("participantName") || "";
+              const email = sessionStorage.getItem("participantEmail") || "";
+              const date = new Date().toLocaleDateString("ar-SA", { year: "numeric", month: "long", day: "numeric" });
+
+              const cards = questions.map((q, idx) => {
+                const userOpt = q.options.find((o) => o.id === answers[idx]);
+                const bestOpt = q.options.reduce((prev, cur) => cur.score > prev.score ? cur : prev);
+                const isOk = userOpt?.id === bestOpt.id;
+                const scoreBg = isOk ? "#dcfce7" : "#fef9c3";
+                const scoreColor = isOk ? "#166534" : "#92400e";
+                const cardBorder = isOk ? "#86efac" : "#fcd34d";
+                const cardBg = isOk ? "#f0fdf4" : "#fffbeb";
+                return `
+                  <div class="case-card" style="border-right:4px solid ${cardBorder};background:${cardBg};">
+                    <div class="case-header">
+                      <span class="case-num">حالة ${idx + 1}</span>
+                      <span class="case-score-badge" style="background:${scoreBg};color:${scoreColor};">
+                        ${isOk ? "✓ اخترت الأدق" : "✕ قابل للمراجعة"}
+                      </span>
+                    </div>
+                    <p class="case-text">${q.text}</p>
+                    <div class="case-answers">
+                      <div class="answer-block answer-user">
+                        <div class="answer-block-label">اختيارك</div>
+                        <div class="answer-block-content">
+                          <span class="opt-circle" style="background:#e2e8f0;color:#475569;">${userOpt?.label || "-"}</span>
+                          <span class="answer-text">${userOpt?.text || "—"}</span>
+                          <span class="score-pill" style="background:${scoreBg};color:${scoreColor};">${userOpt?.score ?? 0} / 5</span>
+                        </div>
+                      </div>
+                      ${!isOk ? `
+                      <div class="answer-block answer-best">
+                        <div class="answer-block-label">الإجابة الأصح</div>
+                        <div class="answer-block-content">
+                          <span class="opt-circle" style="background:#dcfce7;color:#166534;">${bestOpt.label}</span>
+                          <span class="answer-text" style="color:#166534;">${bestOpt.text}</span>
+                          <span class="score-pill" style="background:#dcfce7;color:#166534;">5 / 5</span>
+                        </div>
+                      </div>` : ""}
+                    </div>
+                  </div>`;
+              }).join("");
+
+              const correctCount = questions.filter((_, i) => {
+                const u = questions[i].options.find(o => o.id === answers[i]);
+                const b = questions[i].options.reduce((p, c) => c.score > p.score ? c : p);
+                return u?.id === b.id;
+              }).length;
+
+              const html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>تقرير | قائد تحويلي أم نمط نرجسي؟</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap');
+    body{font-family:'IBM Plex Sans Arabic',Arial,sans-serif;direction:rtl;background:#f1f5f9;color:#0f172a;}
+    .page{max-width:860px;margin:0 auto;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+    .report-header{background:linear-gradient(135deg,#0f2027 0%,#1a3a4a 50%,#2c5364 100%);padding:36px 48px;color:#fff;text-align:center;}
+    .report-title{font-size:23px;font-weight:800;margin-bottom:4px;}
+    .report-subtitle{font-size:13px;color:#94a3b8;margin-bottom:20px;}
+    .report-meta{display:flex;justify-content:center;gap:0;flex-wrap:wrap;border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;}
+    .meta-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 20px;flex:1;border-left:1px solid rgba(255,255,255,0.1);}
+    .meta-item:last-child{border-left:none;}
+    .meta-label{font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;}
+    .meta-value{font-size:13px;color:#e2e8f0;font-weight:700;}
+    .score-section{background:linear-gradient(135deg,#1a5f5f,#0d4040);padding:32px 48px;}
+    .score-row{display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap;}
+    .score-circle{display:flex;flex-direction:column;align-items:center;justify-content:center;width:110px;height:110px;border-radius:50%;border:3px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);flex-shrink:0;}
+    .score-num{font-size:36px;font-weight:900;color:#fbbf24;line-height:1;}
+    .score-total{font-size:13px;color:#94a3b8;font-weight:600;}
+    .score-info{text-align:right;}
+    .score-pct{font-size:30px;font-weight:800;color:#fbbf24;margin-bottom:6px;}
+    .score-label{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+    .score-level{font-size:13px;color:#cbd5e1;line-height:1.8;max-width:400px;}
+    .summary-row{display:flex;gap:0;border-bottom:1px solid #e2e8f0;background:#fff;}
+    .summary-stat{flex:1;padding:16px 12px;text-align:center;border-left:1px solid #f1f5f9;}
+    .summary-stat:last-child{border-left:none;}
+    .stat-num{font-size:22px;font-weight:800;color:#0f172a;}
+    .stat-green{color:#16a34a;}
+    .stat-amber{color:#d97706;}
+    .stat-label{font-size:11px;color:#64748b;font-weight:600;margin-top:2px;}
+    .section-header{padding:24px 40px 10px;display:flex;align-items:center;gap:10px;}
+    .section-bar{width:4px;height:20px;background:#1a5f5f;border-radius:2px;flex-shrink:0;}
+    .section-title{font-size:15px;font-weight:700;color:#0f172a;}
+    .cards-list{padding:0 32px 32px;}
+    .case-card{border-radius:12px;margin-bottom:14px;overflow:hidden;page-break-inside:avoid;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+    .case-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.07);}
+    .case-num{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.07em;}
+    .case-score-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}
+    .case-text{font-size:13px;color:#334155;line-height:1.9;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,0.07);}
+    .case-answers{display:flex;flex-direction:column;}
+    .answer-block{padding:10px 16px;}
+    .answer-block-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;}
+    .answer-block-content{display:flex;align-items:flex-start;gap:8px;}
+    .opt-circle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;margin-top:1px;}
+    .answer-text{flex:1;font-size:13px;color:#334155;line-height:1.65;font-weight:500;}
+    .score-pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;flex-shrink:0;white-space:nowrap;margin-top:1px;}
+    .answer-best{background:rgba(220,252,231,0.4);border-top:1px dashed #86efac;}
+    .answer-best .answer-text{color:#166534;}
+    .total-bar{margin:0 32px 32px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+    .total-bar-label{font-size:14px;font-weight:700;color:#0f172a;}
+    .total-bar-score{font-size:22px;font-weight:800;color:#f97316;}
+    .report-footer{border-top:1px solid #e2e8f0;padding:14px 48px;display:flex;align-items:center;justify-content:space-between;}
+    .footer-note{font-size:11px;color:#94a3b8;}
+    .footer-logo{font-size:12px;font-weight:700;color:#1a5f5f;}
+    @media print{
+      body{background:#fff;}
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+      .page{max-width:100%;box-shadow:none;}
+      .case-card{page-break-inside:avoid;}
+      @page{margin:12mm 15mm;size:A4;}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="report-header">
+    <div class="report-title">تقرير الأداء — قائد تحويلي أم نمط نرجسي؟</div>
+    <div class="report-subtitle">تمييز النمط القيادي من السلوك المتكرر وآثاره</div>
+    <div class="report-meta">
+      ${name ? `<div class="meta-item"><span class="meta-label">المشارك</span><span class="meta-value">${name}</span></div>` : ""}
+      ${email ? `<div class="meta-item"><span class="meta-label">البريد الإلكتروني</span><span class="meta-value">${email}</span></div>` : ""}
+      <div class="meta-item"><span class="meta-label">التاريخ</span><span class="meta-value">${date}</span></div>
+      <div class="meta-item"><span class="meta-label">عدد الحالات</span><span class="meta-value">${questions.length}</span></div>
+    </div>
+  </div>
+
+  <div class="score-section">
+    <div class="score-row">
+      <div class="score-circle">
+        <span class="score-num">${score}</span>
+        <span class="score-total">/ ${total}</span>
+      </div>
+      <div class="score-info">
+        <div class="score-label">الدرجة الكلية</div>
+        <div class="score-pct">${pct}%</div>
+        <p class="score-level">${feedback}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-row">
+    <div class="summary-stat"><div class="stat-num">${questions.length}</div><div class="stat-label">عدد الحالات</div></div>
+    <div class="summary-stat"><div class="stat-num stat-green">${correctCount}</div><div class="stat-label">إجابات صحيحة</div></div>
+    <div class="summary-stat"><div class="stat-num stat-amber">${questions.length - correctCount}</div><div class="stat-label">قابلة للمراجعة</div></div>
+    <div class="summary-stat"><div class="stat-num">${score} / ${total}</div><div class="stat-label">مجموع الدرجات</div></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-bar"></div>
+    <div class="section-title">تفاصيل الإجابات — نص كل حالة ودرجة اختيارك والإجابة الأصح</div>
+  </div>
+
+  <div class="cards-list">${cards}</div>
+
+  <div class="total-bar">
+    <span class="total-bar-label">المجموع الكلي</span>
+    <span class="total-bar-score">${score} / ${total}</span>
+  </div>
+
+  <div class="report-footer">
+    <span class="footer-note">هذا التقرير أداة تعليمية، وليس تشخيصًا نفسيًا سريريًا.</span>
+    <span class="footer-logo">دورة القيادة التحويلية</span>
+  </div>
+</div>
+<script>
+  setTimeout(function() { window.print(); }, 500);
+<\/script>
+</body>
+</html>`;
+
+              const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const win = window.open(url, "_blank");
+              if (!win) {
+                alert("يرجى السماح بالنوافذ المنبثقة (Pop-ups) لعرض وطباعة التقرير.");
+              }
+            }}
+          >
             طباعة التقرير
           </button>
         </div>
@@ -1207,6 +1396,9 @@ function Style() {
         flex-shrink: 0;
       }
       .tvn-badge-best { background: #dcfce7; color: #166534; }
+      .tvn-td-best { padding: 0.65rem 0.75rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+      .tvn-best-answer { display: flex; align-items: flex-start; gap: 0.5rem; }
+      .tvn-best-text { font-size: 0.82rem; color: #166534; line-height: 1.5; font-weight: 500; }
       .tvn-opt-short {
         font-size: 0.85rem;
         color: #64748b;
