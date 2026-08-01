@@ -20,8 +20,8 @@ export default async function IntroductionsBoardPage() {
         <div className="section-kicker">لوحة المشاركين</div>
         <h1>بطاقات تعريف واضحة تساعد المشاركين على التعارف</h1>
         <p>
-          تصفح إجابات الزملاء، وابحث في الخلفيات المهنية أو الاهتمامات أو
-          الأهداف لاكتشاف نقاط التقاطع داخل المجموعة.
+          تصفح إجابات الزملاء، وابحث في الخلفيات المهنية أو الأهداف لاكتشاف
+          نقاط التقاطع داخل المجموعة.
         </p>
         <div className="hero-actions">
           <Link href="/introductions/form" className="primary-link">

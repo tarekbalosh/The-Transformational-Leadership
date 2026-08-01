@@ -22,8 +22,6 @@ const filters = [
   { id: "all", label: "الكل" },
   { id: "country", label: "البلد" },
   { id: "professional_background", label: "الخلفية" },
-  { id: "ai_interests", label: "الاهتمامات" },
-  { id: "ai_model", label: "النموذج" },
   { id: "course_goals", label: "الأهداف" },
 ] as const;
 
@@ -47,8 +45,6 @@ export function ProfileBoard({ profiles }: Props) {
               profile.name,
               profile.country ?? "",
               profile.professional_background,
-              profile.ai_interests,
-              profile.ai_model ?? "",
               profile.course_goals,
               profile.fun_fact,
             ].join(" ")
@@ -67,7 +63,7 @@ export function ProfileBoard({ profiles }: Props) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="ابحث بالاسم، البلد، الخلفية، الاهتمامات، النموذج، أو الأهداف..."
+            placeholder="ابحث بالاسم، البلد، الخلفية، أو الأهداف..."
           />
         </label>
         <div className="intro-filter" aria-label="تصفية النتائج">
@@ -108,14 +104,7 @@ export function ProfileBoard({ profiles }: Props) {
                   <dt>يحضر من</dt>
                   <dd>{profile.country || "لم يحدد"}</dd>
                 </div>
-                <div>
-                  <dt>اهتماماته في الذكاء الاصطناعي</dt>
-                  <dd>{profile.ai_interests}</dd>
-                </div>
-                <div>
-                  <dt>النموذج الذي يستخدمه</dt>
-                  <dd>{profile.ai_model || "لم يحدد"}</dd>
-                </div>
+
                 <div>
                   <dt>أهدافه من الدورة</dt>
                   <dd>{profile.course_goals}</dd>

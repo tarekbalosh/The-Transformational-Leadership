@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "القيادة التحويلية — الذكاء الاصطناعي للقادة والمدراء",
+  title: "القيادة التحويلية",
   description:
     "بوابة تدريبية عربية لتطبيقات الذكاء الاصطناعي في المهام القيادية والإدارية.",
   icons: {

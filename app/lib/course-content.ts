@@ -250,13 +250,13 @@ export const activityAccessCodes: ActivityAccessCode[] = [
   },
   {
     id: "pre-evaluation-transformational",
-    title: "التقييم القبلي — المحور الأول: القيادة التحويلية",
+    title: "اختبار المحور الأول – كاهوت",
     category: "تمرين",
     code: "7485",
   },
   {
     id: "pre-evaluation-transformational-axis2",
-    title: "التقييم القبلي — المحور الثاني: القيادة التحويلية",
+    title: "اختبار المحور الثاني – كاهوت",
     category: "تمرين",
     code: "7452",
   },
