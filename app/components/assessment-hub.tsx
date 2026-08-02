@@ -168,6 +168,16 @@ const activityCards = [
     href: "https://www.egulfinnovation.com/Tests/Leadership-Rules/login.php",
     linkLabel: "فتح التمرين",
   },
+  {
+    number: "17",
+    type: "مقياس",
+    title: "مقياس القيادة التحويلية",
+    description: "أعطِ نفسك درجة من 1 إلى 10 في كل عبارة بحسب واقع ممارستك الفعلية، واحصل على تقرير فوري بتصنيفك القيادي وأولويات تطويرك الشخصية.",
+    activityId: "transformational-leadership-scale",
+    activityTitle: "مقياس القيادة التحويلية",
+    href: "/exercises/transformational-leadership-scale",
+    linkLabel: "فتح المقياس",
+  },
 ];
 
 export function AssessmentHub() {

@@ -130,6 +130,16 @@ export const exercises: Exercise[] = [
       "تحليل لنمط القيادة ومدى التركيز على الفريق مقابل التركيز على الذات.",
   },
   {
+    id: "transformational-leadership-scale",
+    title: "مقياس القيادة التحويلية",
+    status: "available",
+    duration: "10 دقائق",
+    prompt:
+      "أعطِ نفسك درجة من 1 إلى 10 في كل عبارة مما يلي، بحسب واقع ممارستك الفعلية لا ما تتمناه.",
+    outcome:
+      "تقرير مفصّل بدرجتك الكلية وتصنيفك القيادي مع أولويات تطوير شخصية وخطة عمل.",
+  },
+  {
     id: "discover-strengths",
     title: "اكتشاف نقاط القوة",
     status: "available",
@@ -259,6 +269,12 @@ export const activityAccessCodes: ActivityAccessCode[] = [
     title: "اختبار المحور الثاني – كاهوت",
     category: "تمرين",
     code: "7452",
+  },
+  {
+    id: "transformational-leadership-scale",
+    title: "مقياس القيادة التحويلية",
+    category: "مقياس",
+    code: "7419",
   },
 ];
 
